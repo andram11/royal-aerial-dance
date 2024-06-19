@@ -1,0 +1,18 @@
+id;category;title;level;location;dayOfWeek;timeslot;price;stock;teacher;status
+1;Pole dance;Pole dance beginners;beginners;Brussels;Monday;18:00-19:00;20;10;Anna;active
+2;Pole dance;Pole dance intermediary;intermediary;Leuven;Tuesday;18:00-19:00;20;10;Anna;active
+3;Pole dance;Pole dance intermediary;intermediary;Gent;Wednesday;18:00-19:00;20;10;Camille;active
+4;Pole dance;Pole dance advanced;advanced;Brussels;Friday;18:00-19:00;20;10;Jade;active
+5;Aerial hoop;Aerial hoop beginners;beginners;Brussels;Monday;19:00-20:00;20;10;Anna;active
+6;Aerial hoop;Aerial hoop intermediary;intermediary;Leuven;Tuesday;19:00-20:00;20;10;Marie;active
+7;Aerial hoop;Aerial hoop intermediary;intermediary;Gent;Wednesday;19:00-20:00;20;10;Marlo;active
+8;Aerial hoop;Aerial hoop elite;elite;Brussels;Friday;19:00-20:00;20;10;Gaby;active
+9;Yoga;Hatha Yoga;beginners;Brussels;Thursday;19:00-20:00;25;0;Marleen;active
+10;Yoga;Hatha Yoga;intermediary;Leuven;Thursday;19:00-20:00;25;8;Marie;active
+11;Yoga;Power Yoga;intermediary;Gent;Friday;19:00-20:00;25;8;Julie;active
+12;Contemporary dance;Contemporary beginners;beginners;Brussels;Friday;20:00-21:00;30;8;Julie;active
+13;Contemporary dance;Contemporary intermediate;intermediary;Brussels;Friday;21:00-22:00;30;8;Isabel;active
+14;Contemporary dance;Contemporary flow;advanced;Gent;Saturday;11:00-12:00;30;8;Femke;active
+15;Heels dance ;Heels dance beginners;beginners;Brussels;Saturday;17:00-18:00;20;0;Virginia;active
+16;Heels dance ;Heels dance intermediate;intermediary;Leuven;Saturday;18:00-19:00;20;8;Felicity;active
+17;Heels dance ;Heels dance strip;all levels;Gent;Sunday;11:00-12:00;20;8;Virginia;active

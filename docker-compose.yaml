@@ -1,0 +1,17 @@
+services: 
+  #Backend API
+  dance-school-api:
+    container_name: backend
+    env_file:
+      - .env
+    # image: node:18
+    build: ./
+    command: npm start
+    working_dir: /usr/src/dance-school-backend
+    ports: 
+      - "8000:8000"
+    volumes:
+      - ./:/usr/src/dance-school-backend
+
+
+    
