@@ -18,27 +18,27 @@ function checkLoggedIn(req: Request, res: Response, next:NextFunction) {
 
 
 //Categories
-const categoriesRouter= require('./routes/categories/categories.router')
-api.use(categoriesRouter)
+// const categoriesRouter= require('./routes/categories/categories.router')
+// api.use(categoriesRouter)
 
 //Courses
-const coursesRouter= require('./routes/courses/courses.router')
+import coursesRouter from './routes/courses/courses.router'
 api.use(coursesRouter)
 
-//Transactions
-const transactionsRouter= require('./routes/transactions/transactions.router')
-api.use(transactionsRouter)
+// //Transactions
+// const transactionsRouter= require('./routes/transactions/transactions.router')
+// api.use(transactionsRouter)
 
-//Payments
-const paymentsRouter= require('./routes/payments/payments.router')
-api.use(paymentsRouter)
+// //Payments
+// const paymentsRouter= require('./routes/payments/payments.router')
+// api.use(paymentsRouter)
 
-//Authentication
-const authenticationRouter= require('./routes/authentication/authentication.router')
-api.use(authenticationRouter)
+// //Authentication
+// const authenticationRouter= require('./routes/authentication/authentication.router')
+// api.use(authenticationRouter)
 
-//SignUp
-const signUpRouter= require('./routes/signUp/signUp.router')
-api.use(signUpRouter)
+// //SignUp
+// const signUpRouter= require('./routes/signUp/signUp.router')
+// api.use(signUpRouter)
 
 export default api
