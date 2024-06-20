@@ -4,7 +4,7 @@ const coursesSchema= new mongoose.Schema({
     category: {
         type: String,
         required: true,
-
+        enum: ["pole dance", "aerial hoop", "contemporary dance", "yoga", "heels dance", "workshops"]
     },
     title: {
         type: String,
@@ -12,7 +12,8 @@ const coursesSchema= new mongoose.Schema({
     },
     level: {
         type: String,
-        required: true
+        required: true,
+        enum: ["beginner", "intermediate", "advanced", "allLevel", "absoluteBeginner"]
     },
     location: {
         type: String,
@@ -33,11 +34,12 @@ const coursesSchema= new mongoose.Schema({
     },
     recurrenceType: {
         type: String,
-        enum: ["weekly", "biMonthly", "monthly"]
+        enum: ["weekly", "biMonthly", "monthly", "oneTime"]
     },
     timeslot: {
         type: String,
-        required: true
+        required: true,
+        validate: /[0-9][0-9]:[0-9][0-9]/
     },
     price: {
         type: Number,
@@ -53,7 +55,8 @@ const coursesSchema= new mongoose.Schema({
     },
     status: {
         type: String,
-        required: true
+        required: true,
+        enum: ["active", "cancelled", "inactive"]
     }
 
 

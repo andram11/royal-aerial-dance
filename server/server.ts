@@ -11,10 +11,7 @@ import https from 'https'
 import app from './app'
 
 
-//TO DO
-const {mongoConnect} = require('./services/mongo')
-//File upload for courses
-const {loadCoursesData}= require('./models/courses.model')
+import {mongoConnect} from './services/mongo'
 
 const PORT= process.env.PORT as string
 
@@ -32,8 +29,6 @@ const serverHttps= https.createServer(options, app)
 
 async function startServer() {
     await mongoConnect()
-    await loadCoursesData()
-
     serverHttps.listen(PORT, ()=> {
         console.log(`Listening on port ${PORT}`)
     })
