@@ -1,14 +1,11 @@
-const DEFAULT_PAGE_LIMIT= 10
+const DEFAULT_PAGE_LIMIT= 3
 
 //If we pass 0 as page limit Mongoose will return everything
 
-interface Query {
-    page: number,
-    limit: number
-}
-function getPagination(query: Query){
-    const page= Math.abs(query.page) || 1
-    const limit = Math.abs(query.limit) || DEFAULT_PAGE_LIMIT
+
+function getPagination(pageNumber: number, limitItems:number){
+    const page= Math.abs((pageNumber)) || 1
+    const limit = Math.abs(limitItems) || DEFAULT_PAGE_LIMIT
     const skip= (page-1)*limit 
 
     return {
