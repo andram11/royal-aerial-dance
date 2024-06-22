@@ -62,16 +62,52 @@ export async function existsConcurrentCourse(
     return err;
   }
 }
-// export async function checkCourseStock(courseId, quantity){
-//       return await Courses.findOne({
-//         _id: courseId,
-//         stock:{$gte: quantity}
-//       })
-//     }
 
-// export async function existsCourse(courseId){
-//       return await Courses.findOne({
-//         _id: courseId,
+export async function updateCourse(courseId: string, course: any){
+  try{
 
-//       });
-//     }
+    return await Courses.findOneAndUpdate({
+      _id: courseId
+    }, {category: course.category,
+      title: course.title,
+      location: course.location,
+      startDate: course.startDate,
+      endDate: course.endDate,
+      recurrent: course.recurrent,
+      recurrenceType: course.recurrenceType,
+      level: course.level,
+      dayOfWeek: course.dayOfWeek,
+      timeslot: course.timeslot,
+      price: course.price,
+      stock: course.stock,
+      teacher: course.teacher,
+      status: course.status,}, {
+        returnDocument: "after"
+      })
+  } catch(err) {
+    return err
+  }
+}
+
+export async function findCourseById(courseId: string){
+  try {
+    return await Courses.findOne({
+      _id: courseId}
+    )
+  } catch(err) {
+    return err
+  }
+  } 
+      
+
+export async function deleteCourseById(courseId: string){
+  try {
+    return await Courses.findOneAndDelete({
+      _id: courseId,
+
+    });
+  } catch(err){
+    return err
+  }
+     
+    }
