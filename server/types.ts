@@ -1,11 +1,13 @@
+import mongoose from "mongoose";
+
 export type Cb = (a: string) => void;
 
 export interface Course {
     category: string,
     title: string,
     location: string,
-    startDate: string,
-    endDate: string,
+    startDate: Date,
+    endDate: Date,
     recurrent: boolean,
     recurrenceType: string,
     level: string,
@@ -15,4 +17,17 @@ export interface Course {
     stock: number,
     teacher: string,
     status: string
+}
+
+
+export interface TypedRequestBody<T> extends Express.Request {
+    body: Course
+}
+
+export interface Transaction {
+    courseId:Array<{courseId: mongoose.Types.ObjectId}>,
+    paymentId: string,
+    participantId: string, //TO DO change to objectid
+    status: string,
+    paymentMethod:string
 }

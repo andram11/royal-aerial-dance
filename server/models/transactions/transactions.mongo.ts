@@ -1,9 +1,10 @@
-const mongoose= require('mongoose')
+import mongoose from 'mongoose'
 
 const transactionSchema = new mongoose.Schema({
-    //A participant can buy multiple courses with the same payment
+    //A participant can buy multiple courses and pay at the same time for all
     courseId: {
-        type: [mongoose.Types.ObjectId],
+        type: [ mongoose.Schema.Types.ObjectId],
+        ref: 'Courses',
         required: true
 
     },
@@ -17,7 +18,8 @@ const transactionSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        required: true
+        required: true,
+        enum: ["initiated", "failed", "success", "deleted"]
     },
     paymentMethod: {
         type: String,
@@ -26,7 +28,7 @@ const transactionSchema = new mongoose.Schema({
 
     historyStartDate: {
         type: Date,
-        default: new Date()
+        default: Date.now
     },
     historyEndDate: {
         type: Date,
@@ -34,4 +36,4 @@ const transactionSchema = new mongoose.Schema({
     }
 })
 
-module.exports= mongoose.model('Transaction', transactionSchema)
+export default mongoose.model('Transactions', transactionSchema)

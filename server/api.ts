@@ -25,9 +25,9 @@ function checkLoggedIn(req: Request, res: Response, next:NextFunction) {
 import coursesRouter from './routes/courses/courses.router'
 api.use(coursesRouter)
 
-// //Transactions
-// const transactionsRouter= require('./routes/transactions/transactions.router')
-// api.use(transactionsRouter)
+//Transactions
+import transactionsRouter from './routes/transactions/transactions.router'
+api.use(transactionsRouter)
 
 // //Payments
 // const paymentsRouter= require('./routes/payments/payments.router')
