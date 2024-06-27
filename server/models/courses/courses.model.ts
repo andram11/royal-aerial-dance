@@ -1,15 +1,24 @@
 import Courses from "./courses.mongo";
 import { Course } from "../../types";
 import mongoose from 'mongoose'
+import { ParsedQs } from 'qs';
 
 //Data access layer - to avoid exposing how the consumer has to interact with the data, instead just serving the data
-export async function searchCourses(skip: number, limit: number, query: any) {
-  //query as type any because it comes from the Request which as a parsed string type and I am not sure how to handle it
+export async function searchCourses(skip: number, limit: number, query: ParsedQs) {
   try {
     //Create the query to send to the DB by removing skip and limit, these 2 properties are calculated by getPagination function separately
     for (const [key, value] of Object.entries(query)) {
       if (key === "skip" || key === "limit") {
         delete query[key];
+      } else {
+        if (key==="startDate"){
+
+          query[key]= {$gte: value} 
+        }
+        if (key==="endDate"){
+          query[key]= {$lte: value}
+        }
+
       }
     }
     //Use query object directly in the db
