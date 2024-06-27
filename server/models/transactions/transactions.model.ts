@@ -3,6 +3,7 @@ import Transactions from "./transactions.mongo";
 import mongoose from 'mongoose'
 
 import { Transaction } from "../../types";
+import { ParsedQs } from 'qs';
 
 
 export async function existsTransactionForCourseId(courseId: mongoose.Types.ObjectId) {
@@ -16,7 +17,7 @@ export async function existsTransactionForCourseId(courseId: mongoose.Types.Obje
  
 }
 
-export async function existsTransactionWithId(transactionId: mongoose.Types.ObjectId) {
+export async function findTransactionById(transactionId: mongoose.Types.ObjectId) {
   try {
     return await Transactions.findOne({
       _id: transactionId,
@@ -39,10 +40,25 @@ export async function existsTransactionForPaymentId(paymentId: string) {
 }
 
 
-export async function getAllTransactions(skip: number, limit:number) {
+export async function searchTransactions(skip: number, limit:number, query: ParsedQs) {
   try {
-    return await Transactions.find({}, { _id: 0, __v: 0 })
-    .sort()
+
+    for (const [key, value] of Object.entries(query)) {
+      if (key === "skip" || key === "limit") {
+        delete query[key];
+      } else {
+        if (key==="historyStartDate"){
+
+          query[key]= {$gte: value} 
+        }
+        if (key==="historyEndDate"){
+          query[key]= {$lte: value}
+        }
+
+      }
+    }
+    return await Transactions.find(query)
+    .sort("historyStartDate")
     .skip(skip)
     .limit(limit);
   } catch(err){
@@ -116,21 +132,3 @@ export async function createTransaction(transactionDetails: Transaction) {
    
 }
 
-export async function deleteTransactionById(transactionId: mongoose.Types.ObjectId ) {
-  try {
-    const deleted = await Transactions.updateOne(
-      {
-        _id: transactionId,
-      },
-      {
-        status: "Deleted",
-      }
-    );
-    
-  return deleted.modifiedCount === 1;
-  } catch(err) {
-    return err
-  }
- 
-
-}
