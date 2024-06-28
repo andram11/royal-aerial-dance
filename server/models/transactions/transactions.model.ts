@@ -1,4 +1,5 @@
 import Transactions from "./transactions.mongo";
+import { createParticipant } from "../participants/participants.model";
 
 import mongoose from 'mongoose'
 
@@ -96,24 +97,21 @@ export async function updateTransactionStatus(updateBody: Transaction) {
     const response = await createTransaction(
       {
         courseId: transactionDetails.courseId,
-        //courseName: transactionDetails.courseName,
         status: updateBody.status,
         paymentId: updateBody.paymentId,
-        participantId: transactionDetails.participantId,
+        participantId: updateBody.participantId,
         paymentMethod: transactionDetails.paymentMethod
       }
     );
+    
     return response;
+    //Update the stock of a course if status=succeeded
   } catch (err) {
     return err
   }
 }
 
 export async function createTransaction(transactionDetails: Transaction) {
-
-  //Register participants with payment reference & courseId
-  //TO DO add after participant model has been defined
-
   try {
         //Create transaction for courseId's
         const response = await Transactions.create({

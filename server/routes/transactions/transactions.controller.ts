@@ -8,6 +8,7 @@ import {
 } from "../../models/transactions/transactions.model";
 
 import getPagination from "../../services/query";
+import { createParticipant } from "../../models/participants/participants.model";
 
 export async function httpSearchTransactions(req: Request, res: Response) {
   //Calculate proper pagination parameters
@@ -32,12 +33,27 @@ export async function httpSearchTransactions(req: Request, res: Response) {
 
 export async function httpCreateNewTransaction(req: Request, res: Response) {
   const transaction = req.body;
-  const response = await createTransaction(req.body);
-  if (!response.errors) {
-    res.status(201).json(response);
+  //Create participant
+  const participantRegistration = await createParticipant(req.body.participant);
+  //If no errors, create transaction
+  if (!participantRegistration.errors) {
+    //We remove participant details from transaction and add the participantId which is needed by the Transaction model
+    delete transaction.participant;
+    transaction.participantId = participantRegistration._id;
+
+    //Create transaction
+    const response = await createTransaction(req.body);
+    if (!response.errors) {
+      res.status(201).json(response);
+    } else {
+      res.status(400).json({
+        error: response.message,
+      });
+    }
   } else {
+    //if errors during participant creation
     res.status(400).json({
-      error: response.message,
+      error: participantRegistration.message,
     });
   }
 }
@@ -55,29 +71,3 @@ export async function httpFindTransactionById(req: Request, res: Response) {
     });
   }
 }
-
-// async function httpDeleteTransaction (req, res){
-//     const transactionId=req.params.id
-
-//     const existsTransaction= await existsTransactionWithId(transactionId)
-
-//     //if transaction doesn't exist
-//     if (!existsTransaction)
-//     {
-//         return res.status(404).json({
-//             error: 'Transaction not found.'
-//         })
-//     }
-
-//     //else
-//     const deleted= await deleteTransactionById(transactionId)
-//     if (!deleted){
-//         return res.status(400).json({
-//             error: 'Transaction could not be deleted'
-//         })
-//     }
-
-//     return res.status(200).json({
-//         ok: true
-//     })
-// }

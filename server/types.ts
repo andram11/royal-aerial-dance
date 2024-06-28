@@ -27,7 +27,8 @@ export interface TypedRequestBody<T> extends Express.Request {
 export interface Transaction {
     courseId:Array<{courseId: mongoose.Types.ObjectId}>,
     paymentId: string,
-    participantId: string, //TO DO change to objectid
+    participantId: mongoose.Types.ObjectId,
     status: string,
     paymentMethod:string
 }
+
