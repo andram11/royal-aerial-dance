@@ -13,7 +13,8 @@ const transactionSchema = new mongoose.Schema({
         required: true
     }, 
     participantId: {
-        type: String,//TO DO mongoose.Types.ObjectId
+        type: [ mongoose.Schema.Types.ObjectId],
+        ref: 'Participants',
         required: true
     },
     status: {
