@@ -1,5 +1,5 @@
 import Transactions from "./transactions.mongo";
-import { createParticipant } from "../participants/participants.model";
+
 
 import mongoose from 'mongoose'
 
@@ -10,7 +10,8 @@ import { ParsedQs } from 'qs';
 export async function existsTransactionForCourseId(courseId: mongoose.Types.ObjectId) {
   try{
     return await Transactions.findOne({
-      courseId: courseId,
+      //using dot notation to query nested objects
+      'courseDetails.courseId': courseId,
     });
   } catch(err) {
     return err
@@ -29,7 +30,7 @@ export async function findTransactionById(transactionId: mongoose.Types.ObjectId
 
 }
 
-export async function existsTransactionForPaymentId(paymentId: string) {
+export async function existsTransactionForPaymentId(paymentId: string | undefined) {
   try {
     return await Transactions.findOne({
       paymentId: paymentId,
@@ -39,7 +40,6 @@ export async function existsTransactionForPaymentId(paymentId: string) {
   }
 
 }
-
 
 export async function searchTransactions(skip: number, limit:number, query: ParsedQs) {
   try {
@@ -69,7 +69,7 @@ export async function searchTransactions(skip: number, limit:number, query: Pars
 }
 
 //Operation for  updating a transaction status
-export async function updateTransactionEndDate(paymentId: string) {
+export async function updateTransactionEndDate(paymentId: string | undefined) {
   try {
     return await Transactions.updateOne(
       { paymentId: paymentId },
@@ -96,7 +96,7 @@ export async function updateTransactionStatus(updateBody: Transaction) {
     //Create new transaction with same details but a new status 
     const response = await createTransaction(
       {
-        courseId: transactionDetails.courseId,
+        courseDetails: transactionDetails.courseDetails,
         status: updateBody.status,
         paymentId: updateBody.paymentId,
         participantId: updateBody.participantId,
@@ -113,9 +113,13 @@ export async function updateTransactionStatus(updateBody: Transaction) {
 
 export async function createTransaction(transactionDetails: Transaction) {
   try {
-        //Create transaction for courseId's
+        //Create transaction for courseId
         const response = await Transactions.create({
-          courseId: transactionDetails.courseId,
+          courseDetails: {
+              courseId: transactionDetails.courseDetails[0].courseId, 
+              quantity: transactionDetails.courseDetails[0].quantity
+            
+          },
           status: transactionDetails.status,
           paymentId: transactionDetails.paymentId,
           participantId: transactionDetails.participantId,

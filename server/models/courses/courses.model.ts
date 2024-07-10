@@ -124,3 +124,23 @@ export async function deleteCourseById(courseId: mongoose.Types.ObjectId) {
     return err;
   }
 }
+
+export async function updateCourseStock(courseId: mongoose.Types.ObjectId, stockToSubstract: number){
+  try {
+    return await Courses.findOneAndUpdate(
+      {
+        _id: courseId,
+      },
+      {
+        
+        $inc: {stock: -stockToSubstract},
+      
+      },
+      {
+        returnDocument: "after",
+      }
+    );
+  } catch (err) {
+    return err;
+  }
+}

@@ -29,9 +29,9 @@ api.use(coursesRouter)
 import transactionsRouter from './routes/transactions/transactions.router'
 api.use(transactionsRouter)
 
-// //Payments
-// const paymentsRouter= require('./routes/payments/payments.router')
-// api.use(paymentsRouter)
+//Payments
+import paymentsRouter from './routes/payments/payments.router'
+api.use(paymentsRouter)
 
 // //Authentication
 // const authenticationRouter= require('./routes/authentication/authentication.router')

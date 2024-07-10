@@ -1,28 +1,20 @@
 import dontenv from "dotenv"
 dontenv.config()
 
-import {Request} from 'express'
+import { Request, Response } from "express";
 import Stripe from 'stripe'
 const stripe= new Stripe(process.env.STRIPE_SECRET_KEY as string)
+import { PaymentDetails} from "../types"
+import { existsTransactionForPaymentId, updateTransactionStatus } from "../models/transactions/transactions.model"
+import { updateCourseStock } from "../models/courses/courses.model";
 
 
-const { 
-    updateTransactionStatus}= require('../models/transactions.model')
-
-interface PaymentDetails {
-    body: {
-        amount: number,
-        currency: string,
-
-    }
-}
-
-export const stripePaymentIntent= async function(paymentDetails: PaymentDetails){
+export async function handleStripePaymentIntent(paymentDetails: PaymentDetails){
     try {
 
         const paymentIntent = await stripe.paymentIntents.create({
-            amount: paymentDetails.body.amount*100,
-            currency: paymentDetails.body.currency,
+            amount: paymentDetails.amount*100,
+            currency: paymentDetails.currency,
             payment_method_types: ['card']
         })
         return {
@@ -30,14 +22,11 @@ export const stripePaymentIntent= async function(paymentDetails: PaymentDetails)
         }
     } catch(error){
         return {
-            body: JSON.stringify({error})
+            error: JSON.stringify({error})
         }
     }
 
 }
-
-
-
 
 //Stripe webhook for receiving notifications when payment succeded/failed
 //TO DO rework only with a publicly accessible URL
@@ -49,34 +38,62 @@ export const stripePaymentIntent= async function(paymentDetails: PaymentDetails)
 //       });
      
 // }
-
-
 //Handling webhook callbacks
-export const handleStripeCallback= async function (req: Request){
+export async function handleStripeCallback(req: Request, res:Response){
      //TO DO add for production environment
         //   const sig = req.headers['stripe-signature'];
         let event=req.body;
         try {
            //TO DO add for production environment
           //event = stripe.webhooks.constructEvent(req.body, sig, process.env.STRIPE_SECRET_ENDPOINT);
-        } catch (err) {
-          return (`Webhook Error: ${err.message}`);
-        }
-      
-        // Handle the event
+
+             // Handle the event
         if (event.type==='payment_intent.succeeded' || 'payment_intent.failed') {
-          
             //For production environment
             //const paymentIntentSucceeded = event.data.object;
       
-            // function to handle the event
+            // Functions to handle the event
             //Update transaction details
-           await updateTransactionStatus({
-              paymentId: event.id,
-              status: event.status})
+            const transaction= await existsTransactionForPaymentId(event.id)
+    
+            if (transaction) {
+         
+                await updateTransactionStatus({
+                    courseDetails: transaction.courseDetails,
+                    status: event.status,
+                    paymentId: event.id,
+                    participantId: transaction.participantId,
+                    paymentMethod: transaction.paymentMethod
+                    })
+               
+                      //Update stock for courseIds
+                    if (event.type==='payment_intent.succeeded'){
+                        for (const course of transaction.courseDetails) {
+                     
+                           await updateCourseStock(course.courseId, course.quantity);
+                   
+                            }
+                    }
+           
+                   
+                return ({
+                    message: 'Transaction and stock updated accordingly.'
+                })
+
+            } 
+
           
         } else {
           //TO DO log this somewhere
-          console.log(`Unhandled event type ${event.type}`);
+          return ( {
+            error: `Unhandled event type ${event.type}`
+          });
         }
+
+        } catch (err) {
+          return ({error: `Webhook Error: ${err.message}`});
+        }
+
+
+       
 }
