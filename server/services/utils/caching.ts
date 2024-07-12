@@ -16,5 +16,16 @@ export async function getFromCache(key:string) {
 }
 
 export async function setValueToCache(key:string, value: object):Promise<void> {
-    redisClient.setEx(key, 300, JSON.stringify(value))
+    //Value is stored in cache for 24h
+    redisClient.setEx(key, 24*3600, JSON.stringify(value))
+}
+
+export async function deleteKeyFromCache(key: string){
+    const value= await redisClient.get(key)
+    if (value) {
+        await redisClient.del(key)
+    } else {
+        return null 
+    }
+
 }

@@ -7,17 +7,6 @@ import { Transaction } from "../../types";
 import { ParsedQs } from 'qs';
 
 
-export async function existsTransactionForCourseId(courseId: mongoose.Types.ObjectId) {
-  try{
-    return await Transactions.findOne({
-      //using dot notation to query nested objects
-      'courseDetails.courseId': courseId,
-    });
-  } catch(err) {
-    return err
-  }
- 
-}
 
 export async function findTransactionById(transactionId: mongoose.Types.ObjectId) {
   try {
@@ -132,4 +121,17 @@ export async function createTransaction(transactionDetails: Transaction) {
         return err
       }
    
+}
+
+export async function getTransactionsForCourseId(skip: number, limit:number, courseId: mongoose.Types.ObjectId, status:string ){
+  try {
+    return await Transactions.find({
+      'courseDetails.courseId': courseId
+    
+    })
+    .skip(skip)
+    .limit(limit);;
+  } catch(err) {
+    return err
+  }
 }
