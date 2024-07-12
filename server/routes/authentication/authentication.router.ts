@@ -1,32 +1,32 @@
-require("dotenv").config();
-const express = require("express");
-const passport = require("passport");
-
+import dontenv from "dotenv"
+dontenv.config()
+import express from "express";
+import passport from "passport";
+import { Request, Response, NextFunction } from "express";
 const authenticationRouter = express.Router();
 
 
 
 //local imports
-const {
+import {
   httpHandleLogout,
-  httpHandleGoogleLogin,
   httpHandleUserLogin,
-  httpHandleGoogleCallback,
   httpHandleForgotPassword,
   httpHandlePasswordReset
-} = require("../../routes/authentication/authentication.controller");
+} from "../../routes/authentication/authentication.controller";
 
 //Google login
 authenticationRouter.get(
   "/auth/google",
-  httpHandleGoogleLogin,
-  passport.authenticate("google")
+    passport.authenticate("google")
 );
+
 authenticationRouter.get(
   "/auth/google/callback",
-  httpHandleGoogleCallback,
-  passport.authenticate("google"),
-  
+    passport.authenticate("google", {
+      successRedirect: "/v1/courses/search",
+      failureRedirect: "/v1/login"
+    })
 );
 
 //Local login
@@ -42,4 +42,4 @@ authenticationRouter.post('/auth/forgotPassword/:username', httpHandleForgotPass
 authenticationRouter.post('/auth/resetPassword/', httpHandlePasswordReset)
 
 
-module.exports = authenticationRouter;
+export default authenticationRouter;

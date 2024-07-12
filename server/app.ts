@@ -3,15 +3,15 @@ import dontenv from "dotenv"
 dontenv.config()
 
 import cors from 'cors'
-import express, {Express, Request, Response, NextFunction} from 'express'
+import express, {Express} from 'express'
 import helmet from 'helmet'
 import morgan from 'morgan'
+import session from 'express-session';
 //import passport from 'passport'
 
 
 //Config imports : TO DO
 import api from './api'
-import cookieSession from './services/session'
 
 //Create express server
 const app: Express= express()
@@ -25,22 +25,14 @@ import passport from './services/passport'
 
 
 //Handling sessions
-app.use(cookieSession)
-//Handle existing bug with Passport Js
-import {Cb} from './types';
-app.use((req: Request, res:Response, next: NextFunction)=> {
-    if (req.session && !req.session.regenerate){
-        req.session.regenerate = (cb:Cb)=> {
-            cb('')
-        }
+app.use(session({
+    secret: process.env.SESSION_SECRET as string,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      maxAge: 24 * 60 * 60 * 1000 // 24 hours
     }
-    if (req.session && !req.session.save){
-        req.session.save = (cb:Cb)=> {
-            cb('')
-        }
-    }
-    next()
-})
+  }))
 
 //Initializing Passport
 app.use(passport.session())

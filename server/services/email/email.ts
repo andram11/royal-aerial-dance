@@ -5,7 +5,7 @@ import path from "path";
 
 
 
-const sendEmail= async(email: string, subject: string, payload: object, template:string)=>{
+const sendEmail= async(email: any, subject: string, payload: object, template:string)=>{
     try{
         //Fake credentials generated with Ethereal for testing nodemailer without actually sending any messages
         const transporter = nodemailer.createTransport({

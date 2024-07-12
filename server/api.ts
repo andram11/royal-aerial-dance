@@ -33,12 +33,12 @@ api.use(transactionsRouter)
 import paymentsRouter from './routes/payments/payments.router'
 api.use(paymentsRouter)
 
-// //Authentication
-// const authenticationRouter= require('./routes/authentication/authentication.router')
-// api.use(authenticationRouter)
+//Authentication
+import authenticationRouter from './routes/authentication/authentication.router'
+api.use(authenticationRouter)
 
-// //SignUp
-// const signUpRouter= require('./routes/signUp/signUp.router')
-// api.use(signUpRouter)
+//SignUp
+import signUpRouter from './routes/signUp/signUp.router'
+api.use(signUpRouter)
 
 export default api

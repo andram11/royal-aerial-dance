@@ -99,7 +99,7 @@ export async function updateTransactionStatus(updateBody: Transaction) {
         courseDetails: transactionDetails.courseDetails,
         status: updateBody.status,
         paymentId: updateBody.paymentId,
-        participantId: updateBody.participantId,
+        participantDetails: updateBody.participantDetails,
         paymentMethod: transactionDetails.paymentMethod
       }
     );
@@ -122,7 +122,7 @@ export async function createTransaction(transactionDetails: Transaction) {
           },
           status: transactionDetails.status,
           paymentId: transactionDetails.paymentId,
-          participantId: transactionDetails.participantId,
+          participantDetails: transactionDetails.participantDetails,
           paymentMethod: transactionDetails.paymentMethod
         });
       
@@ -133,4 +133,3 @@ export async function createTransaction(transactionDetails: Transaction) {
       }
    
 }
-

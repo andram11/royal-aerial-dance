@@ -6,8 +6,9 @@ import Stripe from 'stripe'
 const stripe= new Stripe(process.env.STRIPE_SECRET_KEY as string)
 import { PaymentDetails} from "../types"
 import { existsTransactionForPaymentId, updateTransactionStatus } from "../models/transactions/transactions.model"
-import { updateCourseStock } from "../models/courses/courses.model";
-
+import { updateCourseStock, findCourseById } from "../models/courses/courses.model";
+import sendEmail from '../services/email/email'
+import { EmailResponse } from "../types";
 
 export async function handleStripePaymentIntent(paymentDetails: PaymentDetails){
     try {
@@ -39,6 +40,9 @@ export async function handleStripePaymentIntent(paymentDetails: PaymentDetails){
      
 // }
 //Handling webhook callbacks
+
+
+
 export async function handleStripeCallback(req: Request, res:Response){
      //TO DO add for production environment
         //   const sig = req.headers['stripe-signature'];
@@ -62,22 +66,40 @@ export async function handleStripeCallback(req: Request, res:Response){
                     courseDetails: transaction.courseDetails,
                     status: event.status,
                     paymentId: event.id,
-                    participantId: transaction.participantId,
+                    participantDetails: transaction.participantDetails,
                     paymentMethod: transaction.paymentMethod
                     })
                
-                      //Update stock for courseIds
+                      //Update stock for courseIds and send confirmation email for each course 
+                      let emailPreviewsList: EmailResponse[] = []
                     if (event.type==='payment_intent.succeeded'){
+                        
                         for (const course of transaction.courseDetails) {
-                     
+                        
                            await updateCourseStock(course.courseId, course.quantity);
-                   
+                           // Get course details   
+                           const courseDetails= await findCourseById(course.courseId)
+        
+                           let emailSubject= `Your registration for ${courseDetails.title}`
+                           //Send confirmation email to participant 
+                     
+                           const emailResponse = await sendEmail(
+                               transaction.participantDetails.email,
+                               emailSubject,
+                               { participantFirstName: transaction.participantDetails.firstName, 
+                                courseName: courseDetails.title,
+                                location: courseDetails.location,
+                                startDate: courseDetails.startDate.toDateString(),
+                                timeslot: courseDetails.timeslot },
+                               "./templates/paymentConfirmation.handlebars"
+                           );
+                              emailPreviewsList.push(emailResponse)
                             }
                     }
-           
-                   
+             
                 return ({
-                    message: 'Transaction and stock updated accordingly.'
+                    emailPreviewsList
+                    //message: 'Transaction and stock updated accordingly.'
                 })
 
             } 

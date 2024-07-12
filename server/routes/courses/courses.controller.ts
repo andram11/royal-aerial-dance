@@ -7,8 +7,10 @@ import {
   findCourseById,
   searchCourses,
   updateCourse,
+  checkCourseStock
 } from "../../models/courses/courses.model";
 import getPagination from "../../services/query";
+import { getFromCache,setValueToCache} from '../../services/utils/caching';
 
 import { checkCourseCreation,checkCourseUpdate, } from "../../services/courses/courseBusinessRules";
 
@@ -74,14 +76,26 @@ export async function httpUpdateCourse(req: Request, res: Response) {
 
 export async function httpFindCourseById(req: Request, res: Response) {
   const courseId = new mongoose.Types.ObjectId(req.params.id) as Types.ObjectId;
-  const response = await findCourseById(courseId);
-  if (!response.errors) {
-    res.status(200).json(response);
+
+  //Check if course is cached 
+  const checkCache= await getFromCache(req.params.id)
+  if  (checkCache){
+    //console.log('cache hit')
+    res.status(200).json(checkCache);
   } else {
-    res.status(400).json({
-      error: response.message,
-    });
+    //If course not cached, get from DB and cache it
+    const response = await findCourseById(courseId);
+    setValueToCache(req.params.id, response)
+    //console.log('cache miss')
+    if (!response.errors) {
+      res.status(200).json(response);
+    } else {
+      res.status(400).json({
+        error: response.message,
+      });
+    }
   }
+ 
 }
 
 export async function httpDeleteCourseById(req: Request, res: Response) {
@@ -99,4 +113,39 @@ export async function httpDeleteCourseById(req: Request, res: Response) {
       error: response.message,
     });
   }
+}
+
+export async function httpCheckCourseStock(req: Request, res:Response) {
+  if (req.query.quantity){
+    const courseId = new mongoose.Types.ObjectId(req.params.id) as Types.ObjectId
+    const response = await checkCourseStock(courseId);
+    if (!response.errors) {
+        if (response.stock >= req.query.quantity){
+          res
+          .status(200)
+          .json({
+            message:
+              "Requested quantity available in stock.",
+          });
+        } else {
+          res
+          .status(200)
+          .json({
+            message:
+              "Requested quantity not available in stock.",
+          });
+        }
+      
+    } else {
+      res.status(400).json({
+        error: response.message,
+      });
+    }
+  }
+  else {
+    res.status(400).json({
+      error: "Mandatory query parameter 'quantity' not provided",
+    });
+  }
+ 
 }

@@ -12,7 +12,7 @@ import app from './app'
 
 
 import {mongoConnect} from './services/mongo'
-
+import {redisConnect} from './services/redis'
 const PORT= process.env.PORT as string
 
 //Create http server
@@ -26,9 +26,12 @@ const options = {
 const serverHttps= https.createServer(options, app)
 
 
-
+//Start server
+//Connect to Mongo Db
+//Connect to Redis DB
 async function startServer() {
     await mongoConnect()
+    await redisConnect()
     serverHttps.listen(PORT, ()=> {
         console.log(`Listening on port ${PORT}`)
     })
