@@ -34,7 +34,6 @@ export async function httpExecutePaymentRequest(req: Request, res: Response) {
 
 export async function httpHandleStripeWebhookResponse(req: Request, res: Response){
   const response= await handleStripeCallback(req,res)
-  console.log(response)
   if (!response?.error) {
     res.status(201).json(response);
   } else {

@@ -1,4 +1,4 @@
-const DEFAULT_PAGE_LIMIT= 3
+const DEFAULT_PAGE_LIMIT= 50
 
 //If we pass 0 as page limit Mongoose will return everything
 

@@ -18,8 +18,8 @@ function checkLoggedIn(req: Request, res: Response, next:NextFunction) {
 
 
 //Categories
-// const categoriesRouter= require('./routes/categories/categories.router')
-// api.use(categoriesRouter)
+const categoriesRouter= require('./routes/categories/categories.router')
+api.use(categoriesRouter)
 
 //Courses
 import coursesRouter from './routes/courses/courses.router'
