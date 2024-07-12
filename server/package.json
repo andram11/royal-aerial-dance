@@ -7,8 +7,8 @@
     "test": "jest --detectOpenHandles",
     "build": "npx tsc",
     "test-watch": "jest --watch",
-    "watch": "nodemon server/server.ts",
-    "start": "set PORT=8000&& node server/server.js",
+    "watch": "nodemon server.ts",
+    "start": "set PORT=8000&& node server.js",
     "cluster": "pm2 start src/server.js -i max"
   },
   "keywords": [],
