@@ -7,8 +7,10 @@ import {
   httpSearchTransactions,
 } from "../../routes/transactions/transactions.controller";
 
-transactionsRouter.get("/transactions/search", httpSearchTransactions);
 
+import { httpCheckLoggedIn } from "../authentication/authentication.controller";
+
+transactionsRouter.get("/transactions/search", httpCheckLoggedIn, httpSearchTransactions);
 transactionsRouter.post("/transactions", httpCreateNewTransaction);
 
 export default transactionsRouter;

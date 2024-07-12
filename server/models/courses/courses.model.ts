@@ -144,3 +144,14 @@ export async function updateCourseStock(courseId: mongoose.Types.ObjectId, stock
     return err;
   }
 }
+
+export async function checkCourseStock(courseId: mongoose.Types.ObjectId ) {
+  try {
+    return await Courses.findById({
+      _id: courseId
+    }).select('stock')
+  } catch (err) {
+    return err
+  }
+  
+}

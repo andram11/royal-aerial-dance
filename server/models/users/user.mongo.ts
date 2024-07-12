@@ -1,5 +1,5 @@
-const mongoose= require('mongoose')
-const passportLocalMongoose = require('passport-local-mongoose')
+import mongoose from 'mongoose'
+import  passportLocalMongoose from 'passport-local-mongoose'
 
 const userSchema= new mongoose.Schema({
     //Username is the registration email address
@@ -8,12 +8,7 @@ const userSchema= new mongoose.Schema({
         required: true,
         lowercase: true,
         unique: true,
-        validate: {
-            validator: function (value) {
-              return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
-            },
-            message: 'Invalid email address format',
-          },
+        match: [/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/, 'Please fill a valid email address']
 
     },
 
@@ -26,7 +21,6 @@ const userSchema= new mongoose.Schema({
     tokenCreationTimestamp: {
       type: Date, 
       required: false, 
-      expires: 3600 // expiry time in seconds 
     }
     
 })
@@ -35,4 +29,4 @@ const userSchema= new mongoose.Schema({
 //Passport plugin
 userSchema.plugin(passportLocalMongoose)
 
-module.exports= mongoose.model('Users', userSchema)
+export default mongoose.model('Users', userSchema)

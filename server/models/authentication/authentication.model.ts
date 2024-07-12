@@ -1,40 +1,35 @@
-require("dotenv").config();
+import dontenv from "dotenv"
+dontenv.config()
+import { ParsedQs } from 'qs';
+import qs from 'qs'
 
 //Token encryption/decryption
 import crypto from "crypto";
 import bcrypt from "bcryptjs";
 
 //User model
-const {existsUser, updatePasswordResetToken, findPasswordResetToken }=require("../models/user.model")
+import {existsUser, updatePasswordResetToken, findPasswordResetToken } from "../users/user.model"
 //Email service
-import sendEmail from '../services/email/email'
-
-
-
-//Handle redirects for Google login
-export function saveRedirectLink(redirectLink: string, oauth2return: string ){
-    // Save the url of the user's current page so the app can redirect back to it after authorization
-  if (redirectLink) {
-    
-    oauth2return = redirectLink || "/";
-  }
-}
+import sendEmail from '../../services/email/email'
 
 //Forgot password
-export async function forgotPassword(username: string) {
-    //Does user exist?
- const user = await existsUser(username);
+export async function forgotPassword(username: ParsedQs) {
+  try {
+       //Does user exist?
+ const user = await existsUser(qs.stringify(username));
  if (!user) return({error: "Username email does not exist."});
 
  //Does user already have a reset token ?
  const token = await findPasswordResetToken(username);
  //if yes, we remove the existing reset token (by setting the field to empty/null)
- if (token)
-   await updatePasswordResetToken({
-     username: username,
-     passwordResetToken: null,
-     tokenCreationTimestamp: null,
-   });
+ if (token){
+  await updatePasswordResetToken({
+    username: username,
+    passwordResetToken: null,
+    tokenCreationTimestamp: null,
+  });
+ }
+   
 
  //Create a new reset token
  let resetToken = crypto.randomBytes(32).toString("hex");
@@ -44,7 +39,7 @@ export async function forgotPassword(username: string) {
  await updatePasswordResetToken({
    username: username,
    passwordResetToken: hash,
-   tokenCreationTimestamp: Date.now(),
+   tokenCreationTimestamp: new Date(),
  });
 
  //Create the reset link to send to the user by email
@@ -64,47 +59,61 @@ export async function forgotPassword(username: string) {
    testPreviewLink: response,
  });
 
+  } catch (err) {
+    return err
+  }
+ 
 }
  
 //Reset password 
-export async function resetPassword(username: string, token: string, password: string){
-   //Check if provided email address (username) exists
-   const user = await existsUser(username);
+export async function resetPassword(query: ParsedQs){
+    try {
+       //Check if provided email address (username) exists
+   const user = await existsUser(qs.stringify(query.username));
    if (!user) return ({message: "Username email does not exist."});
  
    //Check if a reset token exists for the provided username
-   const passwordResetToken = await findPasswordResetToken(username);
-   if (passwordResetToken==='') {
+   const passwordResetToken = await findPasswordResetToken(query.username as ParsedQs);
+   const now= new Date()
+   const maxAge = 1 * 60 * 60 * 1000
+   if (passwordResetToken===''|| now.getTime()- passwordResetToken.tokenCreationTimestamp.getTime() > maxAge) {
     return({message: "Invalid or expired password reset token"});
    }
  
    //Check if token stored in the DB for the username correspond to the one provided in the request
-   const isTokenValid = await bcrypt.compare(
-     token,
-     passwordResetToken.passwordResetToken
-   );
-   if (!isTokenValid) {
+   if (typeof query.token==='string'){
+    const isTokenValid = await bcrypt.compare(
+      query.token,
+      passwordResetToken.passwordResetToken
+    );
+    if (!isTokenValid) {
+      return({message: "Invalid or expired password reset token"});
+     }
+   } else {
     return({message: "Invalid or expired password reset token"});
    }
+   
+ 
  
    //Reset user password using passport mongoose plugin (setPassword function is usually used for forgot password use cases)
-   await user.setPassword(password);
+   await user.setPassword(query.password);
    const userSaved = await user.save();
    if (!userSaved) {
     return ({message: "Password could not be reset. Please try again later."});
    }
  
    //Send email to confirm successful password reset
+
    const response = await sendEmail(
-     username,
+     query.username,
      "Password Reset Successfully",
-     { name: username },
+     { name: query.username },
      "./templates/resetPassword.handlebars"
    );
  
    //Remove (set to null) the token from the DB
    await updatePasswordResetToken({
-     username: username,
+     username: query.username,
      passwordResetToken: '',
      tokenCreationTimestamp: null,
    });
@@ -114,5 +123,9 @@ export async function resetPassword(username: string, token: string, password: s
      message: "Password changed successfully.",
      testPreviewLink: response,
    });
+    } catch(err) {
+      return err
+    }
+  
 }
 

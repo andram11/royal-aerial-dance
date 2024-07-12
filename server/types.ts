@@ -28,7 +28,7 @@ export interface TypedRequestBody<T> extends Express.Request {
 export interface Transaction {
     courseDetails:Array<CourseDetails>,
     paymentId: string | undefined,
-    participantId: mongoose.Types.ObjectId,
+    participantDetails: Participant,
     status: string,
     paymentMethod:string
 }
@@ -58,3 +58,14 @@ export interface Payment {
     paymentDetails: PaymentDetails
 
 }
+
+
+export interface PassportUser {
+    username: string,
+    _id: string
+}
+
+export interface EmailResponse {
+    // Define the structure of your email response here
+    link: string;
+  }
