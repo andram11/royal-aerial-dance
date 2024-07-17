@@ -1,35 +1,45 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import "./App.css";
+import { useAppDispatch, useAppSelector } from "./hooks";
+import { getActiveCourses } from "./api/api-service";
+import { useEffect, useState } from "react";
+import { setCourses } from "./state/courses/coursesSlice";
+
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Navigation from "./pages/navigation/navigation.tsx";
+import Homepage from "./pages/homepage/homepage.tsx";
+import NotFound from "./components/error/notFound.component.tsx";
 
 function App() {
-  const [count, setCount] = useState(0)
+  // const dispatch = useAppDispatch()
+  // const courses= useAppSelector(state=> state.courses.allCourses)
+  // const [error, setError] = useState<string | null>(null);
+
+  // // Get courses
+  // useEffect(() => {
+  //   const fetchCourses = async () => {
+  //     try {
+  //       const courses = await getActiveCourses();
+  //       dispatch(setCourses(courses));
+  //     } catch (err) {
+  //       setError('Failed to load courses');
+  //     }
+  //   };
+
+  //   fetchCourses();
+  // }, [dispatch]);
+
+  // if (error) {
+  //   return <div>{error}</div>;
+  // }
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <Routes>
+      <Route path="/" element={<Navigation />}>
+        <Route index element={<Homepage />} />
+        <Route path="*" element={<NotFound />} />
+      </Route>
+    </Routes>
+  );
 }
 
-export default App
+export default App;
