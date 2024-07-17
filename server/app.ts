@@ -45,7 +45,7 @@ app.use(express.json())
 //Cors middleware
 app.use(cors({
     origin: process.env.CLIENT_URL_1 as string,
-    credentials: true,
+    //credentials: true,
 }))
 
 //Logging
