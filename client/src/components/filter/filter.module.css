@@ -1,0 +1,30 @@
+/* filter.module.css */
+.filterContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.selectContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+.pillsContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 5px;
+}
+
+.pill {
+    display: inline-block;
+    padding: 5px 10px;
+    border: 1px solid black;
+    border-radius: 15px;
+    background: #f0f0f0;
+}
+
+.pill button {
+    margin-left: 10px;
+}

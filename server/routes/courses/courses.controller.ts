@@ -36,7 +36,12 @@ export async function httpSearchCourses(req: Request, res: Response) {
   } else {
     //If query not cached, get from DB and cache results
     const response = await searchCourses(skip, limit, req.query);
-    setValueToCache(query, response);
+    setValueToCache(query, {
+      totalItems: response.length,
+      skippedItems: skip,
+      pageLimit: limit,
+      items: response,
+    });
     if (!response.errors) {
       res.status(200).json({
         totalItems: response.length,
