@@ -24,3 +24,19 @@ export interface Category {
         imageUrl: string,
         route: string
 }
+
+export interface FilterCriteria {
+        category?: string,
+        location?: string,
+        teacher?: string,
+        dayOfWeek?: string,
+        level?: string 
+    }
+
+    export interface CourseSearchResult {
+        totalItems: number,
+        skippedItems?: number,
+        pageLimit: number,
+        page?: number,
+        items: Course[]
+    }

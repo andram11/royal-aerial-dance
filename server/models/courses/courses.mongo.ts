@@ -4,24 +4,28 @@ const coursesSchema= new mongoose.Schema({
     category: {
         type: String,
         required: true,
-        enum: ["pole dance", "aerial hoop", "contemporary dance", "yoga", "heels dance", "workshops"]
+        enum: ["pole dance", "aerial hoop", "contemporary dance", "yoga", "heels dance", "workshops"],
+
     },
     title: {
         type: String,
-        required: true
+        required: true,
+
     },
     level: {
         type: String,
         required: true,
-        enum: ["beginner", "intermediate", "advanced", "allLevel", "absoluteBeginner"]
+        enum: ["beginner", "intermediate", "advanced", "all levels", "elite"],
     },
     location: {
         type: String,
-        required: true
+        required: true,
+        set: (v:string) => v.toLowerCase()
     },
     dayOfWeek: {
         type: String,
-        required: true
+        required: true,
+        set: (v:string) => v.toLowerCase()
     },
     startDate: {
         type: Date
@@ -51,7 +55,8 @@ const coursesSchema= new mongoose.Schema({
     },
     teacher: {
         type: String,
-        required: true
+        required: true,
+        set: (v:string) => v.toLowerCase()
     },
     status: {
         type: String,

@@ -32,20 +32,20 @@ export async function createCourse(course: Course) {
   try {
     return await Courses.create({
       //title;level;location;dayOfWeek;timeslot
-      category: course.category,
+      category: course.category.toLowerCase(),
       title: course.title,
-      location: course.location,
+      location: course.location.toLowerCase(),
       startDate: course.startDate,
       endDate: course.endDate,
       recurrent: course.recurrent,
       recurrenceType: course.recurrenceType,
-      level: course.level,
-      dayOfWeek: course.dayOfWeek,
+      level: course.level.toLowerCase(),
+      dayOfWeek: course.dayOfWeek.toLowerCase(),
       timeslot: course.timeslot,
       price: course.price,
       stock: course.stock,
-      teacher: course.teacher,
-      status: course.status,
+      teacher: course.teacher.toLowerCase(),
+      status: course.status.toLowerCase(),
     });
   } catch (err) {
     return err;

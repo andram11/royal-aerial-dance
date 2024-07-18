@@ -1,22 +1,44 @@
-import {createSlice, PayloadAction} from '@reduxjs/toolkit'
-import { Course } from '../../types/types'
+import {createSlice, PayloadAction, createAsyncThunk} from '@reduxjs/toolkit'
+import { Course, CourseSearchResult } from '../../types/types'
+import { getFilteredCourses } from '../../api/api-service'
 
 export interface CourseState {
     allCourses: Course[],
-    filteredCourses: Course[]
+    filteredCourses: Course[],
+    totalItems: number;
+    skippedItems?: number;
+    pageLimit: number;
+    page?: number;
+    loading: boolean,
+    error: string|null
 }
 
 interface FilterCriteria {
     category?: string,
     location?: string,
     teacher?: string,
-    dayOfWeek: string,
-    level: string 
+    dayOfWeek?: string,
+    level?: string 
 }
+
+
+
+// Async thunk for fetching filtered courses
+export const fetchCoursesWithCriteria = createAsyncThunk<CourseSearchResult, FilterCriteria>(
+    'courses/fetchCoursesWithCriteria',
+    async (criteria: FilterCriteria) => {
+        const data: CourseSearchResult = await getFilteredCourses(criteria);
+        return data;
+    }
+);
 
 const initialState: CourseState= {
     allCourses: [],
-    filteredCourses: []
+    filteredCourses: [],
+    totalItems: 0,
+    pageLimit: 50,
+    loading: false,
+    error: null
 }
 
 const courseSlice= createSlice({
@@ -25,22 +47,29 @@ const courseSlice= createSlice({
     reducers: {
         setCourses: (state, action: PayloadAction<Course[]>)=> {
             state.allCourses= action.payload
-            state.filteredCourses= action.payload
+            //state.filteredCourses= action.payload
         },
-        filterCourses: (state, action:PayloadAction<FilterCriteria>)=> {
-            const {category, location, teacher, dayOfWeek, level}= action.payload
-            state.filteredCourses= state.allCourses.filter( course => {
-                return(
-                    (category ? course.category===category: true )&&
-                    (location ? course.location === location : true) &&
-                    (teacher ? course.teacher === teacher : true) &&
-                    (dayOfWeek ? course.dayOfWeek === dayOfWeek : true) &&
-                    (level ? course.level === level : true)
-                )
+    },
+    extraReducers: (builder) => {
+        builder
+            .addCase(fetchCoursesWithCriteria.pending, (state) => {
+                state.loading = true;
+                state.error = null;
             })
-        }
+            .addCase(fetchCoursesWithCriteria.fulfilled, (state, action: PayloadAction<CourseSearchResult>) => {
+                state.loading = false;
+                state.filteredCourses = action.payload.items || [];
+                state.totalItems = action.payload.totalItems;
+                state.skippedItems = action.payload.skippedItems;
+                state.pageLimit = action.payload.pageLimit;
+                state.page = action.payload.page;
+            })
+            .addCase(fetchCoursesWithCriteria.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.error.message || 'Failed to fetch courses';
+            });
     }
 })
 
-export const {setCourses, filterCourses}= courseSlice.actions
+export const {setCourses}= courseSlice.actions
 export default courseSlice.reducer
