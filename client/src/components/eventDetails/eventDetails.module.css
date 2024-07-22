@@ -1,0 +1,65 @@
+/* EventDetails.module.css */
+
+.eventDetailsContainer {
+    position: fixed;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -20%);
+    background: white;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    border-radius: 8px;
+    z-index: 1000;
+    width: 80%;
+    max-width: 500px;
+  }
+  
+  .eventDetailsHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .eventDetailsTitle {
+    font-size: 1.5em;
+    margin: 0;
+  }
+  
+  .eventDetailsCloseButton {
+    background: transparent;
+    border: none;
+    font-size: 1.5em;
+    cursor: pointer;
+  }
+  
+  .eventDetailsDescription {
+    font-size: 1em;
+    margin: 10px 0;
+  }
+  
+  .eventDetailsTime {
+    font-size: 0.9em;
+    color: #555;
+  }
+  
+  .eventDetailsActions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  
+  .eventDetailsButton {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .eventDetailsButton:hover {
+    background-color: #0056b3;
+  }
+  

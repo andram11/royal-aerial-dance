@@ -40,3 +40,14 @@ export interface FilterCriteria {
         page?: number,
         items: Course[]
     }
+
+
+export interface CourseEvent {
+        id: string;
+        title: string;
+        start: Date;
+        end: Date;
+        description: string;
+        recurrent: boolean;
+        recurrenceType?: 'weekly' | 'biMonthly' | 'monthly';
+      }
