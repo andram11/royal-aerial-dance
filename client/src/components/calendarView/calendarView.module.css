@@ -1,0 +1,77 @@
+/* CalendarView.module.css */
+
+.calendarContainer {
+    margin: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+  }
+  
+  .rbc-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .rbc-toolbar button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .rbc-toolbar button:hover {
+    background-color: #0056b3;
+  }
+  
+  .rbc-toolbar .rbc-toolbar-label {
+    font-size: 1.2em;
+    font-weight: bold;
+  }
+  
+  .rbc-event {
+    background-color: #007bff;
+    border: 1px solid #0056b3;
+    color: white;
+    padding: 2px 5px;
+    border-radius: 4px;
+  }
+  
+  .rbc-event:hover {
+    background-color: #0056b3;
+  }
+  
+  .rbc-day-bg:hover {
+    background-color: #f1f1f1;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .calendarContainer {
+      margin: 10px;
+      padding: 5px;
+    }
+  
+    .rbc-toolbar {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .rbc-toolbar button {
+      margin-bottom: 5px;
+    }
+  
+    .rbc-toolbar .rbc-toolbar-label {
+      font-size: 1em;
+    }
+  
+    .rbc-event {
+      font-size: 0.8em;
+      padding: 1px 3px;
+    }
+  }
+  
