@@ -14,6 +14,7 @@ function App() {
       <Route path="/" element={<Navigation />}>
         <Route index element={<Homepage />} />
         <Route path="/courses" element= {<CoursesPage/>} />
+        <Route path="/courses/:category" element={<CoursesPage/>} />
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>

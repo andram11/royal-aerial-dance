@@ -9,6 +9,7 @@ import { Category } from '../../types/types.js'
 
 //Styles
 import styles from './categoryItem.module.css'
+import { Link } from 'react-router-dom'
 
 interface CategoryItemProps {
   category: Category;
@@ -24,7 +25,8 @@ const CategoryItem:  React.FC<CategoryItemProps> = ({category}) => {
 
         </img>
          <div className={styles.body}>
-          <h2>{category.title.toUpperCase()}</h2>
+          <Link to={`/courses/${category.title.toLowerCase()}`}><h2>{category.title.toUpperCase()}</h2></Link>
+          
          </div>
        </div>
 

@@ -51,3 +51,14 @@ export interface CourseEvent {
         recurrent: boolean;
         recurrenceType?: 'weekly' | 'biMonthly' | 'monthly';
       }
+
+export interface CartItem {
+        id: string;
+        url: string;
+        title: string;
+        price: number;
+        quantity: number;
+        location: string;
+        dayOfTheWeek: string;
+        timeslot: string;
+}
