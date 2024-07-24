@@ -13,14 +13,19 @@ interface SearchCriteria {
   level: string;
 }
 
-const Filter: React.FC = () => {
+interface FilterProps {
+  initialCriteria?: Partial<SearchCriteria>;
+}
+
+const Filter: React.FC<FilterProps> = ({ initialCriteria = {} }) => {
   const dispatch = useAppDispatch();
   const [searchCriteria, setSearchCriteria] = useState<SearchCriteria>({
     category: '',
     location: '',
     teacher: '',
     dayOfWeek: '',
-    level: ''
+    level: '',
+    ...initialCriteria
   });
 
   useEffect(() => {
