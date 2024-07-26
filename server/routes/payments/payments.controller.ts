@@ -18,7 +18,9 @@ export async function httpExecutePaymentRequest(req: Request, res: Response) {
       const transaction = await createTransaction(transactionRequestBody);
 
       if (!transaction.errors) {
-        res.status(201).json(transaction);
+        res.status(201).json({
+          transaction: transaction,
+          payment: paymentRequestHandler.body?.paymentIntent.client_secret});
       } else {
         res.status(400).json({
           error: transaction.message,
