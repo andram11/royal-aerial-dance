@@ -1,8 +1,17 @@
 const baseUrl= import.meta.env.VITE_BASE_URL as string 
 
+import {loadStripe} from '@stripe/stripe-js'
 
-import { Course, Category, FilterCriteria, CourseSearchResult} from "../types/types"
+import { Course, Category, FilterCriteria, CourseSearchResult, Payment} from "../types/types"
 
+interface PaymentResponse {
+    payment: string;
+    transaction: {
+        message: string;
+    }
+}
+
+export const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_KEY as string )
 
 export async function getActiveCourses():Promise<Course[]> {
     try{
@@ -45,5 +54,25 @@ export async function getFilteredCourses(criteria: FilterCriteria):Promise<Cours
         return items 
     } catch(err){
         throw err;
+    }
+}
+
+export async function createPaymentRequest(paymentDetails: Payment): Promise<PaymentResponse>{
+    try {
+        const response=await fetch(`${baseUrl}/payments`,
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(paymentDetails)
+            }
+            
+        )
+
+        const data= await response.json()
+        return data
+    } catch(err){
+        throw err
     }
 }

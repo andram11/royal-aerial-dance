@@ -104,11 +104,12 @@ export async function createTransaction(transactionDetails: Transaction) {
   try {
         //Create transaction for courseId
         const response = await Transactions.create({
-          courseDetails: {
-              courseId: transactionDetails.courseDetails[0].courseId, 
-              quantity: transactionDetails.courseDetails[0].quantity
+          // courseDetails: {
+          //     courseId: transactionDetails.courseDetails[0].courseId, 
+          //     quantity: transactionDetails.courseDetails[0].quantity
             
-          },
+          // },
+          courseDetails: transactionDetails.courseDetails,
           status: transactionDetails.status,
           paymentId: transactionDetails.paymentId,
           participantDetails: transactionDetails.participantDetails,

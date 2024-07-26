@@ -5,6 +5,10 @@ import Navigation from "./pages/navigation/navigation.tsx";
 import Homepage from "./pages/homepage/homepage.tsx";
 import NotFound from "./components/error/notFound.component.tsx";
 import CoursesPage from "./pages/courses/courses.tsx";
+import Checkout from "./pages/checkout/checkout.component.tsx";
+import ParticipantForm from "./components/participantForm/participantForm.component.tsx";
+import PaymentForm from "./components/paymentForm/paymentForm.component.tsx";
+import OrderConfirmation from "./pages/orderConfirmation/orderConfirmation.component.tsx";
 
 function App() {
 
@@ -15,6 +19,10 @@ function App() {
         <Route index element={<Homepage />} />
         <Route path="/courses" element= {<CoursesPage/>} />
         <Route path="/courses/:category" element={<CoursesPage/>} />
+        <Route path="/checkout" element={<Checkout/>} />
+        <Route path="/registration" element={<ParticipantForm/>} />
+        <Route path="/payment" element={<PaymentForm/>} />
+        <Route path="/confirmationStatus" element={<OrderConfirmation/>} />
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>

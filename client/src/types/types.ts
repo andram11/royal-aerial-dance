@@ -62,3 +62,29 @@ export interface CartItem {
         dayOfTheWeek: string;
         timeslot: string;
 }
+
+export interface ParticipantDetails {
+        firstName: string;
+        lastName: string;
+        birthDate: string;
+        email: string;
+        phoneNumber: string
+}
+
+export interface CourseDetails {
+        courseId: string;
+        quantity: number
+}
+
+export interface PaymentDetails {
+        paymentMethod: string;
+        status: string;
+        amount: number;
+        currency: string;
+}
+
+export interface Payment {
+        courseDetails: CourseDetails[];
+        paymentDetails: PaymentDetails;
+        participantDetails: ParticipantDetails;
+}
