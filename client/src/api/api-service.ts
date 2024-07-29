@@ -20,8 +20,24 @@ interface PaymentResponse {
 
 interface SignUpResponse {
     userId: string;
-    message: string 
-}
+    message: string }
+    
+const today= new Date()
+const startDate = today.toISOString().split('T')[0];
+
+
+
+export async function getActiveCourses():Promise<Course[]> {
+    try{
+
+        const response= await fetch(`${baseUrl}/courses/search?status=active&startDate=${startDate}`)
+        const items: Course[]= await response.json()
+        return items 
+    } catch (err) {
+        throw err;
+         }
+    }
+   
 
 export interface LoginResponse {
     data: {
@@ -35,15 +51,7 @@ export const stripePromise = loadStripe(
   import.meta.env.VITE_STRIPE_KEY as string
 );
 
-export async function getActiveCourses(): Promise<Course[]> {
-  try {
-    const response = await fetch(`${baseUrl}/courses/search?status=active`);
-    const items: Course[] = await response.json();
-    return items;
-  } catch (err) {
-    throw err;
-  }
-}
+
 
 export async function getCategories(): Promise<Category[]> {
   try {
@@ -63,21 +71,22 @@ export async function getFilteredCourses(
     const filteredCriteria = Object.fromEntries(
       Object.entries(criteria).filter(([_, value]) => value)
     );
-    let query = new URLSearchParams(filteredCriteria as any).toString();
-    query = query.replace(/\+/g, "%20");
-    let searchUrl = "";
-    if (query.length > 0) {
-      searchUrl = "/courses/search?";
-    } else {
-      searchUrl = "/courses/search";
-    }
-    const response = await fetch(`${baseUrl}${searchUrl}${query}`);
-    const items: CourseSearchResult = await response.json();
+        let query = new URLSearchParams(filteredCriteria as any).toString();
+        query = query.replace(/\+/g, '%20');
+        let searchUrl=`/courses/search?startDate=${startDate}&`
+        // if (query.length > 0) {
+        //      searchUrl= ``
+        // } else {
+        //     searchUrl= "/courses/search"
+        // }
+        const response= await fetch(`${baseUrl}${searchUrl}${query}`)
+        const items: CourseSearchResult= await response.json()
 
-    return items;
-  } catch (err) {
-    throw err;
-  }
+        return items 
+    } catch(err){
+        throw err;
+    }
+   
 }
 
 export async function createPaymentRequest(
