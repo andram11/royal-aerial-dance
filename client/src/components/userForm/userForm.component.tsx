@@ -12,9 +12,9 @@ const UserForm: React.FC<UserFormProps>= ({handleSubmit, handleChange, buttonTex
          
            <form onSubmit={handleSubmit}>
             <input
-            type="text"
-            id="email"
-            name="email"
+            type="email"
+            id="username"
+            name="username"
             required
             onChange={handleChange}
             >

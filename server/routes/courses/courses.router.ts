@@ -12,8 +12,9 @@ import {
 } from "../../routes/courses/courses.controller";
 
 function checkLoggedIn(req: Request, res: Response, next:NextFunction) {
-  const isLoggedIn= true
-  if (!isLoggedIn){
+  //const isLoggedIn= true
+  console.log(req.isAuthenticated())
+  if (!req.isAuthenticated || !req.isAuthenticated()){
       return res.status(401).json({
           error: 'You must first log in!'
       })

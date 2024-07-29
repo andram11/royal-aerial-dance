@@ -59,6 +59,8 @@ const parseTimeslot = (
     const { category } = useParams<{ category: string }>();
     const dispatch = useAppDispatch();
     const { filteredCourses, loading, error } = useAppSelector((state: RootState) => state.courses);
+    const {user}= useAppSelector((state: RootState) => state.user)
+    console.log(user)
   
     const [events, setEvents] = useState<CourseEvent[]>([]);
     const [selectedEvent, setSelectedEvent] = useState<CourseEvent | null>(null);

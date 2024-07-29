@@ -6,7 +6,7 @@ import { RootState } from '../store';
 
 export interface AuthenticatedUser {
     id: string;
-    email: string;
+    username: string;
   }
   
   export interface UserState {
@@ -28,8 +28,11 @@ export const logUser = createAsyncThunk(
     'user/login',
   async (userData: User, thunkAPI) => {
     try {
+        console.log(userData)
       const data: LoginResponse = await loginUser(userData);
+      console.log(data)
       return { id: data.data.userId, email: data.data.username };
+      
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.message);
     }

@@ -6,7 +6,7 @@ import { useState } from "react";
 const User = () => {
   const dispatch = useAppDispatch();
   const [formData, setFormData] = useState({
-    email: "",
+    username: "",
     password: "",
   });
 
@@ -20,6 +20,7 @@ const User = () => {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
+    console.log(formData)
     dispatch(logUser(formData));
   };
 

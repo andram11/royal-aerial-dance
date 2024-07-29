@@ -30,7 +30,10 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     cookie: {
-      maxAge: 24 * 60 * 60 * 1000 // 24 hours
+      httpOnly: true,
+      secure: true,
+      maxAge: 24 * 60 * 60 * 1000,
+      sameSite: 'none' // 24 hours
     }
   }))
 
@@ -45,7 +48,7 @@ app.use(express.json())
 //Cors middleware
 app.use(cors({
     origin: process.env.CLIENT_URL_1 as string,
-    //credentials: true,
+    credentials: true,
 }))
 
 //Logging

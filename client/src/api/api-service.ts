@@ -30,7 +30,15 @@ const startDate = today.toISOString().split('T')[0];
 export async function getActiveCourses():Promise<Course[]> {
     try{
 
-        const response= await fetch(`${baseUrl}/courses/search?status=active&startDate=${startDate}`)
+        const response= await fetch(`${baseUrl}/courses/search?status=active&startDate=${startDate}`,
+          {method: 'GET',
+            headers: {
+              "Content-Type": "application/json",
+            },
+          
+            credentials: 'include'
+          }
+        )
         const items: Course[]= await response.json()
         return items 
     } catch (err) {
@@ -79,7 +87,15 @@ export async function getFilteredCourses(
         // } else {
         //     searchUrl= "/courses/search"
         // }
-        const response= await fetch(`${baseUrl}${searchUrl}${query}`)
+        const response= await fetch(`${baseUrl}${searchUrl}${query}`,
+          {method: 'GET',
+            headers: {
+              "Content-Type": "application/json",
+            },
+          
+            credentials: 'include'
+          }
+        )
         const items: CourseSearchResult= await response.json()
 
         return items 
@@ -128,13 +144,16 @@ export async function registerUser(user: User):Promise<SignUpResponse>{
 
 export async function loginUser(user: User):Promise<LoginResponse>{
     try{
+      console.log(user)
         const response = await fetch(`${baseUrl}/auth/login`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
             body: JSON.stringify(user),
+            credentials: 'include'
           });
+        
         const data= await response.json()
         return (data.data.userId, data.data.username)
     }catch (err){
