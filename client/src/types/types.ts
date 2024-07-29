@@ -88,3 +88,8 @@ export interface Payment {
         paymentDetails: PaymentDetails;
         participantDetails: ParticipantDetails;
 }
+
+export interface User {
+        email: string;
+        password: string 
+}

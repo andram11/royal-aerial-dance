@@ -7,7 +7,9 @@ export async function httpCreateUser(req: Request, res: Response){
   const response= await createUser(req.body.username, req.body.password)
   if (!response.errors) {
     res.status(200).json({
-     message: `User created with ${response.username} and id: ${response._id}`
+     userId: response._id,
+     message: `User created with ${response.username} and id: ${response._id}`,
+     
     });
   } else {
     res.status(400).json({

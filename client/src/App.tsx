@@ -9,6 +9,7 @@ import Checkout from "./pages/checkout/checkout.component.tsx";
 import ParticipantForm from "./components/participantForm/participantForm.component.tsx";
 import PaymentForm from "./components/paymentForm/paymentForm.component.tsx";
 import OrderConfirmation from "./pages/orderConfirmation/orderConfirmation.component.tsx";
+import User from './pages/user/user.tsx'
 
 function App() {
 
@@ -23,6 +24,7 @@ function App() {
         <Route path="/registration" element={<ParticipantForm/>} />
         <Route path="/payment" element={<PaymentForm/>} />
         <Route path="/confirmationStatus" element={<OrderConfirmation/>} />
+        <Route path="/authentication" element={<User/>} />
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
