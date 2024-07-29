@@ -5,14 +5,26 @@ import { selectCartItems } from '../../state/cart/cartSlice'
 import { selectOrderStatus } from '../../state/order/orderSlice'
 import styles from './orderConfirmation.module.css'
 import { useNavigate, useLocation } from 'react-router-dom'
+import { CartItem } from '../../types/types'
+
+interface StateType {
+    cartItems: CartItem[];
+  }
+
 
 const OrderConfirmation: React.FC= () => {
     const dispatch= useAppDispatch()
-    const courses= useAppSelector(selectCartItems)
+    //const courses= useAppSelector(selectCartItems)
     const orderStatus= useAppSelector(selectOrderStatus)
+    const location = useLocation()
+    const {cartItems} = location.state as StateType|| {cartItems: []};
     
-    //Handle clearing cart when user leaves the page
-
+    //Handle clearing cart when user arrives on confirmation page
+    useEffect(() => {
+        return () => {
+          dispatch(clearCart());
+        };
+      }, [dispatch]);
 
     return (
         <div>
@@ -22,7 +34,7 @@ const OrderConfirmation: React.FC= () => {
                     <div>
                        <p>We have succesfully received your registration for the following course:
                         </p> 
-                        {courses.map(course=> <li key={course.id}>{course.title}</li>)}
+                        {cartItems.map(cartItem=> <li key={cartItem.id}>{cartItem.title}</li>)}
                         <p>You will shortly receive a confirmation email for your order. 
                             For any additional questions or support reach out at info@royalaerial.com
                         </p> 

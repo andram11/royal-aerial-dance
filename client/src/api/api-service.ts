@@ -11,11 +11,15 @@ interface PaymentResponse {
     }
 }
 
+const today= new Date()
+const startDate = today.toISOString().split('T')[0];
+
 export const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_KEY as string )
 
 export async function getActiveCourses():Promise<Course[]> {
     try{
-        const response= await fetch(`${baseUrl}/courses/search?status=active`)
+
+        const response= await fetch(`${baseUrl}/courses/search?status=active&startDate=${startDate}`)
         const items: Course[]= await response.json()
         return items 
     } catch (err) {
@@ -42,12 +46,12 @@ export async function getFilteredCourses(criteria: FilterCriteria):Promise<Cours
     );
         let query = new URLSearchParams(filteredCriteria as any).toString();
         query = query.replace(/\+/g, '%20');
-        let searchUrl=""
-        if (query.length > 0) {
-             searchUrl= "/courses/search?"
-        } else {
-            searchUrl= "/courses/search"
-        }
+        let searchUrl=`/courses/search?startDate=${startDate}&`
+        // if (query.length > 0) {
+        //      searchUrl= ``
+        // } else {
+        //     searchUrl= "/courses/search"
+        // }
         const response= await fetch(`${baseUrl}${searchUrl}${query}`)
         const items: CourseSearchResult= await response.json()
 

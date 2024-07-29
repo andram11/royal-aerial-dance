@@ -14,6 +14,7 @@ const PaymentForm = ()=> {
     const stripe= useStripe()
     const elements= useElements()
     const amount= useAppSelector(selectTotalPrice)
+    const cartItems= useAppSelector(selectCartItems)
     const courses= useAppSelector(selectCartItems).map(course=> ({courseId: course.id, quantity: course.quantity}))
     //console.log(courses)
     const participantDetails= useAppSelector(selectParticipantDetails)
@@ -55,14 +56,13 @@ const PaymentForm = ()=> {
             }
          })
          setIsProcessingPayment(false)
-         console.log(paymentResult)
          if(paymentResult.error){
             dispatch(setOrderStatus('error'))
             navigate('/confirmationStatus')
          } else {
             if(paymentResult.paymentIntent.status=== 'succeeded')
             dispatch(setOrderStatus('succeeded'))
-            navigate('/confirmationStatus')
+            navigate('/confirmationStatus', {state: {cartItems}})
          }
        
 }
