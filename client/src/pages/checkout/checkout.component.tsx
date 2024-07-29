@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom'
 import CheckoutItem from '../../components/checkoutItem/checkoutItem.component'
-import ParticipantForm from '../../components/participantForm/participantForm.component'
 import { useAppSelector } from '../../hooks'
 import { selectCartItems, selectTotalPrice } from '../../state/cart/cartSlice'
 import styles from './checkout.module.css'
@@ -8,6 +7,8 @@ import styles from './checkout.module.css'
 const Checkout: React.FC = ()=> {
     const cartItems= useAppSelector(selectCartItems)
     const cartTotal= useAppSelector(selectTotalPrice)
+
+
     return(
        <>
         <div className={styles.checkoutContainer}>
@@ -29,7 +30,7 @@ const Checkout: React.FC = ()=> {
             }
                 <div className={styles.total}>Total: EUR {cartTotal}</div>
         </div>
-        <Link to="/registration"> <button>Register and pay</button> </Link>
+        <Link to="/registration" > <button>Register and pay</button> </Link>
             
        </> 
     )

@@ -43,7 +43,7 @@ const CalendarView: React.FC<CalendarViewProps> = ({ events, onSelectEvent }) =>
         endAccessor="end"
         style={{ height: 500 }}
         onSelectEvent={onSelectEvent}
-        defaultView={Views.MONTH}
+        defaultView={Views.WEEK}
         //views={['week']}
         toolbar={true}  // Hides the toolbar to remove view options
         formats={formats} // Apply custom formats

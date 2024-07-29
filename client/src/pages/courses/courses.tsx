@@ -124,7 +124,7 @@ const parseTimeslot = (
         }
         dispatch(addItemToCart(cartItem))
       }
-      console.log(`Course ${courseId.split('-')[0]} added to cart.`);
+      //console.log(`Course ${courseId.split('-')[0]} added to cart.`);
     };
   
     return (

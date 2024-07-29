@@ -14,6 +14,11 @@ interface EventDetailsProps {
 }
 
 const EventDetails: React.FC<EventDetailsProps> = ({ event, onAddToCart, onClose }) => {
+  const handleAddToCart = (courseId: string) => {
+    onAddToCart(courseId);
+    onClose();
+  };
+
   return (
     <div className={styles.eventDetailsContainer}>
       <div className={styles.eventDetailsHeader}>
@@ -27,8 +32,8 @@ const EventDetails: React.FC<EventDetailsProps> = ({ event, onAddToCart, onClose
         {event.start.toLocaleString()} - {event.end.toLocaleString()}
       </p>
       <div className={styles.eventDetailsActions}>
-        <button className={styles.eventDetailsButton} onClick={() => onAddToCart(event.id)}>
-          Add to Cart
+        <button className={styles.eventDetailsButton}  onClick={() => handleAddToCart(event.id)}>
+        Add to cart
         </button>
         <button className={styles.eventDetailsButton} onClick={onClose}>
           Close
