@@ -1,6 +1,6 @@
 import {createSlice, PayloadAction, createAsyncThunk} from '@reduxjs/toolkit'
 import { User} from '../../types/types'
-import { registerUser, loginUser, LoginResponse } from '../../api/api-service'
+import { registerUser, loginUser, LoginResponse, SignUpResponse } from '../../api/api-service'
 import { RootState } from '../store';
 
 
@@ -28,13 +28,29 @@ export const logUser = createAsyncThunk(
     'user/login',
   async (userData: User, thunkAPI) => {
     try {
-        console.log(userData)
+  
       const data: LoginResponse = await loginUser(userData);
-      console.log(data)
+   
       return { id: data.data.userId, email: data.data.username };
       
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
+  // Async thunk for user registration
+  export const signUpUser = createAsyncThunk(
+    'user/register',
+  async (userData: User, thunkAPI) => {
+    try {
+  
+      const data: SignUpResponse = await registerUser(userData);
+
+      return { id: data.data.userId, email: data.data.username };
+      
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error);
     }
   }
 );
@@ -60,6 +76,7 @@ export const userSlice= createSlice({
             state.loading = false;
             state.error = action.payload;
           })
+      
     }
 })
 

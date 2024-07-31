@@ -18,8 +18,12 @@ interface PaymentResponse {
   };
 }
 
-interface SignUpResponse {
-    userId: string;
+export interface SignUpResponse extends Response{
+    data: {
+      userId: string;
+      username: string;
+    }
+    ,
     message: string }
     
 const today= new Date()
@@ -135,7 +139,11 @@ export async function registerUser(user: User):Promise<SignUpResponse>{
             body: JSON.stringify(user),
           });
         const data= await response.json()
-        return data.userId
+        
+        if (!response.ok) {
+          throw new Error(data.error.errors || 'Failed to register.');
+        }
+        return data
     }catch (err){
         throw err
     }
@@ -155,7 +163,11 @@ export async function loginUser(user: User):Promise<LoginResponse>{
           });
         
         const data= await response.json()
-        return (data.data.userId, data.data.username)
+        if (!response.ok) {
+          throw new Error(data.message || 'Failed to login');
+        }
+      
+        return data;
     }catch (err){
         throw err
     }
