@@ -34,7 +34,7 @@ export function httpHandleUserLogin(req: Request, res:Response) {
       res.json({ message: err });
     } else {
       if (!user) {
-        res.json({message: "Username or password incorrect." });
+        res.status(400).json({message: "Username or password incorrect." });
       } else {
         req.logIn(user, function(err) {
     
