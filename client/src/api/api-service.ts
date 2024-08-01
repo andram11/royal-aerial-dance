@@ -152,7 +152,6 @@ export async function registerUser(user: User):Promise<SignUpResponse>{
 
 export async function loginUser(user: User):Promise<LoginResponse>{
     try{
-      console.log(user)
         const response = await fetch(`${baseUrl}/auth/login`, {
             method: "POST",
             headers: {
@@ -171,4 +170,26 @@ export async function loginUser(user: User):Promise<LoginResponse>{
     }catch (err){
         throw err
     }
+};
+
+export async function loginWithGoogle():Promise<Response>{
+  try{
+
+      const response = await fetch(`${baseUrl}/auth/google`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: 'include'
+        });
+      
+      const data= await response.json()
+      if (!response.ok) {
+        throw new Error(data.message || 'Failed to login');
+      }
+      console.log(data)
+      return data;
+  }catch (err){
+      throw err
+  }
 };

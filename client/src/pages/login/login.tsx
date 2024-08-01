@@ -1,7 +1,7 @@
 import { SignUpResponse, registerUser } from "../../api/api-service";
 import UserForm from "../../components/userForm/userForm.component";
 import { useAppDispatch, useAppSelector } from "../../hooks";
-import { logUser, selectError } from "../../state/user/userSlice";
+import { logUser, selectError, googleLogin} from "../../state/user/userSlice";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -31,6 +31,16 @@ const Login = () => {
       }
   };
 
+  const handleGoogleLogin= async (e: React.FormEvent)=> {
+    e.preventDefault();
+    const resultAction = await dispatch(googleLogin());
+    console.log(resultAction)
+    // if (!googleLogin.rejected.match(resultAction)) {
+    //     // Clear the error and navigate to checkout
+    //     navigate("/checkout");
+    //   }
+  }
+
 
   return (
     <>
@@ -44,7 +54,7 @@ const Login = () => {
         handleChange={handleChange}
         buttonText="Login"
       />
-      <button>Login with Google</button>
+      <button onClick={handleGoogleLogin}>Login with Google</button>
     </>
   );
 };

@@ -3,10 +3,15 @@ import CheckoutItem from '../../components/checkoutItem/checkoutItem.component'
 import { useAppSelector } from '../../hooks'
 import { selectCartItems, selectTotalPrice } from '../../state/cart/cartSlice'
 import styles from './checkout.module.css'
+import { selectIsAuthenticated, selectUser } from '../../state/user/userSlice'
 
 const Checkout: React.FC = ()=> {
     const cartItems= useAppSelector(selectCartItems)
     const cartTotal= useAppSelector(selectTotalPrice)
+    const isAuthenticated= useAppSelector(selectIsAuthenticated)
+    console.log(isAuthenticated)
+    const user= useAppSelector(selectUser)
+    console.log(user)
 
 
     return(
@@ -30,7 +35,9 @@ const Checkout: React.FC = ()=> {
             }
                 <div className={styles.total}>Total: EUR {cartTotal}</div>
         </div>
-        <Link to="/registration" > <button>Register and pay</button> </Link>
+        <Link to={
+            isAuthenticated&& user ? '/registration': '/login'
+        } > <button>Register and pay</button> </Link>
             
        </> 
     )

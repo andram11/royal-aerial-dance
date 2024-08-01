@@ -24,7 +24,7 @@ authenticationRouter.get(
 authenticationRouter.get(
   "/auth/google/callback",
     passport.authenticate("google", {
-      successRedirect: "/v1/courses/search",
+      successRedirect: "https://localhost:5173",
       failureRedirect: "/v1/login"
     })
 );

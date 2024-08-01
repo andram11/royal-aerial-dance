@@ -11,19 +11,10 @@ import {
   httpCheckCourseStock
 } from "../../routes/courses/courses.controller";
 
-function checkLoggedIn(req: Request, res: Response, next:NextFunction) {
-  //const isLoggedIn= true
-  console.log(req.isAuthenticated())
-  if (!req.isAuthenticated || !req.isAuthenticated()){
-      return res.status(401).json({
-          error: 'You must first log in!'
-      })
-  }
 
-  next()
-}
 
-coursesRouter.get('/courses/search', checkLoggedIn, httpSearchCourses)
+
+coursesRouter.get('/courses/search',httpSearchCourses)
 coursesRouter.get('/courses/:id', httpFindCourseById)
 coursesRouter.get("/courses/stock/:id", httpCheckCourseStock)
 coursesRouter.post("/courses", httpCreateCourse);

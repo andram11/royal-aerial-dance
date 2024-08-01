@@ -1,6 +1,6 @@
 import {createSlice, PayloadAction, createAsyncThunk} from '@reduxjs/toolkit'
 import { User} from '../../types/types'
-import { registerUser, loginUser, LoginResponse, SignUpResponse } from '../../api/api-service'
+import { loginWithGoogle, loginUser, LoginResponse, SignUpResponse } from '../../api/api-service'
 import { RootState } from '../store';
 
 
@@ -39,15 +39,15 @@ export const logUser = createAsyncThunk(
   }
 );
 
-  // Async thunk for user registration
-  export const signUpUser = createAsyncThunk(
-    'user/register',
-  async (userData: User, thunkAPI) => {
+  // Async thunk for user Google login
+  export const googleLogin = createAsyncThunk(
+    'user/googleLogin',
+  async (_,thunkAPI) => {
     try {
   
-      const data: SignUpResponse = await registerUser(userData);
+      const data = await loginWithGoogle();
 
-      return { id: data.data.userId, email: data.data.username };
+      return data
       
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error);
@@ -67,7 +67,7 @@ export const userSlice= createSlice({
             state.loading = true;
             state.error = null;
           })
-          .addCase(logUser.fulfilled, (state, action: PayloadAction<AuthenticatedUser>) => {
+          .addCase(logUser.fulfilled, (state, action: PayloadAction<any>) => {
             state.user = action.payload;
             state.isAuthenticated = true;
             state.loading = false;
@@ -76,6 +76,19 @@ export const userSlice= createSlice({
             state.loading = false;
             state.error = action.payload;
           })
+          .addCase(googleLogin.pending, (state) => {
+            state.loading = true;
+            state.error = null;
+          })
+          .addCase(googleLogin.fulfilled, (state, action: PayloadAction<any>) => {
+            state.user = action.payload;
+            state.isAuthenticated = true;
+            state.loading = false;
+          })
+          .addCase(googleLogin.rejected, (state, action: PayloadAction<any>) => {
+            state.loading = false;
+            state.error = action.payload;
+          });
       
     }
 })

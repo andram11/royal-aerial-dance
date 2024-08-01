@@ -74,15 +74,6 @@ export async function httpHandlePasswordReset(req: Request, res: Response) {
 }
 }
 
-//Handle access to endpoints
-export function httpCheckLoggedIn(req: Request, res: Response, next: NextFunction) {
-  const isLoggedIn = req.isAuthenticated() && req.user && req.session;
-  if (!isLoggedIn) {
-    return res.status(401).json({
-      error: "You must first log in!",
-    });
-  }
 
-  next();
-}
+
 
