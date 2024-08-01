@@ -17,7 +17,6 @@ import {
 } from "passport-google-oauth20";
 import { Strategy as LocalStrategy } from "passport-local";
 
-import qs from "qs";
 
 //Initialize login strategies
 interface GoogleProfile extends Profile {

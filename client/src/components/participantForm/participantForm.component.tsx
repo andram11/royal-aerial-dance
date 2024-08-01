@@ -4,6 +4,7 @@ import { ParticipantDetails } from '../../types/types'
 import { useNavigate } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '../../hooks'
 import { selectParticipantDetails, setParticipant } from '../../state/participant/participantSlice'
+import { selectIsAuthenticated, selectUser } from '../../state/user/userSlice'
 
 
 const calculateAge = (birthDate: string): number => {
@@ -25,6 +26,7 @@ const ParticipantForm: React.FC = ()=> {
 
 const dispatch= useAppDispatch()
 const existingParticipantDetails= useAppSelector(selectParticipantDetails)
+
 const navigate= useNavigate()
 const [error, setError] = useState<string | null>(null);
 
@@ -62,6 +64,8 @@ useEffect(()=> {
 }, [existingParticipantDetails])
 
     return(
+
+ 
         <form className={styles.form} onSubmit={handleSubmit}>
            {error && <p className={styles.error}>{error}</p>}
         <div className={styles.formGroup}>

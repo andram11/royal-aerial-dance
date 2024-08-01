@@ -9,7 +9,6 @@ import {
 } from "../../routes/transactions/transactions.controller";
 
 
-import { httpCheckLoggedIn } from "../authentication/authentication.controller";
 
 
 transactionsRouter.get("/transactions/search", httpSearchTransactions);

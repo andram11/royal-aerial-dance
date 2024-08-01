@@ -11,6 +11,7 @@ import PaymentForm from "./components/paymentForm/paymentForm.component.tsx";
 import OrderConfirmation from "./pages/orderConfirmation/orderConfirmation.component.tsx";
 import Register from './pages/register/register.tsx'
 import Login from "./pages/login/login.tsx";
+import ProtectedRoute from "./components/protectedRoute/protectedRoute.component.tsx";
 
 function App() {
 
@@ -22,9 +23,9 @@ function App() {
         <Route path="/courses" element= {<CoursesPage/>} />
         <Route path="/courses/:category" element={<CoursesPage/>} />
         <Route path="/checkout" element={<Checkout/>} />
-        <Route path="/registration" element={<ParticipantForm/>} />
-        <Route path="/payment" element={<PaymentForm/>} />
-        <Route path="/confirmationStatus" element={<OrderConfirmation/>} />
+        <Route path="/registration" element={<ProtectedRoute element={<ParticipantForm />} />} />
+        <Route path="/payment" element={<ProtectedRoute element={<PaymentForm />} />} />
+        <Route path="/confirmationStatus" element={<ProtectedRoute element={<OrderConfirmation />} />} />
         <Route path="/register" element={<Register/>} />
         <Route path="/login" element={<Login/>} />
         <Route path="*" element={<NotFound />} />
