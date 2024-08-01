@@ -11,7 +11,8 @@ node_modules
 dist
 dist-ssr
 *.local
-certs
+server.cert
+server.key
 
 # Editor directories and files
 .vscode/*
