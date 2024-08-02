@@ -1,6 +1,6 @@
 import {createSlice, PayloadAction, createAsyncThunk} from '@reduxjs/toolkit'
 import { User} from '../../types/types'
-import { loginWithGoogle, loginUser, LoginResponse, SignUpResponse } from '../../api/api-service'
+import { loginUser, LoginResponse, logoutUser } from '../../api/api-service'
 import { RootState } from '../store';
 
 
@@ -39,6 +39,20 @@ export const logUser = createAsyncThunk(
   }
 );
 
+// Async thunk for user logout
+export const userLogout = createAsyncThunk(
+  'user/logput',
+async (_, thunkAPI) => {
+  try {
+
+    await logoutUser();
+    
+  } catch (error: any) {
+    return thunkAPI.rejectWithValue(error.message);
+  }
+}
+);
+
 export const userSlice= createSlice({
     name: 'user',
     initialState,
@@ -68,12 +82,25 @@ export const userSlice= createSlice({
             state.loading = true;
             state.error = null;
           })
-          .addCase(logUser.fulfilled, (state, action: PayloadAction<any>) => {
+          .addCase(logUser.fulfilled, (state, action: PayloadAction<AuthenticatedUser>) => {
             state.user = action.payload;
             state.isAuthenticated = true;
             state.loading = false;
           })
-          .addCase(logUser.rejected, (state, action: PayloadAction<any>) => {
+          .addCase(logUser.rejected, (state, action: PayloadAction<string>) => {
+            state.loading = false;
+            state.error = action.payload;
+          })
+          .addCase(userLogout.pending, (state) => {
+            state.loading = true;
+            state.error = null;
+          })
+          .addCase(userLogout.fulfilled, (state) => {
+            state.user = null;
+            state.isAuthenticated = false;
+            state.loading = false;
+          })
+          .addCase(userLogout.rejected, (state, action: PayloadAction<string>) => {
             state.loading = false;
             state.error = action.payload;
           })

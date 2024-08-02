@@ -4,11 +4,13 @@ import { useAppDispatch, useAppSelector } from '../../hooks'
 import { selectIsCartOpen, setIsCartOpen} from '../../state/cart/cartSlice'
 import CartDropdown from '../../components/cartDropdown/cartDropdown.component'
 import { useEffect } from 'react'
+import { selectIsAuthenticated, userLogout } from '../../state/user/userSlice'
+import UserIcon from '../../assets/UserIcon/UserIcon'
 
 const Navigation = ()=> {
     const dispatch= useAppDispatch()
     const isCartOpen= useAppSelector(selectIsCartOpen)
-
+    const isUserAuthenticated= useAppSelector(selectIsAuthenticated)
     const handleCartClick = ()=> {
         dispatch(setIsCartOpen(!isCartOpen))
     }
@@ -18,6 +20,10 @@ const Navigation = ()=> {
             dispatch(setIsCartOpen(false))
         }
         
+    }
+
+    const handleLogout = ()=> {
+        dispatch(userLogout())
     }
 
     useEffect(()=> {
@@ -44,9 +50,10 @@ const Navigation = ()=> {
                 {isCartOpen && <CartDropdown />}
                 </div>
                 <div>
-                <Link to="/login">
+                    {isUserAuthenticated ? (<UserIcon onClick={handleLogout}/>): (<Link to="/login">
                   LOGIN
-                </Link>
+                </Link>)}
+                
         
                 </div>
 
