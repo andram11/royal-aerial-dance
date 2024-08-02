@@ -1,0 +1,8 @@
+.iconContainer {
+  display: inline-block;
+  cursor: pointer;
+}
+
+.iconContainer:hover svg {
+  stroke: #007bff; /* Change the stroke color on hover */
+}

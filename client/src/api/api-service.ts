@@ -172,27 +172,27 @@ export async function loginUser(user: User):Promise<LoginResponse>{
     }
 };
 
-// export async function loginWithGoogle():Promise<Response>{
-//   try{
+export async function logoutUser():Promise<Response>{
+  try{
 
-//       const response = await fetch(`${baseUrl}/auth/google`, {
-//           method: "GET",
-//           headers: {
-//             "Content-Type": "application/json",
-//           },
-//           credentials: 'include'
-//         });
+      const response = await fetch(`${baseUrl}/auth/logout`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: 'include'
+        });
       
-//       const data= await response.json()
-//       if (!response.ok) {
-//         throw new Error(data.message || 'Failed to login');
-//       }
-//       console.log(data)
-//       return data;
-//   }catch (err){
-//       throw err
-//   }
-// };
+      const data= await response.json()
+      if (!response.ok) {
+        throw new Error(data.message || 'Failed to logout');
+      }
+      console.log(data)
+      return data;
+  }catch (err){
+      throw err
+  }
+};
 
 export function loginWithGoogle(redirectPath: string) {
   const redirectUrl = `${baseUrl}/auth/google?redirect=${encodeURIComponent(redirectPath)}`;
