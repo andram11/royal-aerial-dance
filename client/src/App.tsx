@@ -12,6 +12,7 @@ import OrderConfirmation from "./pages/orderConfirmation/orderConfirmation.compo
 import Register from './pages/register/register.tsx'
 import Login from "./pages/login/login.tsx";
 import ProtectedRoute from "./components/protectedRoute/protectedRoute.component.tsx";
+import Callback from "./pages/authCallback/authCallback.tsx";
 
 function App() {
 
@@ -28,6 +29,7 @@ function App() {
         <Route path="/confirmationStatus" element={<ProtectedRoute element={<OrderConfirmation />} />} />
         <Route path="/register" element={<Register/>} />
         <Route path="/login" element={<Login/>} />
+        <Route path="/auth/callback" element={<Callback />} />
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>

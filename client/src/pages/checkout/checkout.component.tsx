@@ -9,9 +9,7 @@ const Checkout: React.FC = ()=> {
     const cartItems= useAppSelector(selectCartItems)
     const cartTotal= useAppSelector(selectTotalPrice)
     const isAuthenticated= useAppSelector(selectIsAuthenticated)
-    console.log(isAuthenticated)
     const user= useAppSelector(selectUser)
-    console.log(user)
 
 
     return(

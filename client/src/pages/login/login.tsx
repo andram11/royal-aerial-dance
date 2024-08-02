@@ -1,9 +1,9 @@
-import { SignUpResponse, registerUser } from "../../api/api-service";
+import { loginWithGoogle } from "../../api/api-service";
 import UserForm from "../../components/userForm/userForm.component";
 import { useAppDispatch, useAppSelector } from "../../hooks";
-import { logUser, selectError, googleLogin} from "../../state/user/userSlice";
+import { logUser, selectError} from "../../state/user/userSlice";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation} from "react-router-dom";
 
 const Login = () => {
   const dispatch = useAppDispatch();
@@ -13,6 +13,8 @@ const Login = () => {
   });
   const loginError = useAppSelector(selectError);
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || '/';
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -31,10 +33,8 @@ const Login = () => {
       }
   };
 
-  const handleGoogleLogin= async (e: React.FormEvent)=> {
-    e.preventDefault();
-    const resultAction = await dispatch(googleLogin());
-    console.log(resultAction)
+  const handleGoogleLogin= ()=> {
+    loginWithGoogle(from);
     // if (!googleLogin.rejected.match(resultAction)) {
     //     // Clear the error and navigate to checkout
     //     navigate("/checkout");

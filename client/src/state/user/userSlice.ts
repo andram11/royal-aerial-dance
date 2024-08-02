@@ -39,27 +39,28 @@ export const logUser = createAsyncThunk(
   }
 );
 
-  // Async thunk for user Google login
-  export const googleLogin = createAsyncThunk(
-    'user/googleLogin',
-  async (_,thunkAPI) => {
-    try {
-  
-      const data = await loginWithGoogle();
-
-      return data
-      
-    } catch (error: any) {
-      return thunkAPI.rejectWithValue(error);
-    }
-  }
-);
-
 export const userSlice= createSlice({
     name: 'user',
     initialState,
     reducers: {
-
+      setUser: (state, action: PayloadAction<AuthenticatedUser>) => {
+        state.user = action.payload;
+        state.isAuthenticated = true;
+        state.loading = false;
+        state.error = null;
+      },
+      clearUser: (state) => {
+        state.user = null;
+        state.isAuthenticated = false;
+        state.loading = false;
+        state.error = null;
+      },
+      setLoading: (state, action: PayloadAction<boolean>) => {
+        state.loading = action.payload;
+      },
+      setError: (state, action: PayloadAction<string | null>) => {
+        state.error = action.payload;
+      },
     },
     extraReducers: (builder) => {
         builder
@@ -76,23 +77,11 @@ export const userSlice= createSlice({
             state.loading = false;
             state.error = action.payload;
           })
-          .addCase(googleLogin.pending, (state) => {
-            state.loading = true;
-            state.error = null;
-          })
-          .addCase(googleLogin.fulfilled, (state, action: PayloadAction<any>) => {
-            state.user = action.payload;
-            state.isAuthenticated = true;
-            state.loading = false;
-          })
-          .addCase(googleLogin.rejected, (state, action: PayloadAction<any>) => {
-            state.loading = false;
-            state.error = action.payload;
-          });
       
     }
 })
 
+export const { setUser, clearUser, setLoading, setError } = userSlice.actions;
 export const selectUser = (state: RootState) => state.user.user;
 export const selectIsAuthenticated = (state: RootState) => state.user.isAuthenticated;
 export const selectLoading = (state: RootState) => state.user.loading;

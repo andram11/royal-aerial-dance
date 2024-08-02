@@ -59,18 +59,18 @@ passport.use(
       } catch (err) {
         return err;
       }
-      done(null, profile);
+      done(null, { id: googleProfile._json.sub, email: googleProfile._json.email });
     }
   )
 );
 //Google login serialisers
 //Save the session to cookie
 
-interface User {
+export interface SerializeUser {
   id?: string;
 }
 
-passport.serializeUser((user: User, done) => {
+passport.serializeUser((user: SerializeUser, done) => {
   done(null, user.id);
 });
 //Read the session from the cookie
