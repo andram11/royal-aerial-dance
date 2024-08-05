@@ -25,7 +25,9 @@ export async function saveUser(username: string) {
 }
 
 export async function findPasswordResetToken(username: ParsedQs){
-  try {return await Users.findOne({username: username,
+  try {
+    console.log(username)
+    return await Users.findOne({username: username,
     passwordResetToken: {$ne: null} })}
     catch(err){
       return err

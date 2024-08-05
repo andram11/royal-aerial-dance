@@ -1,38 +1,46 @@
-import styles from './userForm.module.css'
+import styles from "./userForm.module.css";
+import { useState } from "react";
+
+import PasswordInput from "../passwordInput/passwordInput.component";
 
 interface UserFormProps {
-    handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
-    handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    buttonText: string
-  }
-
-const UserForm: React.FC<UserFormProps>= ({handleSubmit, handleChange, buttonText})=> {
-    return (
-        <div>
-         
-           <form onSubmit={handleSubmit}>
-            <input
-            type="email"
-            id="username"
-            name="username"
-            required
-            onChange={handleChange}
-            >
-            </input>
-            <input
-            type="password"
-            id="password"
-            name="password"
-            required
-            onChange={handleChange}
-       
-            >
-            </input>
-           <button type="submit">{buttonText}</button>
-            
-           </form>
-        </div>
-    )
+  handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  buttonText: string;
 }
 
-export default UserForm
+const UserForm: React.FC<UserFormProps> = ({
+  handleSubmit,
+  handleChange,
+  buttonText,
+}) => {
+  const [password, setPassword] = useState("");
+
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value);
+    handleChange(e);
+  };
+  return (
+    <div>
+      <form onSubmit={handleSubmit}>
+      <label htmlFor="username">Email:</label>
+        <input
+          type="email"
+          id="username"
+          name="username"
+          required
+          onChange={handleChange}
+        ></input>
+
+        <PasswordInput
+          label="Password:"
+          value={password}
+          onChange={handlePasswordChange}
+        />
+        <button type="submit">{buttonText}</button>
+      </form>
+    </div>
+  );
+};
+
+export default UserForm;

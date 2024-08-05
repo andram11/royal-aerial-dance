@@ -33,6 +33,7 @@ export function httpHandleUserLogin(req: Request, res:Response) {
     if (err) {
       res.json({ message: err });
     } else {
+      console.log(user)
       if (!user) {
         res.status(400).json({message: "Username or password incorrect." });
       } else {
@@ -48,8 +49,8 @@ export function httpHandleUserLogin(req: Request, res:Response) {
 
 //Handle forgot password flow
 export async function httpHandleForgotPassword(req: Request, res:Response) {
-  const response = await forgotPassword(req.params.username as any);
-  if (!response.errors) {
+  const response = await forgotPassword(req.params.username as string);
+  if (!response.error) {
     res.status(200).json({
      response
     });
@@ -62,6 +63,7 @@ export async function httpHandleForgotPassword(req: Request, res:Response) {
 
 //Handle password reset flow
 export async function httpHandlePasswordReset(req: Request, res: Response) {
+  console.log(req.query)
  const response = await resetPassword(req.query) 
  if (!response.errors) {
   res.status(200).json({
@@ -74,6 +76,15 @@ export async function httpHandlePasswordReset(req: Request, res: Response) {
 }
 }
 
+//Handle access to endpoints
+export function httpCheckLoggedIn(req: Request, res: Response, next: NextFunction) {
+  const isLoggedIn = req.isAuthenticated() && req.user && req.session;
+  if (!isLoggedIn) {
+    return res.status(401).json({
+      error: "You must first log in!",
+    });
+  }
 
-
+  next();
+}
 

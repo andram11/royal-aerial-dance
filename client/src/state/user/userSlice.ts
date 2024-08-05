@@ -30,7 +30,7 @@ export const logUser = createAsyncThunk(
     try {
   
       const data: LoginResponse = await loginUser(userData);
-   
+      
       return { id: data.data.userId, email: data.data.username };
       
     } catch (error: any) {

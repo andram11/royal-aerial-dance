@@ -13,14 +13,16 @@ import {existsUser, updatePasswordResetToken, findPasswordResetToken } from "../
 import sendEmail from '../../services/email/email'
 
 //Forgot password
-export async function forgotPassword(username: ParsedQs) {
+export async function forgotPassword(username: string) {
   try {
        //Does user exist?
- const user = await existsUser(qs.stringify(username));
+     
+ const user = await existsUser(username);
+
  if (!user) return({error: "Username email does not exist."});
 
  //Does user already have a reset token ?
- const token = await findPasswordResetToken(username);
+ const token = await findPasswordResetToken(qs.parse(username));
  //if yes, we remove the existing reset token (by setting the field to empty/null)
  if (token){
   await updatePasswordResetToken({
@@ -43,7 +45,7 @@ export async function forgotPassword(username: ParsedQs) {
  });
 
  //Create the reset link to send to the user by email
- const resetLink = `${process.env.CLIENT_URL}/auth/resetPassword?token=${resetToken}&username=${user.username}`;
+ const resetLink = `${process.env.CLIENT_CALL_BACK_RESET_PASS}?token=${resetToken}&username=${user.username}`;
  //Send the email to the user with the new reset token
  const response = await sendEmail(
    username,
@@ -69,7 +71,9 @@ export async function forgotPassword(username: ParsedQs) {
 export async function resetPassword(query: ParsedQs){
     try {
        //Check if provided email address (username) exists
-   const user = await existsUser(qs.stringify(query.username));
+
+   const user = await existsUser(query.username as string);
+   console.log(user)
    if (!user) return ({message: "Username email does not exist."});
  
    //Check if a reset token exists for the provided username
@@ -92,12 +96,11 @@ export async function resetPassword(query: ParsedQs){
    } else {
     return({message: "Invalid or expired password reset token"});
    }
-   
- 
  
    //Reset user password using passport mongoose plugin (setPassword function is usually used for forgot password use cases)
-   await user.setPassword(query.password);
+   console.log(await user.setPassword(query.password));
    const userSaved = await user.save();
+   console.log(userSaved)
    if (!userSaved) {
     return ({message: "Password could not be reset. Please try again later."});
    }
