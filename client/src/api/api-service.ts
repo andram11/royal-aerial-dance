@@ -18,6 +18,12 @@ interface PaymentResponse {
   };
 }
 
+interface ForgotPasswordResult {
+  success: boolean;
+  data?: any;
+  error?: string;
+}
+
 export interface SignUpResponse extends Response {
   data: {
     userId: string;
@@ -193,7 +199,7 @@ export function loginWithGoogle(redirectPath: string) {
   window.location.href = redirectUrl;
 }
 
-export async function forgotPassword(email: string): Promise<Response> {
+export async function forgotPassword(email: string): Promise<ForgotPasswordResult> {
   try {
     const response = await fetch(`${baseUrl}/auth/forgotPassword/${email}`, {
       method: "POST",
@@ -204,12 +210,13 @@ export async function forgotPassword(email: string): Promise<Response> {
     });
 
     const data = await response.json();
-    if (!response.ok) {
-      throw new Error(data.message || "Failed to logout");
+    if (!response.ok && data.error) {
+      return { success: false, error: data.error.error || "An error occurred" };
     }
-    return data;
-  } catch (err) {
-    throw err;
+
+    return { success: true, data };
+  } catch (err: any) {
+    return { success: false, error: err.message || "An unexpected error occurred" }
   }
 }
 

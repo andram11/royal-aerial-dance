@@ -20,6 +20,9 @@ export async function forgotPassword(username: string) {
  const user = await existsUser(username);
 
  if (!user) return({error: "Username email does not exist."});
+ if (user && !user.salt && !user.hash) return ({
+  error: "The password reset for provided email address is handled by external third party email provider (applicable for when login it with a Google account)."
+ })
 
  //Does user already have a reset token ?
  const token = await findPasswordResetToken(qs.parse(username));

@@ -30,7 +30,6 @@ const Login = () => {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(formData)
     const resultAction = await dispatch(logUser(formData));
     if (!logUser.rejected.match(resultAction)) {
         // Clear the error and navigate to checkout
@@ -53,13 +52,15 @@ const Login = () => {
 
   const handlePasswordResetSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    try {
-      await forgotPassword(resetEmail);
-      alert("Password reset email sent. Please check your inbox.");
-      setPasswordReset(false);
-    } catch (error) {
-      alert("Error sending password reset email.");
-    }
+      const response=await forgotPassword(resetEmail);
+      if (response.success) {
+        alert("Password reset email sent. Please check your inbox.");
+        setPasswordReset(false);
+      } else {
+        alert(response.error);
+      }
+     
+   
   };
 
   return (
