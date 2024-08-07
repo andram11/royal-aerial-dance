@@ -3,8 +3,9 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 20px;
-  background-color: #f8f8f8; /* Adjust background color as needed */
+  /*padding: 10px 20px;*/
+  /*padding-bottom: 10px;*/
+  background-color: #f1dede; /* Adjust background color as needed */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Add shadow for better visual separation */
   position: sticky;
   top: 0;
@@ -13,15 +14,21 @@
 
 .logoContainer {
   height: 100%;
-  padding: 10px 20px;
+
 }
 
 .navLinks {
   display: flex;
   align-items: center;
+  
 }
 
 .navLink {
   padding: 10px 15px;
   cursor: pointer;
+  color: #d496a7;
+  font-weight: 700;
+  font-size: 1.2rem;
+  background: none;
+  border: none;
 }
