@@ -6,6 +6,8 @@ import CartDropdown from '../../components/cartDropdown/cartDropdown.component'
 import { useEffect } from 'react'
 import { selectIsAuthenticated, userLogout } from '../../state/user/userSlice'
 import UserIcon from '../../assets/UserIcon/UserIcon'
+import LogoIcon from '../../assets/LogoIcon/LogoIcon'
+import { FaCartShopping } from "react-icons/fa6";
 
 const Navigation = ()=> {
     const dispatch= useAppDispatch()
@@ -39,18 +41,19 @@ const Navigation = ()=> {
         <div className={styles.container}>
             <div className={styles.logoContainer}>
                 <Link to="/">
-                LOGO
+                <LogoIcon/>
                 </Link>
             </div>
             <div className={styles.navLinks}>
                 <div className={styles.navLink}>
                 <button className={styles.navLink} onClick={handleCartClick}>
-                  CART
+                  <FaCartShopping style={{ fontSize: '30px' }}/>
                 </button>
                 {isCartOpen && <CartDropdown />}
                 </div>
-                <div>
-                    {isUserAuthenticated ? (<UserIcon onClick={handleLogout}/>): (<Link to="/login">
+
+                <div className={styles.navLink}>
+                    {isUserAuthenticated ? (<UserIcon onClick={handleLogout}/>): (<Link className={styles.navLink} to="/login">
                   LOGIN
                 </Link>)}
                 
