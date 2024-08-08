@@ -16,7 +16,6 @@ import Footer from '../../components/footer/footer.component.js'
 const Homepage: React.FC= () => {
     const dispatch= useAppDispatch()
     const categories= useAppSelector(selectCategories)
-    const selectedCategory= useAppSelector(selectSelectedCategory)
 
     useEffect(()=>{
         const fetchCategoryData = async () => {
