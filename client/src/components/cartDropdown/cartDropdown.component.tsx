@@ -3,6 +3,7 @@ import { useAppSelector } from '../../hooks'
 import { selectCartItems, selectIsCartOpen } from '../../state/cart/cartSlice'
 import styles from './cartDropdown.module.css'
 import CartElement from '../cartElement/cartElement.component'
+import Button from '../button/button.component'
 
 
 const CartDropdown: React.FC = ()=> {
@@ -27,7 +28,8 @@ const CartDropdown: React.FC = ()=> {
                     ))):(<div className={styles.emptyMessage}>Your cart is empty.</div>)
                 }
             </div>
-            <button onClick={goToCheckoutHandler} className={styles.baseButton}>Go to checkout</button>
+           <Button onClick={goToCheckoutHandler} text="Go to checkout"/> 
+            {/* <button onClick={goToCheckoutHandler} className={styles.baseButton}>Go to checkout</button> */}
         </div>
     )
 }

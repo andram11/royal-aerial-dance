@@ -44,7 +44,15 @@ const Navigation = ()=> {
                 <LogoIcon/>
                 </Link>
             </div>
+
+     
             <div className={styles.navLinks}>
+            <div className={styles.navLink}>
+                  <Link className={styles.navLink} to="/courses">
+                  COURSES
+                </Link>
+                
+                </div>
                 <div className={styles.navLink}>
                 <button className={styles.navLink} onClick={handleCartClick}>
                   <FaCartShopping style={{ fontSize: '30px' }}/>
@@ -57,7 +65,6 @@ const Navigation = ()=> {
                   LOGIN
                 </Link>)}
                 
-        
                 </div>
 
             </div>
