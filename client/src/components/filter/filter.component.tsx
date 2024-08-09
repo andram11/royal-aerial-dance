@@ -60,28 +60,33 @@ const Filter: React.FC<FilterProps> = ({ initialCriteria = {} }) => {
   const getSelectedItems = (criteria: SearchCriteriaKey) =>
     searchCriteria[criteria].split(',').filter((item: string) => item);
 
-  const renderSelect = (name: SearchCriteriaKey, options: string[]) => (
-    <div className={styles.selectContainer}>
-      <select name={name} value="" onChange={handleChange}>
-        <option value="">{name.charAt(0).toUpperCase() + name.slice(1)}</option>
-        {options.map(option => (
-          <option key={option} value={option}>
-            {option}
-          </option>
-        ))}
-      </select>
-      <div className={styles.pillsContainer}>
-        {getSelectedItems(name).map(item => (
-          <div key={item} className={styles.pill}>
-            {item}
-            <button onClick={() => handleRemoveItem(name, item)}>
-              x
-            </button>
-          </div>
-        ))}
+  const renderSelect = (name: SearchCriteriaKey, options: string[]) => {
+    const displayName =
+      name === 'dayOfWeek' ? 'Day Of Week' : name.charAt(0).toUpperCase() + name.slice(1);
+
+    return (
+      <div className={styles.selectContainer}>
+        <select name={name} value="" onChange={handleChange}>
+          <option value="">{displayName}</option>
+          {options.map(option => (
+            <option key={option} value={option}>
+              {option}
+            </option>
+          ))}
+        </select>
+        <div className={styles.pillsContainer}>
+          {getSelectedItems(name).map(item => (
+            <div key={item} className={styles.pill}>
+              {item}
+              <button onClick={() => handleRemoveItem(name, item)}>
+                x
+              </button>
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
-  );
+    );
+  };
 
   return (
     <div className={styles.filterSidebar}>

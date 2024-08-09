@@ -1,14 +1,21 @@
 /* CoursesPage.module.css */
 .coursesPage {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    align-items: center;
     padding-left: 250px; /* Width of the sidebar */
-    margin-top: 60px; /* Adjust this value to the height of your navbar */
+
   }
+  .coursesPage h2 {
+    width: 100%;
+    text-align: center;
   
+}
+
   .calendarContainer {
     flex: 1;
-    padding: 20px;
+    padding: 30px;
+    width: 100%;
   }
   
   .eventDetails {
@@ -30,12 +37,11 @@
   @media (max-width: 768px) {
     .coursesPage {
       flex-direction: column;
-      padding-left: 0;
+      padding: 0 5px;
     }
   
     .calendarContainer {
-      padding: 10px;
-      margin-top: 10px; /* Adjust for filter container height */
+      padding:0 15px;
     }
   }
   

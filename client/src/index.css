@@ -3,6 +3,7 @@
   --primary-color: #5D576B;
   --secondary-color: #D496A7;
   --tertiary-color: #F1DEDE;
+  --primary-font: "Josefin Sans", sans-serif;
   
   font-family: "Josefin Sans", sans-serif;
   font-optical-sizing: auto;
