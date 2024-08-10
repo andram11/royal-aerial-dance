@@ -2,20 +2,21 @@
 .coursesPage {
     display: flex;
     flex-direction: column;
-    align-items: center;
+
     padding-left: 250px; /* Width of the sidebar */
+
 
   }
   .coursesPage h2 {
-    width: 100%;
-    text-align: center;
+    text-align: start;
+    margin: 30px 0 0px 60px;
+    
   
 }
 
   .calendarContainer {
     flex: 1;
-    padding: 30px;
-    width: 100%;
+    margin: 0 30px;
   }
   
   .eventDetails {
@@ -39,9 +40,11 @@
       flex-direction: column;
       padding: 0 5px;
     }
-  
+
     .calendarContainer {
-      padding:0 15px;
+      margin: 0;
+      flex: none;
     }
+    
   }
   

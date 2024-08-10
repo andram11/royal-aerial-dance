@@ -90,7 +90,7 @@ const Filter: React.FC<FilterProps> = ({ initialCriteria = {} }) => {
 
   return (
     <div className={styles.filterSidebar}>
-      <div className={styles.filterContainer}>
+      
         {renderSelect('category', [
           'Pole Dance',
           'Aerial Hoop',
@@ -129,7 +129,7 @@ const Filter: React.FC<FilterProps> = ({ initialCriteria = {} }) => {
           'All levels'
         ])}
       </div>
-    </div>
+
   );
 };
 
