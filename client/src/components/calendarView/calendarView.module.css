@@ -1,77 +1,121 @@
-/* CalendarView.module.css */
-
 .calendarContainer {
-    margin: 20px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background-color: #f9f9f9;
+  margin: 2%;
+  padding: 10px;
+  box-shadow: 2px 0 5px var(--secondary-color);
+  border-radius: 8px;
+  background-color: white;
+  font-family: "Josefin Sans", sans-serif;
+  font-size: 1.2rem;
+  color: var(--primary-color)
+}
+
+:global .rbc-calendar {
+  height: 700px;
+}
+:global .rbc-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: "Josefin Sans", sans-serif;
+}
+
+:global(.rbc-toolbar button:active),
+:global(.rbc-toolbar button.rbc-active){
+  background-color: var(--tertiary-color);
+}
+
+
+:global .rbc-btn-group{
+  border: 1px solid var(--secondary-color);
+}
+
+
+
+:global .rbc-btn-group button {
+  border: 1px solid var(--secondary-color);
+  font-family: "Josefin Sans", sans-serif;
+  font-size: 1rem;
+
+}
+
+:global .rbc-btn-group button:active,
+:global .rbc-btn-group button:hover,
+:global .rbc-btn-group button:focus {
+  background-color: var(--tertiary-color);
+}
+
+
+
+:global .rbc-toolbar  .rbc-toolbar-label {
+  font-size: 1.5rem;
+  font-weight: bold;
+  padding: 15px 0;
+}
+
+
+:global .rbc-time-header-content .rbc-header button {
+  font-family: "Josefin Sans", sans-serif;
+  font-size: 1rem;
+  padding: 5px 5px 0 0;
+  color: var(--primary-color)
+}
+
+:global .rbc-today {
+  background-color: var(--tertiary-color);
+
+}
+
+:global .rbc-events-container .rbc-event {
+  background-color: var(--secondary-color);
+  border: 1px solid var(--secondary-color);
+
+}
+
+
+:global(.rbc-event:focus), 
+:global(.rbc-day-slot), 
+:global(.rbc-background-event:focus){
+  outline: 1px auto white;
+}
+
+:global .rbc-event-content {
+  font-size: 0.9rem;
+}
+
+:global .rbc-current-time-indicator {
+  background-color: var(--primary-color);
+}
+
+ /*Hide all day cell display, it takes too much space and not really applicable to the business case*/
+:global .rbc-allday-cell {
+  display: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+
+  :global .rbc-toolbar {
+    flex-direction: column;
+    align-items: flex-start;
   }
-  
-  .rbc-toolbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
+
+  :global .rbc-timeslot-group{
+    min-height: 60px;
   }
-  
-  .rbc-toolbar button {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 4px;
-    cursor: pointer;
+  :global .rbc-time-header-content .rbc-header button {
+    font-size: 1.2rem;
+    white-space: normal; /* Allows the text to wrap */
+    word-wrap: break-word;
+
   }
-  
-  .rbc-toolbar button:hover {
-    background-color: #0056b3;
+ 
+ 
+  :global .rbc-toolbar .rbc-toolbar-label {
+    font-size: 1em;
   }
-  
-  .rbc-toolbar .rbc-toolbar-label {
-    font-size: 1.2em;
-    font-weight: bold;
+
+  :global .rbc-event {
+    font-size: 0.8em;
+ 
   }
-  
-  .rbc-event {
-    background-color: #007bff;
-    border: 1px solid #0056b3;
-    color: white;
-    padding: 2px 5px;
-    border-radius: 4px;
-  }
-  
-  .rbc-event:hover {
-    background-color: #0056b3;
-  }
-  
-  .rbc-day-bg:hover {
-    background-color: #f1f1f1;
-  }
-  
-  /* Responsive adjustments */
-  @media (max-width: 768px) {
-    .calendarContainer {
-      margin: 10px;
-      padding: 5px;
-    }
-  
-    .rbc-toolbar {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-  
-    .rbc-toolbar button {
-      margin-bottom: 5px;
-    }
-  
-    .rbc-toolbar .rbc-toolbar-label {
-      font-size: 1em;
-    }
-  
-    .rbc-event {
-      font-size: 0.8em;
-      padding: 1px 3px;
-    }
-  }
-  
+}

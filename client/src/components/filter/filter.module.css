@@ -1,26 +1,42 @@
 /* filter.module.css */
 .filterSidebar {
-    width: 250px;
-    padding: 20px;
-    border-right: 1px solid #ddd;
-    background-color: #f9f9f9;
+    width: 200px;
+    margin-left: 10px;
+    padding: 30px;
     position: fixed;
-    top: 60px; /* Adjust this value to the height of your navbar */
+    top: 150px; /* Adjust this value to the height of your navbar */
     left: 0;
-    height: calc(100vh - 60px); /* Adjust this value to the height of your navbar */
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
     overflow-y: auto; /* Ensure content is scrollable if it overflows */
-  }
-  
-  .filterContainer {
     display: flex;
     flex-direction: column;
     gap: 20px;
+    
   }
   
   .selectContainer {
     display: flex;
     flex-direction: column;
+    
+  }
+
+  .selectContainer select{
+    font-family: var(--primary-font);
+    font-size: 1rem;
+    padding: 8px 2px;
+    color: var(--secondary-color);
+    border-color: var(--secondary-color);
+    box-shadow: 2px 0 5px var(--secondary-color);
+  }
+
+
+  select:active {
+    outline: 1px solid var(--secondary-color); /* Orange dashed outline when active */
+  }
+
+  .selectContainer select option {
+    color: var(--primary-color); /* Color of the text inside the option */
+    background-color: white; /* Background color for the option items */
+
   }
   
   .pillsContainer {
@@ -33,38 +49,32 @@
   .pill {
     display: inline-block;
     padding: 5px 10px;
-    border: 1px solid black;
     border-radius: 15px;
-    background: #f0f0f0;
+    background: var(--tertiary-color);
+    padding: 10px;
   }
   
   .pill button {
     margin-left: 10px;
+    border: none;
+    background-color: var(--tertiary-color);
+    font-weight: bold;
+    color: var(--secondary-color)
   }
   
   /* Responsive adjustments */
   @media (max-width: 768px) {
     .filterSidebar {
       position: relative;
-      width: 100%;
+      width: 90%;
       height: auto;
       top: 0;
       left: 0;
-      border-right: none;
-      border-bottom: 1px solid #ddd;
       box-shadow: none;
-      padding: 10px;
-      margin-top: 60px; /* Adjust for navbar height */
-    }
-  
-    .filterContainer {
-      flex-direction: row;
-      flex-wrap: wrap;
+      flex-direction: column;
       gap: 10px;
-    }
-  
-    .selectContainer {
-      flex: 1;
-    }
+      margin-left: 0;
+
+    } 
   }
   

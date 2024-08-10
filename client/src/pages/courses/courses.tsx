@@ -131,11 +131,14 @@ const parseTimeslot = (
   
     return (
       <div className={styles.coursesPage}>
-        <Filter initialCriteria={initialCriteria}/>
+         <h2>Courses</h2>
+
+         <Filter initialCriteria={initialCriteria}/>
+        
         {loading && <p>Loading...</p>}
         {error && <p>{error}</p>}
         <div className={styles.calendarContainer}>
-          <h2>Courses</h2>
+         
           <CalendarView events={events} onSelectEvent={handleSelectEvent} />
           {selectedEvent && (
             <EventDetails
