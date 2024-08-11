@@ -4,6 +4,7 @@ import { useAppSelector } from '../../hooks'
 import { selectCartItems, selectTotalPrice } from '../../state/cart/cartSlice'
 import styles from './checkout.module.css'
 import { selectIsAuthenticated, selectUser } from '../../state/user/userSlice'
+import Button from '../../components/button/button.component'
 
 const Checkout: React.FC = ()=> {
     const cartItems= useAppSelector(selectCartItems)
@@ -21,22 +22,25 @@ const Checkout: React.FC = ()=> {
                 <div className={styles.headerBlock}><span>Details</span></div>
                 <div className={styles.headerBlock}><span>Quantity</span></div>
                 <div className={styles.headerBlock}><span>Price</span></div>
-                <div className={styles.headerBlock}><span> </span></div>
                 
             </div>
-            {
-                cartItems.map( (cartItem)=> {
-                    return(
-                        <CheckoutItem key={cartItem.id} cartItem={cartItem}/>
-                    )
-                })
-            }
-                <div className={styles.total}>Total: EUR {cartTotal}</div>
+            {cartItems.length === 0 ? (
+          <p className={styles.emptyMessage}>There are no items in your cart</p>
+        ) : (
+          cartItems.map((cartItem) => (
+            <CheckoutItem key={cartItem.id} cartItem={cartItem} />
+          ))
+        )}
+
+        {cartItems.length > 0 && (
+          <div className={styles.total}>Total: EUR {cartTotal}</div>
+        )}
         </div>
+        <div className={styles.buttonContainer}>
         <Link to={
             isAuthenticated&& user ? '/registration': '/login'
-        } > <button>Register and pay</button> </Link>
-            
+        } > <Button text="Register and pay" onClick={() => {}}/> </Link>
+            </div>
        </> 
     )
 }
