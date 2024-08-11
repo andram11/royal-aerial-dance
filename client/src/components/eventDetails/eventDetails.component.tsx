@@ -1,5 +1,9 @@
+import styles from "./eventDetails.module.css";
+import Button from "../button/button.component";
 
-import styles from './eventDetails.module.css';
+function capitalizeFirstLetter(str:string, locale=navigator.language) {
+  return str.replace(/^\p{CWU}/u, char => char.toLocaleUpperCase(locale));
+}
 
 interface EventDetailsProps {
   event: {
@@ -7,13 +11,22 @@ interface EventDetailsProps {
     title: string;
     start: Date;
     end: Date;
-    description: string;
+    level: string;
+    teacher: string;
+    price: number;
+    location: string;
+    dayOfWeek: string;
+    timeslot: string;
   };
   onAddToCart: (courseId: string) => void;
   onClose: () => void;
 }
 
-const EventDetails: React.FC<EventDetailsProps> = ({ event, onAddToCart, onClose }) => {
+const EventDetails: React.FC<EventDetailsProps> = ({
+  event,
+  onAddToCart,
+  onClose,
+}) => {
   const handleAddToCart = (courseId: string) => {
     onAddToCart(courseId);
     onClose();
@@ -23,21 +36,20 @@ const EventDetails: React.FC<EventDetailsProps> = ({ event, onAddToCart, onClose
     <div className={styles.eventDetailsContainer}>
       <div className={styles.eventDetailsHeader}>
         <h2 className={styles.eventDetailsTitle}>{event.title}</h2>
-        <button className={styles.eventDetailsCloseButton} onClick={onClose}>
-          &times;
-        </button>
       </div>
-      <p className={styles.eventDetailsDescription}>{event.description}</p>
-      <p className={styles.eventDetailsTime}>
-        {event.start.toLocaleString()} - {event.end.toLocaleString()}
+      <p className={styles.eventDetailsDescription}>Teacher : {capitalizeFirstLetter(event.teacher)}</p>
+      <p className={styles.eventDetailsDescription}>Level: {capitalizeFirstLetter(event.level)}</p>
+      <p className={styles.eventDetailsDescription}>Where: {capitalizeFirstLetter(event.location)}</p>
+      <p className={styles.eventDetailsDescription}>
+      When: {capitalizeFirstLetter(event.dayOfWeek)} {event.start.toLocaleString().split(',')[0]} between {event.timeslot}
       </p>
+      <p className={styles.eventDetailsDescription}>Price: {event.price} EUR</p>
       <div className={styles.eventDetailsActions}>
-        <button className={styles.eventDetailsButton}  onClick={() => handleAddToCart(event.id)}>
-        Add to cart
-        </button>
-        <button className={styles.eventDetailsButton} onClick={onClose}>
-          Close
-        </button>
+        <Button
+          text="Add to cart"
+          onClick={() => handleAddToCart(event.id)}/>
+        <Button text="Close" onClick={onClose}/>
+          
       </div>
     </div>
   );

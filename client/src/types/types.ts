@@ -47,8 +47,13 @@ export interface CourseEvent {
         title: string;
         start: Date;
         end: Date;
-        description: string;
+        location: string;
+        teacher: string;
+        price: number;
+        level: string;
+        dayOfWeek: string;
         recurrent: boolean;
+        timeslot: string;
         recurrenceType?: 'weekly' | 'biMonthly' | 'monthly';
       }
 
