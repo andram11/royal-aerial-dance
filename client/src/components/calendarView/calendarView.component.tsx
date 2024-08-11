@@ -26,8 +26,13 @@ interface CourseEvent extends Event {
   title: string;
   start: Date;
   end: Date;
-  description: string;
+  teacher: string;
+  location: string;
+  price: number; 
+  dayOfWeek: string;
   recurrent: boolean;
+  level: string;
+  timeslot: string;
   recurrenceType?: "weekly" | "biMonthly" | "monthly";
 }
 
