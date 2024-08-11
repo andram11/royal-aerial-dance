@@ -1,9 +1,6 @@
 import styles from "./eventDetails.module.css";
 import Button from "../button/button.component";
-
-function capitalizeFirstLetter(str:string, locale=navigator.language) {
-  return str.replace(/^\p{CWU}/u, char => char.toLocaleUpperCase(locale));
-}
+import { capitalizeFirstLetter } from "../../utils";
 
 interface EventDetailsProps {
   event: {

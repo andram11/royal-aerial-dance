@@ -1,30 +1,45 @@
-.checkoutItemContainer {
-  width: 100%;
-  display: flex;
-  min-height: 100px;
-  border-bottom: 1px solid darkgrey;
-  padding: 15px 0;
-  font-size: 20px;
+.parentContainer {
+  display: grid;
+  grid-template-columns: auto 0px; /* Adjust the second column width for the remove button */
   align-items: center;
+ 
 }
 
-.imageContainer {
-  width: 23%;
-  padding-right: 15px;
+.checkoutItemContainer {
+  display: grid;
+  grid-template-columns:1fr 2fr 3fr 3fr 3fr; /* Adjust the percentages as needed */
+  align-items: center;
+  gap: 10px; /* Adjust gap between columns */
+  min-height: 100px;
+  border-bottom: 1px solid var(--primary-color);
+  padding: 15px 0;
+  font-size: 1rem;
+}
+
+.imageContainer { 
+  text-align: center;
 }
 
 img {
-  width: 100%;
-  height: 100%;
+  width: 30%;
+  height: auto;
 }
 
-.baseSpan {
-  width: 23%;
+.spanTitle {
+  word-wrap: break-word;
+}
+
+.spanDetails {
+  text-align: center; /* Center the text within the details column */
 }
 
 .quantity {
-  width: 23%;
   display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1rem;
+
+  margin: 0 10px
 }
 
 .arrow {
@@ -35,7 +50,12 @@ img {
   margin: 0 10px;
 }
 
+.baseSpan {
+  text-align: center;
+}
+
 .removeButton {
-  padding-left: 12px;
   cursor: pointer;
+
+  justify-self: center; /* Center the remove button within its grid cell */
 }
