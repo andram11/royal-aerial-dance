@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa"; // You can use any icon library you prefer
+import styles from './passwordInput.module.css'
 
 interface PasswordInputProps {
   label: string;
@@ -22,12 +23,13 @@ const PasswordInput: React.FC<PasswordInputProps> = ({ label, value, onChange })
         value={value}
         onChange={onChange}
         required
+        className={styles.input}
       />
       <span
         onClick={toggleVisibility}
-        style={{ position: "relative", right: 0, top: 0, cursor: "pointer" }}
+        style={{ position: "absolute", right: 5, top: 40, bottom: 0, cursor: "pointer"}}
       >
-        {isVisible ? <FaEyeSlash /> : <FaEye />}
+        {isVisible ? <FaEye style={{opacity: 0.3}}/> : <FaEyeSlash style={{opacity: 0.3}} />}
       </span>
     </div>
   );

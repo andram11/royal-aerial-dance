@@ -1,18 +1,18 @@
-import { SignUpResponse, registerUser } from "../../api/api-service";
+import { registerUser } from "../../api/api-service";
 import UserForm from "../../components/userForm/userForm.component";
-import { useAppDispatch, useAppSelector} from "../../hooks";
-import { logUser, selectError } from "../../state/user/userSlice";
+import styles from './register.module.css'
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Button from "../../components/button/button.component";
 
 const Register = () => {
-  const dispatch = useAppDispatch();
+
   const [formData, setFormData] = useState({
     username: "",
     password: "",
   });
   const [registrationError, setRegistrationError]= useState<string | null>(null);
-  const loginError = useAppSelector(selectError);
+
   const navigate= useNavigate()
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -23,18 +23,6 @@ const Register = () => {
     });
   };
 
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const resultAction = await dispatch(logUser(formData));
-    if (logUser.rejected.match(resultAction)) {
-      // If the action is rejected, show the error message
-      setRegistrationError(resultAction.payload as string);
-    } else {
-      // Clear the error and navigate to checkout
-      setRegistrationError(null);
-      navigate('/checkout');
-    }
-  };
 
   const handleRegistration = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -54,17 +42,23 @@ const Register = () => {
   };
 
   return (
-    <>
+    <div className={styles.loginContainer}>
+      <div className={styles.loginContent}>
   
       <h2>New here or don't have a Google account? Create a new account here. </h2>
-      <h3>You already have an account? Then sign in <a href="/login">here.</a> </h3>
+      <h4>You already have an account? Then sign in <a href="/login">here.</a> </h4>
       {registrationError && <div style={{ color: 'red' }}>{registrationError}</div>}
       <UserForm
         handleSubmit={handleRegistration}
         handleChange={handleChange}
         buttonText="Register"
       />
-    </>
+      <div className={styles.buttonsContainer}>
+      <Button text="Login" type="submit" />
+      </div>
+     
+      </div>
+    </div>
   );
 };
 

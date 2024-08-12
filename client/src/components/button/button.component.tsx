@@ -3,8 +3,9 @@ import React from 'react';
 import styles from './button.module.css'
 
 interface ButtonProps {
-    onClick: () => void;
-    text: string
+    onClick?: () => void;
+    text: string;
+    type?: string;
 }
 
 const Button: React.FC<ButtonProps> = ({ onClick, text })  => {

@@ -1,5 +1,6 @@
 import styles from "./userForm.module.css";
 import { useState } from "react";
+import Button from "../button/button.component";
 
 import PasswordInput from "../passwordInput/passwordInput.component";
 
@@ -22,7 +23,7 @@ const UserForm: React.FC<UserFormProps> = ({
   };
   return (
     <div>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} >
       <label htmlFor="username">Email:</label>
         <input
           type="email"
@@ -37,7 +38,9 @@ const UserForm: React.FC<UserFormProps> = ({
           value={password}
           onChange={handlePasswordChange}
         />
-        <button type="submit">{buttonText}</button>
+       
+       
+       
       </form>
     </div>
   );

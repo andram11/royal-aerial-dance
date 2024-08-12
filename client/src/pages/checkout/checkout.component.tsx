@@ -39,7 +39,7 @@ const Checkout: React.FC = ()=> {
         <div className={styles.buttonContainer}>
         <Link to={
             isAuthenticated&& user ? '/registration': '/login'
-        } > <Button text="Register and pay" onClick={() => {}}/> </Link>
+        } > {cartItems.length > 0 && <Button text="Register and pay" onClick={() => {}}/>} </Link>
             </div>
        </> 
     )
