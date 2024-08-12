@@ -4,6 +4,8 @@ import { useAppDispatch, useAppSelector } from "../../hooks";
 import { logUser, selectError} from "../../state/user/userSlice";
 import { useState } from "react";
 import { useNavigate, useLocation} from "react-router-dom";
+import styles from './login.module.css'
+import Button from "../../components/button/button.component";
 
 const Login = () => {
   const dispatch = useAppDispatch();
@@ -64,13 +66,14 @@ const Login = () => {
   };
 
   return (
-    <>
+    <div className={styles.loginContainer}>
+      <div className={styles.loginContent}>
       <h2>
         Already have an account or want to register using a Google account?
       </h2>
-      <h3>Don't have an account yet? Then register <a href="/register">here.</a></h3>
-      <span>Forgot your password? Reset it <a onClick={handlePasswordReset}>here</a> . </span>
-      {passwordReset && ( <form onSubmit={handlePasswordResetSubmit}>
+      <h4>Don't have an account yet? Then register <a href="/register">here.</a></h4>
+      
+      {passwordReset && ( <form onSubmit={handlePasswordResetSubmit} className={styles.formCenteredButton}>
           <span>
             Please provide the email you used for registering your account:
           </span>
@@ -81,17 +84,29 @@ const Login = () => {
             onChange={handleResetEmailChange}
             required
           />
-          <button type="submit">Send Password Reset Email</button>
+          <Button text="Send Password Reset Email" type="submit"/>
         </form>) 
      }
       {loginError && <div style={{ color: "red" }}>{loginError}</div>}
-      <UserForm
-        handleSubmit={handleLogin}
-        handleChange={handleChange}
-        buttonText="Login"
-      />
-      <button onClick={handleGoogleLogin}>Login with Google</button>
-    </>
+      { !passwordReset &&(
+        <div className={styles.loginForm}>
+        <span>Forgot your password? Reset it <a onClick={handlePasswordReset}>here</a>.</span>
+         <UserForm
+         handleSubmit={handleLogin}
+         handleChange={handleChange}
+         buttonText="Login"
+       />
+       <div className={styles.buttonsContainer}> 
+        <Button text="Login" type="submit" />
+       <Button  onClick={handleGoogleLogin} text="Login with Google"></Button>
+       </div> 
+       
+       </div>)
+      }
+     
+   
+      </div>
+    </div>
   );
 };
 
