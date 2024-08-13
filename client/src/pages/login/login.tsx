@@ -95,9 +95,10 @@ const Login = () => {
          handleSubmit={handleLogin}
          handleChange={handleChange}
          buttonText="Login"
+         formData={formData}
        />
        <div className={styles.buttonsContainer}> 
-        <Button text="Login" type="submit" />
+   
        <Button  onClick={handleGoogleLogin} text="Login with Google"></Button>
        </div> 
        

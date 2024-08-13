@@ -4,7 +4,8 @@ import {createUser} from '../../models/users/user.model'
 import { Request, Response } from "express";
 
 export async function httpCreateUser(req: Request, res: Response){
-  const response= await createUser(req.body.username, req.body.password)
+  const response= await createUser(req.body.username, req.body.password, "local")
+  console.log(response)
   if (!response.errors) {
     res.status(200).json({
       data: {

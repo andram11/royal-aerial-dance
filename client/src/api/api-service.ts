@@ -34,6 +34,11 @@ export interface SignUpResponse extends Response {
 
 const today = new Date();
 const startDate = today.toISOString().split("T")[0];
+const endDate = new Date();
+endDate.setFullYear(today.getFullYear() + 1); // Add one year to the current date
+
+// Convert the end date to an ISO string and extract only the date part
+const endDateString = endDate.toISOString().split("T")[0];
 
 export async function getActiveCourses(): Promise<Course[]> {
   try {
@@ -87,7 +92,7 @@ export async function getFilteredCourses(
     );
     let query = new URLSearchParams(filteredCriteria as any).toString();
     query = query.replace(/\+/g, "%20");
-    let searchUrl = `/courses/search?startDate=${startDate}&`;
+    let searchUrl = `/courses/search?endDate=${endDateString}`;
     // if (query.length > 0) {
     //      searchUrl= ``
     // } else {
@@ -143,7 +148,9 @@ export async function registerUser(user: User): Promise<SignUpResponse> {
     if (!response.ok) {
       throw new Error(data.error.errors || "Failed to register.");
     }
+    console.log(data)
     return data;
+
   } catch (err) {
     throw err;
   }

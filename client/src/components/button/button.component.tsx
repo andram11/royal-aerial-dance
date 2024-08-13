@@ -5,12 +5,13 @@ import styles from './button.module.css'
 interface ButtonProps {
     onClick?: () => void;
     text: string;
-    type?: string;
+    type?: 'submit' | 'reset' | 'button'; 
+    disabled?: boolean;
 }
 
-const Button: React.FC<ButtonProps> = ({ onClick, text })  => {
+const Button: React.FC<ButtonProps> = ({ onClick, text, type, disabled})  => {
   return (
-    <button onClick={onClick} className={styles.baseButton}>{text}</button>
+    <button type= {type} onClick={onClick} className={styles.baseButton} disabled={disabled}>{text}</button>
   );
 };
 
