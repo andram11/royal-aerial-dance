@@ -2,6 +2,7 @@ import { useAppDispatch } from "../../hooks";
 import {useState, useEffect }from "react";
 import { fetchCoursesWithCriteria } from "../../state/courses/coursesSlice";
 import styles from './filter.module.css'
+import { capitalizeFirstLetter } from "../../utils";
 
 type SearchCriteriaKey = 'category' | 'location' | 'teacher' | 'dayOfWeek' | 'level';
 
@@ -77,7 +78,7 @@ const Filter: React.FC<FilterProps> = ({ initialCriteria = {} }) => {
         <div className={styles.pillsContainer}>
           {getSelectedItems(name).map(item => (
             <div key={item} className={styles.pill}>
-              {item}
+              {capitalizeFirstLetter(item)}
               <button onClick={() => handleRemoveItem(name, item)}>
                 x
               </button>

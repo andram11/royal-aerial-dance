@@ -27,11 +27,11 @@ const OrderConfirmation: React.FC= () => {
       }, [dispatch]);
 
     return (
-        <div>
+        <div className={styles.orderConfirmationContainer}>
             <h2> Order Status </h2>
             {
                 orderStatus==='succeeded'? (
-                    <div>
+                    <div  className={styles.successMessage}>
                        <p>We have succesfully received your registration for the following course:
                         </p> 
                         {cartItems.map(cartItem=> <li key={cartItem.id}>{cartItem.title}</li>)}
@@ -42,7 +42,7 @@ const OrderConfirmation: React.FC= () => {
                    
                     </div>
                 ): (
-                    <div>
+                    <div className={styles.errorMessage}>
                         <p>Unfortunately there was an error processing your order.</p>
                         <p>We apologize for any incovenience and recommend you attempt again later.</p>
                         <p>If the issue persists, please reach out at info@royalaerial.com</p>

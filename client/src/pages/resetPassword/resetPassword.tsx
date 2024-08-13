@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { resetPassword } from "../../api/api-service"; // You will create this API function
 import PasswordInput from "../../components/passwordInput/passwordInput.component";
+import styles from './resetPassword.module.css'
+import Button from "../../components/button/button.component";
 
 const ResetPassword: React.FC = () => {
   const resetParams = new URLSearchParams(location.search);
@@ -40,25 +42,28 @@ const ResetPassword: React.FC = () => {
   };
 
   return (
-    <div>
+    <div className={styles.container} >
       <h2>Reset Password</h2>
       {error && <div style={{ color: "red" }}>{error}</div>}
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className={styles.formCenteredButton}>
         <div>
-          <label>Email:</label>
+          <label>Email</label>
           <input type="email" value={email || ""} required />
         </div>
         <PasswordInput
-          label="New Password:"
+          label="New Password"
           value={newPassword}
           onChange={(e) => setNewPassword(e.target.value)}
         />
         <PasswordInput
-          label="Confirm Password:"
+          label="Confirm Password"
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
         />
-        <button type="submit">Reset Password</button>
+     
+        <Button type="submit" text="Reset password"/>
+        
+        
       </form>
       {error && <div style={{ color: "red" }}>{error}</div>}
     </div>

@@ -4,19 +4,22 @@ import Users from "./user.mongo";
 
 export async function existsUser(username: string) {
   try {
+
     return await Users.findOne({
       username: username,
     });
+    
   } catch (err){
     return err
   }
    
   }
 
-export async function saveUser(username: string) {
+export async function saveUser(username: string, type: string) {
   try {
     return await Users.create({
-      username: username
+      username: username,
+      type: type
     })
   } catch(err){
     return err
@@ -54,7 +57,7 @@ export async function updatePasswordResetToken(updateBody: PasswordResetRequest)
   }
 }
 
-export async function createUser(username: ParsedQs, password: string){
+export async function createUser(username: ParsedQs, password: string, type: string){
   try {
       const existsUser= await Users.findOne({
         username: username,
@@ -64,11 +67,12 @@ export async function createUser(username: ParsedQs, password: string){
           errors: "Username already exists"
         })
       } 
-      return await Users.register(
-          new Users({ 
-            username: username 
-          }), password
-        )
+      const newUser = new Users({
+        username: username,
+        type: type, // Include type when creating the user
+      });
+  
+      return await Users.register(newUser, password);
        
   } catch (err){
       return err

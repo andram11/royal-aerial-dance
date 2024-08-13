@@ -63,7 +63,6 @@ export async function httpHandleForgotPassword(req: Request, res:Response) {
 
 //Handle password reset flow
 export async function httpHandlePasswordReset(req: Request, res: Response) {
-  console.log(req.query)
  const response = await resetPassword(req.query) 
  if (!response.errors) {
   res.status(200).json({

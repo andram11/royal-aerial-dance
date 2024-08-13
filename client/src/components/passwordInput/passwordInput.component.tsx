@@ -20,6 +20,7 @@ const PasswordInput: React.FC<PasswordInputProps> = ({ label, value, onChange })
       <label>{label}</label>
       <input
         type={isVisible ? "text" : "password"}
+        name= "password"
         value={value}
         onChange={onChange}
         required

@@ -3,11 +3,12 @@ import { useState } from 'react'
 import { useAppSelector, useAppDispatch } from '../../hooks'
 import { createPaymentRequest } from '../../api/api-service'
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js'
-import { clearCart, selectCartItems, selectTotalPrice } from '../../state/cart/cartSlice'
+import { selectCartItems, selectTotalPrice } from '../../state/cart/cartSlice'
 import { selectParticipantDetails } from '../../state/participant/participantSlice'
 import { Payment } from '../../types/types'
 import { setOrderStatus } from '../../state/order/orderSlice'
 import { useNavigate } from 'react-router-dom'
+import Button from '../button/button.component'
 
 const PaymentForm = ()=> {
     const dispatch= useAppDispatch()
@@ -69,11 +70,14 @@ const PaymentForm = ()=> {
 
 return(
     <div className={styles.paymentFormContainer}>
+        <h3 className={styles.h3Style}>This is a test integration with Stripe so if you want to test it make sure to use the 
+            test VISA from the Stripe documentation <a href="https://docs.stripe.com/testing">here</a>.
+        </h3>
     <form className={styles.formContainer} onSubmit={paymentHandler}>
         <h2>Credit Card Payment </h2>
-        <CardElement/>
-       <button className={styles.button} type= 'submit' disabled={isProcessingPayment}>
-       {isProcessingPayment ? 'Processing...' : 'PAY'}</button> 
+        <CardElement className={styles.StripeElement}/>
+        <Button text={isProcessingPayment ? 'Processing...' : 'PAY'} type= 'submit' disabled={isProcessingPayment}/>
+      
     </form>
 
     </div>

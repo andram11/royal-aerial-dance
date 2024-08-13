@@ -33,7 +33,7 @@ interface CourseEvent extends Event {
   recurrent: boolean;
   level: string;
   timeslot: string;
-  recurrenceType?: "weekly" | "biMonthly" | "monthly";
+  recurrenceType: "weekly" | "biMonthly" | "monthly";
 }
 
 interface CalendarViewProps {

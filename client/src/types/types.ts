@@ -6,7 +6,7 @@ export interface Course {
         startDate: Date,
         endDate: Date,
         recurrent: boolean,
-        recurrenceType: string,
+        recurrenceType: 'weekly' | 'biMonthly' | 'monthly',
         level: string,
         dayOfWeek: string,
         timeslot: string,
@@ -54,7 +54,7 @@ export interface CourseEvent {
         dayOfWeek: string;
         recurrent: boolean;
         timeslot: string;
-        recurrenceType?: 'weekly' | 'biMonthly' | 'monthly';
+        recurrenceType: 'weekly' | 'biMonthly' | 'monthly';
       }
 
 export interface CartItem {

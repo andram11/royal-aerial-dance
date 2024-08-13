@@ -11,6 +11,12 @@ const userSchema= new mongoose.Schema({
         match: [/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/, 'Please fill a valid email address']
 
     },
+    type: {
+      required: false,
+      lowercase: true,
+      type: String ,
+      enum: ["thirdParty", "local"]
+    },
 
     passwordResetToken: {
       //applicable only for password reset

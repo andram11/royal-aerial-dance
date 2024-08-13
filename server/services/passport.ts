@@ -54,7 +54,7 @@ passport.use(
       try {
         const user = await existsUser(userEmail);
         if (!user) {
-          await saveUser(userEmail);
+          await saveUser(userEmail, "thirParty");
         } 
       } catch (err) {
         return err;
@@ -63,6 +63,8 @@ passport.use(
     }
   )
 );
+
+
 //Google login serialisers
 //Save the session to cookie
 
@@ -80,9 +82,5 @@ passport.deserializeUser((id: string, done) => {
 });
 
 passport.use(new LocalStrategy(userSchema.authenticate()));
-
-// //Local login serialisers
-// passport.serializeUser(userSchema.serializeUser());
-// passport.deserializeUser(userSchema.deserializeUser());
 
 export default passport;
