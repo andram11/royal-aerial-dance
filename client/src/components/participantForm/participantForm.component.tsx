@@ -4,7 +4,7 @@ import { ParticipantDetails } from '../../types/types'
 import { useNavigate } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '../../hooks'
 import { selectParticipantDetails, setParticipant } from '../../state/participant/participantSlice'
-
+import Button from '../button/button.component'
 
 
 const calculateAge = (birthDate: string): number => {
@@ -65,7 +65,7 @@ useEffect(()=> {
 
     return(
 
- 
+      <div className={styles.participantFormContainer}>
         <form className={styles.form} onSubmit={handleSubmit}>
            {error && <p className={styles.error}>{error}</p>}
         <div className={styles.formGroup}>
@@ -123,8 +123,12 @@ useEffect(()=> {
             onChange={handleChange}
           />
         </div>
-        <button type="submit" >Proceed to payment</button>
+        <div className={styles.formCenteredButton}>
+        <Button type="submit" text="Proceed to payment"/>
+        </div>
+       
       </form>
+      </div>
     )
 }
 
