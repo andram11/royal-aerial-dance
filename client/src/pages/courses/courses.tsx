@@ -15,6 +15,8 @@ import styles from "./courses.module.css";
 
 import { CourseEvent, CartItem } from "../../types/types";
 
+import moment from "moment";
+
 const parseTimeslot = (
   startDate: Date,
   endDate: Date,
@@ -26,23 +28,27 @@ const parseTimeslot = (
   const [endHour, endMinute] = endTime.split(":").map(Number);
 
   const occurrences = [];
-  let currentStartDate = new Date(startDate);
+  let currentStartDate = moment(startDate).startOf("day");
 
-  while (currentStartDate <= endDate) {
-    const startOccurrence = new Date(currentStartDate);
-    startOccurrence.setHours(startHour, startMinute);
+  while (currentStartDate.isSameOrBefore(moment(endDate), "day")) {
+    const startOccurrence = currentStartDate.clone().set({
+      hour: startHour,
+      minute: startMinute,
+    });
 
-    const endOccurrence = new Date(currentStartDate); // Correct endOccurrence calculation
-    endOccurrence.setHours(endHour, endMinute);
+    const endOccurrence = currentStartDate.clone().set({
+      hour: endHour,
+      minute: endMinute,
+    });
 
-    occurrences.push({ start: startOccurrence, end: endOccurrence });
+    occurrences.push({ start: startOccurrence.toDate(), end: endOccurrence.toDate() });
 
     if (recurrenceType === "weekly") {
-      currentStartDate.setDate(currentStartDate.getDate() + 7);
+      currentStartDate.add(7, "days");
     } else if (recurrenceType === "biMonthly") {
-      currentStartDate.setMonth(currentStartDate.getMonth() + 2);
+      currentStartDate.add(2, "months");
     } else if (recurrenceType === "monthly") {
-      currentStartDate.setMonth(currentStartDate.getMonth() + 1);
+      currentStartDate.add(1, "month");
     } else {
       break;
     }
@@ -53,6 +59,7 @@ const parseTimeslot = (
     end: occurrences.map((o) => o.end),
   };
 };
+
 
 const CoursesPage: React.FC = () => {
   const { category } = useParams<{ category: string }>();
@@ -76,8 +83,11 @@ const CoursesPage: React.FC = () => {
   }, [dispatch]);
 
   //reformat course details data to fit the react big calendar
+
+
+
   useEffect(() => {
-    const courseEvents = filteredCourses.flatMap((course) => {
+    const courseEvents = (filteredCourses || []).flatMap((course) => {
       const recurrenceType = course.recurrenceType ?? 'weekly'
       const { start, end } = parseTimeslot(
         new Date(course.startDate),

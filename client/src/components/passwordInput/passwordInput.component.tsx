@@ -28,7 +28,7 @@ const PasswordInput: React.FC<PasswordInputProps> = ({ label, value, onChange })
       />
       <span
         onClick={toggleVisibility}
-        style={{ position: "absolute", right: 5, top: 40, bottom: 0, cursor: "pointer"}}
+        style={{ position: "absolute", right: 5, top: 15, bottom: 0, cursor: "pointer"}}
       >
         {isVisible ? <FaEye style={{opacity: 0.3}}/> : <FaEyeSlash style={{opacity: 0.3}} />}
       </span>

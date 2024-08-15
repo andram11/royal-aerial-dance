@@ -33,8 +33,8 @@ export const fetchCoursesWithCriteria = createAsyncThunk<CourseSearchResult, Fil
 );
 
 const initialState: CourseState= {
-    allCourses: [],
-    filteredCourses: [],
+    allCourses:[],
+    filteredCourses:[],
     totalItems: 0,
     pageLimit: 50,
     loading: false,

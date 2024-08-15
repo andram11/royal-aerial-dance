@@ -92,7 +92,7 @@ export async function getFilteredCourses(
     );
     let query = new URLSearchParams(filteredCriteria as any).toString();
     query = query.replace(/\+/g, "%20");
-    let searchUrl = `/courses/search?endDate=${endDateString}`;
+    let searchUrl = `/courses/search?endDate=${endDateString}&`;
     // if (query.length > 0) {
     //      searchUrl= ``
     // } else {

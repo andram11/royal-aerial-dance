@@ -11,15 +11,13 @@ import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import styles from "./calendarView.module.css";
 
-
-moment.updateLocale('fr', {
+moment.updateLocale("fr", {
   week: {
     dow: 1, // Monday is the first day of the week
   },
 });
 
 const localizer = momentLocalizer(moment);
-
 
 interface CourseEvent extends Event {
   id: string;
@@ -28,7 +26,7 @@ interface CourseEvent extends Event {
   end: Date;
   teacher: string;
   location: string;
-  price: number; 
+  price: number;
   dayOfWeek: string;
   recurrent: boolean;
   level: string;
@@ -54,6 +52,9 @@ const formats: Formats = {
 const minTime = new Date();
 minTime.setHours(10, 0, 0, 0); // Set the time to 10:00 AM
 
+const maxTime = new Date();
+maxTime.setHours(22, 0, 0, 0); // Set the maximum visible time to 10:00 PM
+
 const CalendarView: React.FC<CalendarViewProps> = ({
   events,
   onSelectEvent,
@@ -62,14 +63,18 @@ const CalendarView: React.FC<CalendarViewProps> = ({
     <div className={styles.calendarContainer}>
       <Calendar
         localizer={localizer}
-        events={events}
+        events={events.map((event) => ({
+          ...event,
+          start: moment(event.start).toDate(), // Ensure consistency
+          end: moment(event.end).toDate(), // Ensure consistency
+        }))}
         startAccessor="start"
         endAccessor="end"
-  
         onSelectEvent={onSelectEvent}
         defaultView={Views.WEEK}
         //views={['week']}
         min={minTime} // Set the minimum visible time to 10:00 AM
+        max={maxTime}
         toolbar={true} // Hides the toolbar to remove view options
         formats={formats} // Apply custom formats
       />
