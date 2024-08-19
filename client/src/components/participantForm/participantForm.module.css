@@ -1,13 +1,12 @@
-.participantFormContainer{
+.participantFormContainer {
   display: flex;
-  justify-content: center;  
+  justify-content: center;
   align-items: center;
   flex-direction: column;
   min-height: 100vh; /* Full viewport height to vertically center */
   padding: 20px;
 
   box-sizing: border-box;
-
 }
 
 .formCenteredButton {
@@ -22,46 +21,43 @@
 
 .form {
   width: 100%;
-    max-width: 600px;
-    margin: 30px 0;
-    padding: 20px;
-    border: 1px solid var(--secondary-color);
-    border-radius: 5px;
-    background-color: white;
-  }
-  
-  .formGroup {
-    margin-bottom: 15px;
-  }
-  
+  max-width: 600px;
+  margin: 30px 0;
+  padding: 20px;
+  border: 1px solid var(--secondary-color);
+  border-radius: 5px;
+  background-color: white;
+}
 
+.formGroup {
+  margin-bottom: 15px;
+}
 
-  .formGroup label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-    color: var(--primary-color)
-  }
-  
-  .formGroup input {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid var(--secondary-color);
-    border-radius: 3px;
-  }
-  
-  .submitButton {
-    display: inline-block;
-    padding: 10px 20px;
-    font-size: 16px;
-    color: #fff;
-    background-color: #007bff;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
-  }
-  
-  .submitButton:hover {
-    background-color: #0056b3;
-  }
-  
+.formGroup label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: var(--primary-color);
+}
+
+.formGroup input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid var(--secondary-color);
+  border-radius: 3px;
+}
+
+.submitButton {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.submitButton:hover {
+  background-color: #0056b3;
+}

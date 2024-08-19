@@ -36,3 +36,27 @@
 .navLink:hover {
   color: var(--primary-color);
 }
+
+.cartCount {
+  position: absolute;
+  top: 0px;
+  right: 150px;
+  background-color: white; /* Red background for visibility */
+  color: var(--primary-color);
+  font-size: 12px;
+  width: 15px;
+  height: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-weight: bold;
+}
+
+.userIconContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100px; /* Ensure consistent width */
+  
+}

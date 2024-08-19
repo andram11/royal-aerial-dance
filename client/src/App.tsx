@@ -14,13 +14,17 @@ import Login from "./pages/login/login.tsx";
 import ProtectedRoute from "./components/protectedRoute/protectedRoute.component.tsx";
 import Callback from "./pages/authCallback/authCallback.tsx";
 import ResetPassword from "./pages/resetPassword/resetPassword.tsx";
+import Layout from "./components/layout.component.tsx";
+import Footer from "./components/footer/footer.component.tsx";
 
 function App() {
 
 
   return (
+    <>
+   <Navigation/>
     <Routes>
-      <Route path="/" element={<Navigation />}>
+    
         <Route index element={<Homepage />} />
         <Route path="/courses" element= {<CoursesPage/>} />
         <Route path="/courses/:category" element={<CoursesPage/>} />
@@ -33,8 +37,10 @@ function App() {
         <Route path="/auth/callback" element={<Callback />} />
         <Route path="/callback/resetPassword" element={<ResetPassword />} />
         <Route path="*" element={<NotFound />} />
-      </Route>
+     
     </Routes>
+    <Footer/>
+    </>
   );
 }
 
