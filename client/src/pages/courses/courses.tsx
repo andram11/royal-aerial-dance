@@ -36,6 +36,7 @@ const parseTimeslot = (
       minute: startMinute,
     });
 
+
     const endOccurrence = currentStartDate.clone().set({
       hour: endHour,
       minute: endMinute,

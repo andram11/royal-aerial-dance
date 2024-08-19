@@ -1,3 +1,4 @@
+
 .calendarContainer {
   margin: 2%;
   padding: 10px;
@@ -9,9 +10,7 @@
   color: var(--primary-color)
 }
 
-:global .rbc-calendar {
-  height: 700px;
-}
+
 :global .rbc-toolbar {
   display: flex;
   justify-content: space-between;
@@ -51,6 +50,7 @@
   font-weight: bold;
   padding: 15px 0;
 }
+
 
 
 :global .rbc-time-header-content .rbc-header button {

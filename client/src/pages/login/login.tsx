@@ -6,9 +6,11 @@ import { useState } from "react";
 import { useNavigate, useLocation} from "react-router-dom";
 import styles from './login.module.css'
 import Button from "../../components/button/button.component";
+import { selectCartItems } from "../../state/cart/cartSlice";
 
 const Login = () => {
   const dispatch = useAppDispatch();
+  const cartItems = useAppSelector(selectCartItems);
   const [formData, setFormData] = useState({
     username: "",
     password: "",
@@ -32,6 +34,7 @@ const Login = () => {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    localStorage.setItem('cartItems', JSON.stringify(cartItems));
     const resultAction = await dispatch(logUser(formData));
     if (!logUser.rejected.match(resultAction)) {
         // Clear the error and navigate to checkout

@@ -1,5 +1,3 @@
-// CalendarView.tsx
-
 import {
   Calendar,
   momentLocalizer,
@@ -59,9 +57,11 @@ const CalendarView: React.FC<CalendarViewProps> = ({
   events,
   onSelectEvent,
 }) => {
+ 
   return (
     <div className={styles.calendarContainer}>
       <Calendar
+      style= {{height: 700}}
         localizer={localizer}
         events={events.map((event) => ({
           ...event,
