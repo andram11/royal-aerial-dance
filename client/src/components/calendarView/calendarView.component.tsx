@@ -5,7 +5,7 @@ import {
   Views,
   Formats,
 } from "react-big-calendar";
-import moment from "moment";
+import moment from "moment-timezone";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import styles from "./calendarView.module.css";
 
@@ -57,10 +57,14 @@ const CalendarView: React.FC<CalendarViewProps> = ({
   events,
   onSelectEvent,
 }) => {
+
+
  
   return (
-    <div className={styles.calendarContainer}>
-      <Calendar
+    <div className={styles.calendarContainer } >
+      <Calendar 
+      step={30} // Each slot represents 30 minutes
+      timeslots={2} // Show 2 slots per hour (e.g., 10:00, 10:30)
       style= {{height: 700}}
         localizer={localizer}
         events={events.map((event) => ({

@@ -2,6 +2,7 @@
 .calendarContainer {
   margin: 2%;
   padding: 10px;
+  margin-bottom: 30px;
   box-shadow: 2px 0 5px var(--secondary-color);
   border-radius: 8px;
   background-color: white;
@@ -28,6 +29,9 @@
   border: 1px solid var(--secondary-color);
 }
 
+:global .rbc-time-content {
+  align-items: stretch;
+}
 
 
 :global .rbc-btn-group button {
