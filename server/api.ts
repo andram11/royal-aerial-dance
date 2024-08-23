@@ -18,7 +18,7 @@ function checkLoggedIn(req: Request, res: Response, next:NextFunction) {
 
 
 //Categories
-const categoriesRouter= require('./routes/categories/categories.router')
+import categoriesRouter from './routes/categories/categories.router'
 api.use(categoriesRouter)
 
 //Courses
