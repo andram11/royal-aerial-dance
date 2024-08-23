@@ -5,10 +5,10 @@
   "main": "server.js",
   "scripts": {
     "test": "jest --detectOpenHandles",
-    "build": "npx tsc",
+    "build": "tsc",
     "test-watch": "jest --watch",
     "watch": "nodemon server.ts",
-    "start": "set PORT=8000 && npx tsc&& node dist/server.js",
+    "start": "set PORT=8000 && node dist/server.js",
     "cluster": "pm2 start src/server.js -i max"
   },
   "keywords": [],
