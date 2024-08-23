@@ -5,7 +5,7 @@ import path from 'path';
 import { configDefaults } from 'vitest/config';
 
 // Determine if we're in the development environment
-const isDev = process.env.NODE_ENV === 'development';
+const isDev = process.env.VITE_NODE_ENV === 'development';
 
 // https://vitejs.dev/config/
 export default defineConfig({
