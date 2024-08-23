@@ -15,7 +15,7 @@ export function httpHandleLogout(req: Request, res: Response, next: NextFunction
         return next(err);
       }
       if (req.session) {
-        req.session.destroy((err) => {
+        req.session.destroy((err:unknown) => {
           if (err) {
             return next(err);
           }
