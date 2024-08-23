@@ -14,13 +14,16 @@ export function httpHandleLogout(req: Request, res: Response, next: NextFunction
       if (err) {
         return next(err);
       }
-      req.session.destroy((err) => {
-        if (err) {
-          return next(err);
-        }
-        res.clearCookie('connect.sid', { path: '/' }); // Ensure the cookie is cleared
-        return res.status(200).json({ message: "Logout successful." });
-      });
+      if (req.session) {
+        req.session.destroy((err) => {
+          if (err) {
+            return next(err);
+          }
+          res.clearCookie('connect.sid', { path: '/' }); // Ensure the cookie is cleared
+          return res.status(200).json({ message: "Logout successful." });
+        });
+      }
+
     });
   } else {
     res.status(400).json({ message: "There was an error." });
