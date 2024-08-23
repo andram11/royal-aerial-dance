@@ -77,7 +77,6 @@ export async function resetPassword(query: ParsedQs) {
     //Check if provided email address (username) exists
 
     const user = await existsUser(query.username as string);
-    console.log(user);
     if (!user) return { message: "Username email does not exist." };
 
     //Check if a reset token exists for the provided username
@@ -108,9 +107,8 @@ export async function resetPassword(query: ParsedQs) {
     }
 
     //Reset user password using passport mongoose plugin (setPassword function is usually used for forgot password use cases)
-    console.log(await user.setPassword(query.password));
+    await user.setPassword(query.password)
     const userSaved = await user.save();
-    console.log(userSaved);
     if (!userSaved) {
       return {
         message: "Password could not be reset. Please try again later.",
