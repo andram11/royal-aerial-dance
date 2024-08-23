@@ -71,7 +71,7 @@ const PaymentForm = ()=> {
 return(
     <div className={styles.paymentFormContainer}>
         <h3 className={styles.h3Style}>This is a test integration with Stripe so if you want to test it make sure to use the 
-            test VISA from the Stripe documentation <a href="https://docs.stripe.com/testing">here</a>.
+            test VISA from the Stripe documentation according to their instructions <a href="https://docs.stripe.com/testing">here</a>.
         </h3>
     <form className={styles.formContainer} onSubmit={paymentHandler}>
         <h2>Credit Card Payment </h2>

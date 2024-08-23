@@ -65,7 +65,7 @@ const CalendarView: React.FC<CalendarViewProps> = ({
       <Calendar 
       step={30} // Each slot represents 30 minutes
       timeslots={2} // Show 2 slots per hour (e.g., 10:00, 10:30)
-      style= {{height: 700}}
+      
         localizer={localizer}
         events={events.map((event) => ({
           ...event,

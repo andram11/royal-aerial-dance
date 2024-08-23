@@ -35,6 +35,7 @@ const Homepage: React.FC= () => {
             <CategoryItem key={category.id} category={category}/>
           
         ))}
+       
       </div>
       <Footer/>
         </>
