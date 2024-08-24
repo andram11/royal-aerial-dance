@@ -75,6 +75,16 @@
 
 }
 
+:global .rbc-month-view {
+  flex: none;
+  height: 100vh;
+}
+
+:global(.rbc-month-view)
+:global(.rbc-row)
+:global(.rbc-event){
+  background-color: var(--secondary-color);
+}
 
 :global(.rbc-event:focus), 
 :global(.rbc-day-slot), 

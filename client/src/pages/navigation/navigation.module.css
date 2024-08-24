@@ -60,3 +60,11 @@
   width: 100px; /* Ensure consistent width */
   
 }
+
+@media (max-width: 768px) {
+  .navLink {
+ 
+    font-size: 0.8rem;
+
+  }
+}

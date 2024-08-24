@@ -52,7 +52,7 @@ const Navigation = ()=> {
             <div className={styles.navLinks}>
             <div className={styles.navLink}>
                   <a href="https://documenter.getpostman.com/view/10964312/2sAXjF7Zp4" style={{color: "var(--primary-color)"}}>
-                  Documentation
+                  Docs
                 </a>
                 
                 </div>
