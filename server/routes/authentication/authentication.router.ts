@@ -10,6 +10,8 @@ interface User {
   email: string;
 }
 
+
+
 //local imports
 import {
   httpHandleLogout,
@@ -43,7 +45,7 @@ authenticationRouter.get(
         id: (req.user as User).id,
         username: (req.user as User).email,
       };
-      res.redirect(`https://localhost:5173/auth/callback?user=${encodeURIComponent(JSON.stringify(user))}&redirect=${encodeURIComponent(redirect)}`);
+      res.redirect(`${process.env.CLIENT_URL_1 as string}/auth/callback?user=${encodeURIComponent(JSON.stringify(user))}&redirect=${encodeURIComponent(redirect)}`);
     }
 );
 
