@@ -32,10 +32,12 @@ app.use(session({
     cookie: {
       httpOnly: true,
       secure: true,
-      maxAge: 24 * 60 * 60 * 1000,
-      sameSite: 'none' // 24 hours
+      maxAge: 24 * 60 * 60 * 1000,//24 hours
+      sameSite: 'None' 
     }
   }))
+
+  app.set("trust proxy", 1)
 
 //Initializing Passport
 app.use(passport.session())

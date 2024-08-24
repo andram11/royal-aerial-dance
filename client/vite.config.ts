@@ -6,7 +6,6 @@ import path from 'path';
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd());
   const isDev = env.VITE_MODE === 'development';
-  console.log(isDev)
 
   return {
     plugins: [react()],
@@ -17,6 +16,7 @@ export default defineConfig(({ mode }) => {
           cert: fs.readFileSync(path.resolve(__dirname, 'server.cert')),
         },
       }),
+      
     },
     test: {
       globals: true,
