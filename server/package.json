@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "jest --detectOpenHandles",
-    "build": "tsc",
+    "build": "tsc && copyfiles -u 1 server/**/*.handlebars dist/",
     "test-watch": "jest --watch",
     "watch": "nodemon server.ts",
     "start": "set PORT=8000 && node dist/server.js",
