@@ -1,17 +1,19 @@
 /** @type {import('tailwindcss').Config} */
+import defaultTheme from 'tailwindcss/defaultTheme';
 export default {
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    screens: {
+    extend: { screens: {
       sm: '480px',
       md: '768px',
       lg: '976px',
       xl: '1440px',
     },
     colors: {
+      ...defaultTheme.colors,
       'primary': '#5D576B',
       'primary-100': '##a29daf',
       'primary-200': '#888098',
@@ -25,7 +27,10 @@ export default {
     fontFamily: {
       sans: ['Josefin Sans', 'sans-serif'],
     },
-    extend: {},
+    fontSize: {
+      'base': '1.2rem'
+    },}
+   
   },
   plugins: [],
 }
