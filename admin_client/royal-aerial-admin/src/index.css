@@ -8,6 +8,7 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  min-width: 460px; 
 }
 a {
   text-decoration: none;
@@ -16,6 +17,7 @@ a {
 html, body {
   margin: 0 auto;
   /*border: 5px solid red;*/
+; 
 }
 
 @media (prefers-color-scheme: light) {
