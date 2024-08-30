@@ -11,11 +11,12 @@ export default {
       md: '768px',
       lg: '976px',
       xl: '1440px',
+      xxl: '1800px'
     },
     colors: {
       ...defaultTheme.colors,
       'primary': '#5D576B',
-      'primary-100': '##a29daf',
+      'primary-100': '#a29daf',
       'primary-200': '#888098',
       'secondary': '#D496A7',
       'secondary-100': '#D496A7',
