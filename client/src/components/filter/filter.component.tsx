@@ -67,7 +67,7 @@ const Filter: React.FC<FilterProps> = ({ initialCriteria = {} }) => {
 
     return (
       <div className={styles.selectContainer}>
-        <select name={name} value="" onChange={handleChange}>
+        <select  name={name} value="" onChange={handleChange}>
           <option value="">{displayName}</option>
           {options.map(option => (
             <option key={option} value={option}>
