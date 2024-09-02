@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import Table from "../components/table";
 import Pagination from "../components/pagination";
 import { FaFilter } from "react-icons/fa";
+import Filter from "../components/filter";
 
 const onView = (id: string)=> {
     console.log("View", id)
@@ -45,24 +46,38 @@ const rowActions= [{'view': onView, 'edit': onEdit, 'delete': onDelete, 'downloa
 
 const Courses: React.FC = () => {
 
+    const [isFilterVisible, setFilterVisible]= useState<boolean>(false)
+
   return (
-    <div className=" mx-12">
-      <h1 className="font-bold text-primary text-2xl hover:text-secondary my-6">
+    <div className="mx-12">
+      <h1 className="font-bold text-primary text-2xl my-6">
         Courses
       </h1>
+        
         <div className="flex justify-end mb-4">
-            <FaFilter className="text-secondary-200 text-xl cursor-pointer" onClick={()=> console.log('filter')}/>
+            <FaFilter className="text-secondary-200 text-xl cursor-pointer" onClick={()=> setFilterVisible(!isFilterVisible)}/>
         </div>
-      <div className="flex justify-center">
-        <Table headers={headers} data={courseData} rowIcons={rowIcons} rowActions={rowActions} />
+        <div className="flex space-x-10">
+
+           { isFilterVisible&&
+
+            <Filter />}
+           <div className="grow h-14">
+           <Table headers={headers} data={courseData} rowIcons={rowIcons} rowActions={rowActions} />
+           <div className="text-center mt-10">
+                <Pagination
+                totalItems={30}
+                currentPage={1}
+                onPageChange={()=> console.log('something')}
+                />
       </div>
-      <div className="text-center mt-10">
-        <Pagination
-          totalItems={30}
-          currentPage={1}
-          onPageChange={()=> console.log('something')}
-        />
-      </div>
+            </div> 
+         
+           
+        
+     
+        </div>
+     
     </div>
   );
 };
