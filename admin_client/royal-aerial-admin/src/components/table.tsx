@@ -1,42 +1,24 @@
-import { FaEye, FaEdit, FaTrash } from "react-icons/fa";
+import RowComponent from "./row";
 
 interface TableProps {
     headers: string[];
     data: (string|number)[][];/*2 dimensional <array></array>*/
     rowIcons?: string[];
-    totalItems?: number;
-    currentPage?: number;
-    onPageChange?: (page: number)=> void;
-
+    rowActions?: Array<{}>;
 }
-
 
 const Table: React.FC<TableProps> = ({
     headers,
     rowIcons,
     data,
-    currentPage,
-    onPageChange,
-    totalItems
+    rowActions= []
 
 })=> {
 
-    //Pair icons to type of icons
-    const renderIcon= (action: string)=> {
-        switch(action){
-            case 'view':
-                return <FaEye className="cursor-pointer text-secondary-200"/>
-            case 'edit':
-                return <FaEdit className="cursor-pointer text-secondary-200"/>
-            case 'delete':
-                return <FaTrash className="cursor-pointer text-secondary-200"/>
-            default:
-                null
-        }
-    }
+
 
     return(<>
-    <table className="bg-tertiary border border-primary-200 border-opacity-20 shadow-2xl drop-shadow-xl">
+    <table className="bg-tertiary border border-primary-200 border-opacity-20 shadow-2xl drop-shadow-xl w-full">
         <thead>
             <tr>
                 {headers.map((header, index)=> (
@@ -58,33 +40,17 @@ const Table: React.FC<TableProps> = ({
                         </td>
                     ))}
 
-                    {rowIcons && (
-                        <td className=" text-md text-center border-b border-primary-100">
-                            <div className="flex justify-center space-x-3">
-                                {rowIcons?.map((action, actionIndex)=>(
-                                    <span key={actionIndex}>
-                                        {renderIcon(action)}
-                                    </span>
-                                ))}
-                            </div>
-                        </td>
-                    )}
+                    <RowComponent
+                    rowIcons={rowIcons}
+                    rowActions={rowActions}
+                    itemId="123"
+                    />
                 </tr>
             ))}
            
         </tbody>
     </table>
-    {/* Pagination (optional) */}
-            {totalItems&& onPageChange &&
-            <div>
-                <button onClick={()=> onPageChange(1)}>
-                    Previous
-                </button>
-                <span>{currentPage}</span>
-                <button onClick={()=> onPageChange(1)}>
-                    Next
-                </button>
-                </div>}
+
 
     </>)
 }
