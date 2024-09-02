@@ -1,5 +1,6 @@
 import Table from "../components/table";
 import { Link } from "react-router-dom";
+import PieChart from "../components/pieChart";
 
 
 //Test data COURSES
@@ -57,7 +58,14 @@ const HomePage: React.FC = () => {
         </div>
 
         {/*Placeholder charts*/}
-       <div className="mt-14 md:mt-0"> CHARTS</div>
+    <div className="mt-14 md:mt-0 ">
+  <h1 className="font-bold text-primary mb-2 hover:text-secondary">REVENUE PER CATEGORY</h1>
+  <div className="w-full max-w-md h-84">
+      <PieChart />
+    </div>
+</div>
+
+        
 
         {/*Transactions section*/}
         <div className="mt-14">
