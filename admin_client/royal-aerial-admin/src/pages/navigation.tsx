@@ -19,7 +19,10 @@ const Navigation: React.FC = () => {
             </a>
           </div>
           <div className="text-secondary font-bold">
-            <Link to="/courses">COURSES</Link>
+            <Link to="/admin/courses">COURSES</Link>
+          </div>
+          <div className="text-secondary font-bold">
+            <Link to="/admin/transactions">TRANSACTIONS</Link>
           </div>
           <div className="mb-2">
             <UserIcon />
