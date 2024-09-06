@@ -3,6 +3,7 @@ import RowComponent from "./row";
 interface TableProps {
     headers: string[];
     data: (string|number)[][];/*2 dimensional <array></array>*/
+    itemIds?: string[];
     rowIcons?: string[];
     rowActions?: Array<{}>;
 }
@@ -11,6 +12,7 @@ const Table: React.FC<TableProps> = ({
     headers,
     rowIcons,
     data,
+    itemIds,
     rowActions= []
 
 })=> {
@@ -43,7 +45,7 @@ const Table: React.FC<TableProps> = ({
                     <RowComponent
                     rowIcons={rowIcons}
                     rowActions={rowActions}
-                    itemId="123"
+                    itemId={itemIds? itemIds[rowIndex]: ''}
                     />
                 </tr>
             ))}

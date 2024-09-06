@@ -95,14 +95,9 @@ export async function httpSearchTransactionByCourseId(req: Request, res: Respons
   );
 
     //Check if search query is cached
-    const checkCache = await getFromCache(req.params.id);
-    if (checkCache) {
-      res.status(200).json(checkCache);
-    } else {
-      //If query not cached, get from DB and cache results
+
       const response = await getTransactionsForCourseId(skip, limit, courseId, qs.stringify(req.query.status));
-      console.log(response)
-      setValueToCache(req.params.id, response);
+ 
       if (!response.errors) {
         res.status(200).json({
           totalItems: response.length,
@@ -117,4 +112,3 @@ export async function httpSearchTransactionByCourseId(req: Request, res: Respons
       }
     }
 
-}

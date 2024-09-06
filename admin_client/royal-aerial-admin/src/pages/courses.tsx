@@ -1,16 +1,16 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import Table from "../components/table";
 import Pagination from "../components/pagination";
 import { FaFilter } from "react-icons/fa";
 import Filter from "../components/filter";
 import { useCourses } from "../hooks/coursesContext";
 import { formatDateToBelgium } from "../utils";
-import { getAllCourses } from "../api/api";
+import { capitalizeFirstLetter } from "../utils";
+import { getCourseById } from "../api/api";
+import Modal from "../components/modal";
 
 //Test data
-const onView = (id: string) => {
-  console.log("View", id);
-};
+
 const onEdit = (id: string) => {
   console.log("Edit", id);
 };
@@ -48,9 +48,6 @@ const headers = [
 // ];
 //Fixed row icons for Courses Page
 const rowIcons = ["view", "edit", "delete", "download"];
-const rowActions = [
-  { view: onView, edit: onEdit, delete: onDelete, download: onDownload },
-];
 
 //Pagination
 const ITEMS_PER_PAGE = 10;
@@ -61,6 +58,9 @@ const Courses: React.FC = () => {
   //Pagination details
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [skippedItems, setSkippedItems] = useState<number>(0);
+    //Modal state
+    const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+    const [modalDetails, setModalDetails] = useState<any>(null);
 
   //Get first page of courses
   const { courses, loading, error, fetchCourses } = useCourses();
@@ -71,10 +71,11 @@ const Courses: React.FC = () => {
   if (error)
     return <div className="font-bold text-primary text-2xl my-6">{error}</div>;
 
+  //Handle pagination changes
   const handlePageChange = (action: string, page?: number) => {
     let newPage = currentPage;
     let newSkippedItems = skippedItems; // Create a variable to hold the updated skip value
-  
+
     if (action === "next") {
       newPage = currentPage + 1;
       newSkippedItems = skippedItems + ITEMS_PER_PAGE;
@@ -85,15 +86,14 @@ const Courses: React.FC = () => {
       newPage = page;
       newSkippedItems = (page - 1) * ITEMS_PER_PAGE;
     }
-  
+
     // Update state
     setCurrentPage(newPage);
     setSkippedItems(newSkippedItems);
-  
+
     // Fetch courses with the updated skip value
     fetchCourses(ITEMS_PER_PAGE, newSkippedItems); // Use the new skip value directly
   };
-  
 
   //Prepare course data for display
   const courseData = courses
@@ -105,15 +105,78 @@ const Courses: React.FC = () => {
           ); // Sort by most recent date
         })
         .map((course) => [
-          course.title,
+          capitalizeFirstLetter(course.title),
           formatDateToBelgium(course.startDate),
           course.timeslot,
-          course.location,
-          course.teacher,
-          course.category,
+          capitalizeFirstLetter(course.location),
+          capitalizeFirstLetter(course.teacher),
+          capitalizeFirstLetter(course.category),
           course.stock,
         ])
     : [];
+
+  //Prepare list of item ids
+  const itemIds = courses ? courses.items.map((course) => course._id) : [];
+
+
+
+  //View course details (course details + participant list)
+  const onView = async (id: string) => {
+    // Check if the course exists in the courses context
+    const existingCourse = courses?.items.find((course) => course._id === id);
+
+    if (existingCourse) {
+      // Course found in context, no need to call the API
+      const filteredCourseDetails = {
+        courseId: existingCourse._id,
+        title: existingCourse.title,
+        startDate: formatDateToBelgium(existingCourse.startDate),
+        timeslot: existingCourse.timeslot,
+        location: existingCourse.location,
+        teacher: existingCourse.teacher,
+        category: existingCourse.category,
+        stock: existingCourse.stock,
+        status: existingCourse.status
+      };
+      setModalDetails(filteredCourseDetails);
+      setIsModalOpen(true);
+    } else {
+      // Course not found in context, call the API
+      try {
+        const courseDetails = await getCourseById(id);
+        const filteredCourseDetails = {
+            courseId: courseDetails._id,
+            title: courseDetails.title,
+            startDate: formatDateToBelgium(courseDetails.startDate),
+            timeslot: courseDetails.timeslot,
+            location: courseDetails.location,
+            teacher: courseDetails.teacher,
+            category: courseDetails.category,
+            stock: courseDetails.stock,
+            status: courseDetails.status
+          };
+        setModalDetails(filteredCourseDetails);
+        setIsModalOpen(true);
+      } catch (err) {
+        throw err;
+      }
+    }
+  };
+
+  //Row actions
+  const rowActions = [
+    { view: onView, edit: onEdit, delete: onDelete, download: onDownload },
+  ];
+
+    // If loading, show loading message
+    if (loading) {
+        return <div className="font-bold text-primary text-2xl my-6">LOADING...</div>;
+      }
+    
+      // If error, show error message
+      if (error) {
+        return <div className="font-bold text-primary text-2xl my-6">{error}</div>;
+      }
 
   return (
     <div className="mx-12">
@@ -131,6 +194,7 @@ const Courses: React.FC = () => {
           <Table
             headers={headers}
             data={courseData}
+            itemIds={itemIds}
             rowIcons={rowIcons}
             rowActions={rowActions}
           />
@@ -140,9 +204,16 @@ const Courses: React.FC = () => {
               currentPage={currentPage}
               onPageChange={handlePageChange}
             />
+              <Modal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        details={modalDetails}
+        tabs="participants"
+      />
           </div>
         </div>
       </div>
+    
     </div>
   );
 };
