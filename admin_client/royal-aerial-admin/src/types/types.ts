@@ -24,3 +24,22 @@ export interface Course {
     __v: number
 
 }
+
+export interface GetParticipantsByCourseIdResponse {
+    totalItems: number,
+    skippedItems: number, 
+    pageLimit:number,
+    items: Array<Transaction>
+}
+
+export interface Transaction {
+    participantDetails: {},
+    _id: string;
+    paymentId: string;
+    status: string;
+    paymentMethod: string;
+    historyEndDate: Date ;
+    historyStartDate: Date;
+    __v: number;
+
+}

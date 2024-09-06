@@ -2,7 +2,7 @@ import { FaEye, FaEdit, FaTrash, FaDownload  } from "react-icons/fa";
 
 interface RowProps {
     rowIcons?: string[];
-    rowActions: Array<{[key: string]: () => void }>;
+    rowActions: Array<{[key: string]: (id:string) => void }>;
     itemId: string;
   }
 
@@ -16,7 +16,7 @@ interface RowProps {
     
         if (action) {
           // Execute the corresponding action
-          action[icon]();
+          action[icon](itemId);
         }
       };
 
