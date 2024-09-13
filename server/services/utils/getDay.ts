@@ -3,6 +3,7 @@ const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", 
 export function getDayOfWeek(date: Date){
     let d= new Date(date)
     return days[d.getDay()];
+    
 }
 
 export function dateCompare(beginDate: Date, endDate: Date){

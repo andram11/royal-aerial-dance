@@ -22,7 +22,7 @@ export async function searchCourses(skip: number, limit: number, query: ParsedQs
       }
     }
     //Use query object directly in the db
-    return await Courses.find(query).sort("startDate").skip(skip).limit(limit);
+    return await Courses.find(query).sort({startDate: -1}).skip(skip).limit(limit);
   } catch (err) {
     return err;
   }
