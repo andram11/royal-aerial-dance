@@ -1,9 +1,13 @@
 import RowComponent from "./row";
 
+interface TableRow {
+    id?: string; // Course ID or unique identifier
+    data: (string | number)[]; // Array of cell data (can be string, number, or other types as needed)
+  } 
+
 interface TableProps {
     headers: string[];
-    data: (string|number)[][];/*2 dimensional <array></array>*/
-    itemIds?: string[];
+    data: TableRow[];
     rowIcons?: string[];
     rowActions?: Array<{}>;
 }
@@ -12,7 +16,6 @@ const Table: React.FC<TableProps> = ({
     headers,
     rowIcons,
     data,
-    itemIds,
     rowActions= []
 
 })=> {
@@ -32,10 +35,10 @@ const Table: React.FC<TableProps> = ({
             </tr>
         </thead>
         <tbody>
-            {data.map((row, rowIndex)=> (
-                <tr key={rowIndex}
+            {data.map((row)=> (
+                <tr key={row.id}
                 className="hover:bg-gray-100">
-                    {row.map((cell, cellIndex)=> (
+                    {row.data.map((cell, cellIndex)=> (
                         <td key={cellIndex}
                         className="lg:py-4 py-4 px-2 text-md text-center border-b border-primary-100">
                             {cell}
@@ -45,7 +48,7 @@ const Table: React.FC<TableProps> = ({
                     <RowComponent
                     rowIcons={rowIcons}
                     rowActions={rowActions}
-                    itemId={itemIds? itemIds[rowIndex]: ''}
+                    itemId={row.id}
                     />
                 </tr>
             ))}

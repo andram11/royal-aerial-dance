@@ -21,7 +21,7 @@ export interface Course {
     stock: number,
     teacher: string,
     status: string,
-    __v: number
+    __v?: number
 
 }
 

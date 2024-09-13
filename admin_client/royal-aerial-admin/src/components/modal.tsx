@@ -78,12 +78,16 @@ const Modal: React.FC<ModalProps>= ({
                 {participantData ? (
                     participantData.length> 0? ( <Table
                         headers={["First Name", "Last Name", "Phone Number", "Email"]} // Adjust headers as needed
-                        data={participantData.map((participant) => [
-                          participant.participantDetails.firstName,
+                        data={participantData.map((participant) => ({
+                            data: [
+                                participant.participantDetails.firstName,
                           participant.participantDetails.lastName,
                           participant.participantDetails.phoneNumber,
                           participant.participantDetails.email,
-                        ])}
+                            ]
+                        }
+                          
+                    ))}
                       />) : (<div>No participants with a confirmed participation status.</div>)
                  
                 ) : (

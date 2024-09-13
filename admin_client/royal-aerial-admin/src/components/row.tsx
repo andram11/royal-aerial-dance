@@ -3,7 +3,7 @@ import { FaEye, FaEdit, FaTrash, FaDownload  } from "react-icons/fa";
 interface RowProps {
     rowIcons?: string[];
     rowActions: Array<{[key: string]: (id:string) => void }>;
-    itemId: string;
+    itemId?: string;
   }
 
 
@@ -14,7 +14,7 @@ interface RowProps {
         // Find the action object that contains the icon key
         const action = rowActions.find(actionObj => icon in actionObj);
     
-        if (action) {
+        if (action && itemId) {
           // Execute the corresponding action
           action[icon](itemId);
         }

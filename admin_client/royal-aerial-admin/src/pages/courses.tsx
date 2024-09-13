@@ -6,14 +6,14 @@ import Filter from "../components/filter";
 import { useCourses } from "../hooks/coursesContext";
 import { formatDateToBelgium } from "../utils";
 import { capitalizeFirstLetter } from "../utils";
-import { getCourseById } from "../api/api";
+import { getCourseById, updateCourse } from "../api/api";
 import Modal from "../components/modal";
+import UpdateModal from "../components/updateModal";
+import { FaPlus } from "react-icons/fa";
+
 
 //Test data
 
-const onEdit = (id: string) => {
-  console.log("Edit", id);
-};
 const onDelete = (id: string) => {
   console.log("Delete", id);
 };
@@ -58,9 +58,11 @@ const Courses: React.FC = () => {
   //Pagination details
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [skippedItems, setSkippedItems] = useState<number>(0);
-    //Modal state
-    const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-    const [modalDetails, setModalDetails] = useState<any>(null);
+  //Modal state
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [modalDetails, setModalDetails] = useState<any>(null);
+  //Update modal
+  const [isUpdateModalOpen, setIsUpdateModalOpen] = useState<boolean>(false);
 
   //Get first page of courses
   const { courses, loading, error, fetchCourses } = useCourses();
@@ -98,31 +100,30 @@ const Courses: React.FC = () => {
   //Prepare course data for display
   const courseData = courses
     ? courses.items
-        .slice() //  shallow copy to avoid mutating the original data
+        .slice() // Shallow copy to avoid mutating the original data
         .sort((a, b) => {
           return (
             new Date(b.startDate).getTime() - new Date(a.startDate).getTime()
           ); // Sort by most recent date
         })
-        .map((course) => [
-          capitalizeFirstLetter(course.title),
-          formatDateToBelgium(course.startDate),
-          course.timeslot,
-          capitalizeFirstLetter(course.location),
-          capitalizeFirstLetter(course.teacher),
-          capitalizeFirstLetter(course.category),
-          course.stock,
-        ])
+        .map((course) => ({
+          id: course._id, // Add the course ID
+          data: [
+            capitalizeFirstLetter(course.title),
+            formatDateToBelgium(course.startDate),
+            course.timeslot,
+            capitalizeFirstLetter(course.location),
+            capitalizeFirstLetter(course.teacher),
+            capitalizeFirstLetter(course.category),
+            course.stock,
+          ],
+        }))
     : [];
-
-  //Prepare list of item ids
-  const itemIds = courses ? courses.items.map((course) => course._id) : [];
-
-
 
   //View course details (course details + participant list)
   const onView = async (id: string) => {
     // Check if the course exists in the courses context
+
     const existingCourse = courses?.items.find((course) => course._id === id);
 
     if (existingCourse) {
@@ -136,7 +137,7 @@ const Courses: React.FC = () => {
         teacher: existingCourse.teacher,
         category: existingCourse.category,
         stock: existingCourse.stock,
-        status: existingCourse.status
+        status: existingCourse.status,
       };
       setModalDetails(filteredCourseDetails);
       setIsModalOpen(true);
@@ -145,16 +146,16 @@ const Courses: React.FC = () => {
       try {
         const courseDetails = await getCourseById(id);
         const filteredCourseDetails = {
-            courseId: courseDetails._id,
-            title: courseDetails.title,
-            startDate: formatDateToBelgium(courseDetails.startDate),
-            timeslot: courseDetails.timeslot,
-            location: courseDetails.location,
-            teacher: courseDetails.teacher,
-            category: courseDetails.category,
-            stock: courseDetails.stock,
-            status: courseDetails.status
-          };
+          courseId: courseDetails._id,
+          title: courseDetails.title,
+          startDate: formatDateToBelgium(courseDetails.startDate),
+          timeslot: courseDetails.timeslot,
+          location: courseDetails.location,
+          teacher: courseDetails.teacher,
+          category: courseDetails.category,
+          stock: courseDetails.stock,
+          status: courseDetails.status,
+        };
         setModalDetails(filteredCourseDetails);
         setIsModalOpen(true);
       } catch (err) {
@@ -163,24 +164,69 @@ const Courses: React.FC = () => {
     }
   };
 
+  //Edit course details
+  const onEdit = async (id: string) => {
+    try {
+      const courseDetails = await getCourseById(id);
+      const filteredCourseDetails = {
+        courseId: courseDetails._id,
+        level: courseDetails.level,
+        title: courseDetails.title,
+        startDate: formatDateToBelgium(courseDetails.startDate),
+        endDate: formatDateToBelgium(courseDetails.endDate),
+        recurrent: courseDetails.recurrent,
+        recurrenceType: courseDetails.recurrenceType,
+        timeslot: courseDetails.timeslot,
+        price: courseDetails.price,
+        location: courseDetails.location,
+        dayOfWeek: courseDetails.dayOfWeek,
+        teacher: courseDetails.teacher,
+        category: courseDetails.category,
+        stock: courseDetails.stock,
+        status: courseDetails.status,
+      };
+      setModalDetails(filteredCourseDetails);
+      setIsUpdateModalOpen(true);
+    } catch (err) {
+      throw err;
+    }
+  };
+
+  //Submit course update
+  //Function which handles what happens when a course has been edited
+  const onUpdateSubmit = async (courseId: string, updateData: any) => {
+    try {
+      const response = await updateCourse(courseId, updateData);
+      setModalDetails(response);
+      //fetchCourses(10, 0);
+      return response;
+    } catch (err) {
+      throw err;
+    }
+  };
   //Row actions
   const rowActions = [
     { view: onView, edit: onEdit, delete: onDelete, download: onDownload },
   ];
 
-    // If loading, show loading message
-    if (loading) {
-        return <div className="font-bold text-primary text-2xl my-6">LOADING...</div>;
-      }
-    
-      // If error, show error message
-      if (error) {
-        return <div className="font-bold text-primary text-2xl my-6">{error}</div>;
-      }
+  // If loading, show loading message
+  if (loading) {
+    return (
+      <div className="font-bold text-primary text-2xl my-6">LOADING...</div>
+    );
+  }
+
+  // If error, show error message
+  if (error) {
+    return <div className="font-bold text-primary text-2xl my-6">{error}</div>;
+  }
 
   return (
     <div className="mx-12">
       <h1 className="font-bold text-primary text-2xl my-6">Courses</h1>
+      <div className="flex space-x-4">
+        <FaPlus className="text-secondary-200 text-xl cursor-pointer"/><p className="text-lg"> Add new course</p>
+      </div>
 
       <div className="flex justify-end mb-4">
         <FaFilter
@@ -194,7 +240,6 @@ const Courses: React.FC = () => {
           <Table
             headers={headers}
             data={courseData}
-            itemIds={itemIds}
             rowIcons={rowIcons}
             rowActions={rowActions}
           />
@@ -204,16 +249,22 @@ const Courses: React.FC = () => {
               currentPage={currentPage}
               onPageChange={handlePageChange}
             />
-              <Modal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        details={modalDetails}
-        tabs="participants"
-      />
+            <Modal
+              isOpen={isModalOpen}
+              onClose={() => setIsModalOpen(false)}
+              details={modalDetails}
+              tabs="participants"
+            />
+            <UpdateModal
+              isOpen={isUpdateModalOpen}
+              onClose={() => setIsUpdateModalOpen(false)}
+              details={modalDetails}
+              updateComponent="course"
+              onSubmit={onUpdateSubmit}
+            />
           </div>
         </div>
       </div>
-    
     </div>
   );
 };

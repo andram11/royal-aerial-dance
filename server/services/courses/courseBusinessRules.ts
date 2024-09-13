@@ -5,7 +5,8 @@ import { existsConcurrentCourse } from "../../models/courses/courses.model";
 function checkCourseConsistency(courseDetails: Course) {
   //Check if dayOfWeek is correct for the given date
   const confirmDayOfWeek = getDayOfWeek(courseDetails.startDate);
-  if (confirmDayOfWeek !== courseDetails.dayOfWeek) {
+
+  if (confirmDayOfWeek.toLocaleLowerCase() !== courseDetails.dayOfWeek) {
     return {
       error: "Provided date doesn't correspond to provided day of the week.",
     };
@@ -79,7 +80,8 @@ export async function checkCourseUpdate(courseDetails: Course) {
         courseDetails.timeslot,
         courseDetails.dayOfWeek
       );
-      if (existsCourse.length ===1) {
+      console.log(existsCourse)
+      if (existsCourse.length >1) {
         return {
           error:
             "A course of the same type exists already at the specified time and location."

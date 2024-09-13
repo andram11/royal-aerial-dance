@@ -96,5 +96,50 @@ export async function getParticipantsByCourseId(courseId: string): Promise<GetPa
 }
 
 //Edit course by id
+export async function updateCourse(courseId:string, courseDetails: Course): Promise<Course>{
+    try {
+        const response = await fetch(
+            //Fetch the next parameters
+            `${baseUrl}/courses/${courseId}`,
+            {
+              method: "PUT",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(courseDetails),
+              credentials: "include",
+            },
 
+          );
+          const data: Course = await response.json();
+   
+          return data;
+
+    } catch(err){
+        throw err
+    }
+}
+
+//Delete course by id
+export async function deleteCourse(courseId: string): Promise<any>{
+  try {
+    const response = await fetch(
+        //Fetch the next parameters
+        `${baseUrl}/courses/${courseId}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        },
+
+      );
+      const result = await response.json();
+      return result;
+
+} catch(err){
+    throw err
+}
+}
 //Create new course

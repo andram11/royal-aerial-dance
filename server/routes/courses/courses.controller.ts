@@ -25,12 +25,12 @@ export async function httpSearchCourses(req: Request, res: Response) {
   //Get pagination parameters
   const skip= Number(req.query.skip)
   const limit= Number(req.query.limit)
-  //Check if search query is cached
+  // //Check if search query is cached
   const query = qs.stringify(req.query);
-  const checkCache = await getFromCache(query);
-  if (checkCache) {
-    res.status(200).json(checkCache);
-  } else {
+  // const checkCache = await getFromCache(query);
+  // if (checkCache) {
+  //   res.status(200).json(checkCache);
+  // } else {
     //If query not cached, get from DB and cache results
     //Get total number of items 
     const totalItems=await searchCourses(0,0,{})
@@ -55,7 +55,7 @@ export async function httpSearchCourses(req: Request, res: Response) {
       });
     }
   }
-}
+
 
 export async function httpCreateCourse(req: Request, res: Response) {
   const course = req.body;
@@ -79,6 +79,7 @@ export async function httpCreateCourse(req: Request, res: Response) {
 export async function httpUpdateCourse(req: Request, res: Response) {
   const courseId = new mongoose.Types.ObjectId(req.params.id) as Types.ObjectId;
   const course = req.body;
+  console.log(course)
   //Check business rules for course update
   const checkCourse = await checkCourseUpdate(course);
   //Update course
