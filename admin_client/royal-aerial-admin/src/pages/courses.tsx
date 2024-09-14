@@ -6,11 +6,11 @@ import Filter from "../components/filter";
 import { useCourses } from "../hooks/coursesContext";
 import { formatDateToBelgium } from "../utils";
 import { capitalizeFirstLetter } from "../utils";
-import { getCourseById, updateCourse } from "../api/api";
+import { deleteCourse, getCourseById, updateCourse } from "../api/api";
 import Modal from "../components/modal";
 import UpdateModal from "../components/updateModal";
 import { FaPlus } from "react-icons/fa";
-
+import DeleteModal from "../components/deleteModal";
 
 //Test data
 
@@ -63,6 +63,8 @@ const Courses: React.FC = () => {
   const [modalDetails, setModalDetails] = useState<any>(null);
   //Update modal
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState<boolean>(false);
+  //Delete modal
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
 
   //Get first page of courses
   const { courses, loading, error, fetchCourses } = useCourses();
@@ -100,7 +102,7 @@ const Courses: React.FC = () => {
   //Prepare course data for display
   const courseData = courses
     ? courses.items
-        .slice() // Shallow copy to avoid mutating the original data
+        .slice()
         .sort((a, b) => {
           return (
             new Date(b.startDate).getTime() - new Date(a.startDate).getTime()
@@ -192,13 +194,57 @@ const Courses: React.FC = () => {
     }
   };
 
+  //Delete course details
+  const onDelete = async (id: string) => {
+    const findCourse = courses?.items.find((course) => course._id === id);
+    if (findCourse) {
+      // Course found in context, no need to call the API
+      const deleteCourseDetails = {
+        courseId: findCourse._id,
+        title: findCourse.title,
+      };
+      setModalDetails(deleteCourseDetails);
+      setIsDeleteModalOpen(true);
+    } else {
+      // Course not found in context, call the API
+      try {
+        const courseDetails = await getCourseById(id);
+        const findCourse = {
+          courseId: courseDetails._id,
+          title: courseDetails.title,
+        };
+        setModalDetails(findCourse);
+        setIsModalOpen(true);
+      } catch (err) {
+        throw err;
+      }
+    }
+  };
+
   //Submit course update
   //Function which handles what happens when a course has been edited
   const onUpdateSubmit = async (courseId: string, updateData: any) => {
     try {
       const response = await updateCourse(courseId, updateData);
       setModalDetails(response);
-      //fetchCourses(10, 0);
+      setTimeout(() => {
+        fetchCourses(10, 0);
+      }, 5000);
+      return response;
+    } catch (err) {
+      throw err;
+    }
+  };
+
+  //Submit delete course
+  const onDeleteSubmit = async (courseId: string) => {
+    try {
+      const response = await deleteCourse(courseId);
+      setModalDetails(response);
+      //close modal after 5 seconds
+      setTimeout(() => {
+        fetchCourses(10, 0);
+      }, 5000);
       return response;
     } catch (err) {
       throw err;
@@ -225,7 +271,8 @@ const Courses: React.FC = () => {
     <div className="mx-12">
       <h1 className="font-bold text-primary text-2xl my-6">Courses</h1>
       <div className="flex space-x-4">
-        <FaPlus className="text-secondary-200 text-xl cursor-pointer"/><p className="text-lg"> Add new course</p>
+        <FaPlus className="text-secondary-200 text-xl cursor-pointer" />
+        <p className="text-lg"> Add new course</p>
       </div>
 
       <div className="flex justify-end mb-4">
@@ -261,6 +308,13 @@ const Courses: React.FC = () => {
               details={modalDetails}
               updateComponent="course"
               onSubmit={onUpdateSubmit}
+            />
+            <DeleteModal
+              isOpen={isDeleteModalOpen}
+              onClose={() => setIsDeleteModalOpen(false)}
+              details={modalDetails}
+              deleteComponent="course"
+              onSubmit={onDeleteSubmit}
             />
           </div>
         </div>
