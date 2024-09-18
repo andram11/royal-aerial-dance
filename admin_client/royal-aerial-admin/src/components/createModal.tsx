@@ -1,10 +1,10 @@
-import { capitalizeFirstLetter, convertToUTC} from "../utils";
-import { useState, useEffect } from "react";
+import {convertToUTC} from "../utils";
+import { useState } from "react";
 import Button from "./button";
 interface CreateModalProps {
     createComponent: string;
     isOpen: boolean;
-    onSubmit: (courseId: string, createData: any)=> Promise<any>;
+    onSubmit: (createData: any)=> Promise<any>;
     onClose: ()=> void;
     
 }
@@ -52,12 +52,12 @@ const CreateModal: React.FC<CreateModalProps> = ({
       status,
     };
     try{
-    //    await onSubmit(courseId, updatedData);
-    //     setUpdateStatus("success")
-    console.log("Submitted")
+       const response=await onSubmit(updatedData);
+       !response.error? setUpdateStatus("success"): setUpdateStatus(response.error)
+
        
     } catch(err){
-        setUpdateStatus(`An error occurred.Error: ${err}`)
+        setUpdateStatus(err as string)
       
     }
      
@@ -78,12 +78,13 @@ const CreateModal: React.FC<CreateModalProps> = ({
            <h2 className="text-2xl font-bold mb-4">Create New Course</h2>
            {updateStatus==="success"? (
             <p className="text-green-600 font-bold my-2">The course has been successfully created.</p>
-           ): (<p className="text-green-600 font-bold my-2">{updateStatus}</p>)}
+           ): (<p className="text-red-600 font-bold my-2">{updateStatus}</p>)}
          
           <form onSubmit={handleSubmit} className="grid grid-cols-2 text-left gap-x-8 gap-6 py-4 text-md">
             <div>
-                <label htmlFor="dropdownInput" >Category </label>
-                <select onChange={(e) => setCategory(e.target.value)} className="w-full mb-2 border-2 p-3 rounded-lg shadow-lg" id="dropdownInput">
+                <label  htmlFor="dropdownInput" >Category </label>
+                <select required onChange={(e) => setCategory(e.target.value)} className="w-full mb-2 border-2 p-3 rounded-lg shadow-lg" id="dropdownInput">
+                    <option defaultValue="">Select a category</option>
                     <option value="pole dance">pole dance</option>
                     <option value="aerial hoop">aerial hoop</option>
                     <option value="yoga">yoga</option>
@@ -93,11 +94,12 @@ const CreateModal: React.FC<CreateModalProps> = ({
             </div>
             <div>
                 <label >Title </label>
-                <input onChange={(e) => setTitle(e.target.value)} type="text"className="w-full mb-2 border-2 p-2 rounded-lg shadow-lg"></input>
+                <input required onChange={(e) => setTitle(e.target.value)} type="text"className="w-full mb-2 border-2 p-2 rounded-lg shadow-lg"></input>
             </div>
             <div>
                 <label htmlFor="dropdownInput">Level </label>
-                <select onChange={(e) => setLevel(e.target.value)} className="mb-2 w-full border-2 p-3 rounded-lg shadow-lg" id="dropdownInput">
+                <select required onChange={(e) => setLevel(e.target.value)} className="mb-2 w-full border-2 p-3 rounded-lg shadow-lg" id="dropdownInput">
+                    <option defaultValue="">Select a level</option>
                     <option value="beginner">beginner</option>
                     <option value="intermediate">intermediate</option>
                     <option value="advanced">advanced</option>
@@ -107,11 +109,12 @@ const CreateModal: React.FC<CreateModalProps> = ({
             </div>
             <div >
                 <label >Location</label>
-                <input  onChange={(e) => setLocation(e.target.value)} className="mb-2 w-full border-2 p-2 rounded-lg shadow-lg" type="text" ></input>
+                <input required  onChange={(e) => setLocation(e.target.value)} className="mb-2 w-full border-2 p-2 rounded-lg shadow-lg" type="text" ></input>
             </div>
             <div>
                 <label >Day of the week</label>
-                <select onChange={(e) => setDayOfWeek(e.target.value)} className="mb-2 w-full border-2 p-3 rounded-lg shadow-lg" id="dropdownInput">
+                <select required onChange={(e) => setDayOfWeek(e.target.value)} className="mb-2 w-full border-2 p-3 rounded-lg shadow-lg" id="dropdownInput">
+                <option defaultValue="" >Select day of the week</option>
                     <option value="monday">monday</option>
                     <option value="tuesday">tuesday</option>
                     <option value="wednesday">wednesday</option>
@@ -123,16 +126,16 @@ const CreateModal: React.FC<CreateModalProps> = ({
             </div>
             <div>
                 <label >Start date</label>
-                <input onChange={(e) => setStartDate(convertToUTC(e.target.value))}  className="w-full mb-2 border-2 p-2 rounded-lg shadow-lg" defaultValue="dd/mm/yyyy" ></input>
+                <input required onChange={(e) => setStartDate(convertToUTC(e.target.value))}  className="w-full mb-2 border-2 p-2 rounded-lg shadow-lg" defaultValue="dd/mm/yyyy" ></input>
             </div>
             <div>
                 <label >End date</label>
-                <input onChange={(e) => setEndDate(convertToUTC(e.target.value))} className="w-full mb-2 border-2 p-2 rounded-lg shadow-lg" defaultValue="dd/mm/yyyy" ></input>
+                <input required onChange={(e) => setEndDate(convertToUTC(e.target.value))} className="w-full mb-2 border-2 p-2 rounded-lg shadow-lg" defaultValue="dd/mm/yyyy" ></input>
             </div>
             <div >
                 <label >Recurrent</label>
-                <select onChange={(e) => setRecurrent(e.target.value.toString())} className="w-full mb-2 border-2 p-3 rounded-lg shadow-lg" id="dropdownInput">
-    
+                <select required onChange={(e) => setRecurrent(e.target.value.toString())} className="w-full mb-2 border-2 p-3 rounded-lg shadow-lg" id="dropdownInput">
+                <option defaultValue="">Select recurrence</option>
                     <option value="true">true</option>
                     <option value="false">false</option>
                   
@@ -140,7 +143,8 @@ const CreateModal: React.FC<CreateModalProps> = ({
             </div>
             <div >
                 <label >Recurrence type</label>
-                <select onChange={(e) => setRecurrenceType(e.target.value)} className="w-full mb-2 border-2 p-3 rounded-lg shadow-lg" id="dropdownInput">
+                <select required onChange={(e) => setRecurrenceType(e.target.value)} className="w-full mb-2 border-2 p-3 rounded-lg shadow-lg" id="dropdownInput">
+                 <option defaultValue="">Select a recurrence type</option>
                     <option value="weekly">weekly</option>
                     <option value="biMonthly">biMonthly</option>
                     <option value="monthly">monthly</option>
@@ -149,24 +153,24 @@ const CreateModal: React.FC<CreateModalProps> = ({
             </div>
             <div >
                 <label >Timeslot</label>
-                <input onChange={(e) => setTimeslot(e.target.value)} className="w-full mb-2 border-2 p-2 rounded-lg shadow-lg" type="text"></input>
+                <input defaultValue="HH:MM-HH:MM" required onChange={(e) => setTimeslot(e.target.value)} className="w-full mb-2 border-2 p-2 rounded-lg shadow-lg" type="text"></input>
             </div>
             <div >
                 <label >Price</label>
-                <input onChange={(e) => setPrice(e.target.value)} className="w-full mb-2 border-2 p-2 rounded-lg shadow-lg" type="text" ></input>
+                <input required onChange={(e) => setPrice(e.target.value)} className="w-full mb-2 border-2 p-2 rounded-lg shadow-lg" type="text" ></input>
             </div>
             <div >
                 <label >Stock</label>
-                <input onChange={(e) => setStock(e.target.value)} className="w-full mb-2 border-2 p-2 rounded-lg shadow-lg" type="text" ></input>
+                <input required onChange={(e) => setStock(e.target.value)} className="w-full mb-2 border-2 p-2 rounded-lg shadow-lg" type="text" ></input>
             </div>
             <div >
                 <label >Teacher</label>
-                <input onChange={(e) => setTeacher(e.target.value)} className="w-full mb-2 border-2 p-2 rounded-lg shadow-lg" type="text" ></input>
+                <input required onChange={(e) => setTeacher(e.target.value)} className="w-full mb-2 border-2 p-2 rounded-lg shadow-lg" type="text" ></input>
             </div>
             <div >
                 <label >Status: </label>
-                <select onChange={(e) => setStatus(e.target.value)} id="dropdownInput" className="w-full mb-2 border-2 p-3 rounded-lg shadow-lg">
-
+                <select required onChange={(e) => setStatus(e.target.value)} id="dropdownInput" className="w-full mb-2 border-2 p-3 rounded-lg shadow-lg">
+                <option defaultValue="">Select a status</option>
                     <option value="active">active</option>
                     <option value="cancelled">cancelled</option>
                     <option value="inactive">inactive</option>

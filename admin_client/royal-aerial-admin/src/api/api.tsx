@@ -131,6 +131,7 @@ export async function deleteCourse(courseId: string): Promise<any>{
           headers: {
             "Content-Type": "application/json",
           },
+         
           credentials: "include",
         },
 
@@ -142,4 +143,27 @@ export async function deleteCourse(courseId: string): Promise<any>{
     throw err
 }
 }
-//Create new course
+//Create new course function
+
+export async function createNewCourse(courseDetails: Course): Promise<Course> {
+  try {
+    const response = await fetch(
+        //Fetch the next parameters
+        `${baseUrl}/courses`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(courseDetails),
+          credentials: "include",
+        },
+
+      );
+      const result = await response.json();
+      return result;
+
+} catch(err){
+    throw err
+}
+}
