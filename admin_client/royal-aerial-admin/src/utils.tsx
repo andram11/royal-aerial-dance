@@ -1,3 +1,6 @@
+import { saveAs } from 'file-saver';
+import * as XLSX from 'xlsx';
+
 export const formatDateToBelgium = (dateString: string | Date): string => {
     const date = new Date(dateString);
     return new Intl.DateTimeFormat('nl-BE', {
@@ -37,4 +40,13 @@ export async function viewDetailsByid(id: string, getDetailsByIdFunction: (id: s
     } catch(err){
         throw err
     }
+}
+
+export function exportToExcel(data: any, filename: string){
+  const worksheet = XLSX.utils.json_to_sheet(data);
+  const workbook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
+  const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+  const blob = new Blob([excelBuffer], { type: 'application/octet-stream' });
+  saveAs(blob, `${filename}.xlsx`);
 }

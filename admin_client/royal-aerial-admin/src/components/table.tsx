@@ -36,7 +36,7 @@ const Table: React.FC<TableProps> = ({
         </thead>
         <tbody>
             {data.map((row)=> (
-                <tr key={row.id}
+                <tr key={Math.random()}
                 className="hover:bg-gray-100">
                     {row.data.map((cell, cellIndex)=> (
                         <td key={cellIndex}
