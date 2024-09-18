@@ -143,7 +143,7 @@ export async function deleteCourse(courseId: string): Promise<any>{
     throw err
 }
 }
-//Create new course
+//Create new course function
 
 export async function createNewCourse(courseDetails: Course): Promise<Course> {
   try {
