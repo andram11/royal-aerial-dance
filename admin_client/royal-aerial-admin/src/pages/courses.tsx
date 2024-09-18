@@ -4,23 +4,15 @@ import Pagination from "../components/pagination";
 import { FaFilter } from "react-icons/fa";
 import Filter from "../components/filter";
 import { useCourses } from "../hooks/coursesContext";
-import { formatDateToBelgium } from "../utils";
+import { exportToExcel, formatDateToBelgium } from "../utils";
 import { capitalizeFirstLetter } from "../utils";
-import { deleteCourse, getCourseById, updateCourse, createNewCourse } from "../api/api";
+import { deleteCourse, getCourseById, updateCourse, createNewCourse, getParticipantsByCourseId } from "../api/api";
 import Modal from "../components/modal";
 import UpdateModal from "../components/updateModal";
 import { FaPlus } from "react-icons/fa";
 import DeleteModal from "../components/deleteModal";import CreateModal from "../components/createModal";
 
 
-//Test data
-
-const onDelete = (id: string) => {
-  console.log("Delete", id);
-};
-const onDownload = (id: string) => {
-  console.log("Download", id);
-};
 
 //Fixed Headers for Courses page
 const headers = [
@@ -33,6 +25,12 @@ const headers = [
   "Stock",
   "Actions",
 ];
+
+//test download data
+// const downloadData = [
+//   { name: 'John Doe', age: 28, occupation: 'Engineer' },
+//   { name: 'Jane Doe', age: 25, occupation: 'Designer' }
+// ];
 
 //Test data
 // const courseData = [
@@ -125,10 +123,36 @@ const Courses: React.FC = () => {
         }))
     : [];
 
+
+  //On download
+  const onDownload = async(id: string) => {
+    try {
+      const response=await getParticipantsByCourseId(id)
+      const exportData = response.items
+        .slice()
+        .filter(item=> item.status==="succeeded")
+          .map((item) => {
+            const participant= item.participantDetails
+            return {
+              firstName: participant.firstName || '', 
+              lastName: participant.lastName || '',
+              phoneNumber: participant.phoneNumber || '',
+              email: participant.email || ''
+            }
+           
+          })
+
+      exportToExcel(exportData, "test")
+    }
+    catch (error) {
+      console.error("Error downloading participants data:", error);
+    }
+   
+  }
+
   //View course details (course details + participant list)
   const onView = async (id: string) => {
     // Check if the course exists in the courses context
-
     const existingCourse = courses?.items.find((course) => course._id === id);
 
     if (existingCourse) {
@@ -240,7 +264,6 @@ const Courses: React.FC = () => {
     }
   };
   
-
   //Submit course update
   //Function which handles what happens when a course has been edited
   const onUpdateSubmit = async (courseId: string, updateData: any) => {
@@ -270,6 +293,7 @@ const Courses: React.FC = () => {
       throw err;
     }
   };
+
   //Row actions
   const rowActions = [
     { view: onView, edit: onEdit, delete: onDelete, download: onDownload },

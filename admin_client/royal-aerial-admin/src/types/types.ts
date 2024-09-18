@@ -33,7 +33,7 @@ export interface GetParticipantsByCourseIdResponse {
 }
 
 export interface Transaction {
-    participantDetails: {},
+    participantDetails: ParticipantDetails,
     _id: string;
     paymentId: string;
     status: string;
@@ -42,4 +42,11 @@ export interface Transaction {
     historyStartDate: Date;
     __v: number;
 
+}
+
+export interface ParticipantDetails{
+    lastName: string;
+  firstName: string;
+  phoneNumber: string;
+  email: string;
 }
