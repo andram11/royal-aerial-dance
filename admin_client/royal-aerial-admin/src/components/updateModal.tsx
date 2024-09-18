@@ -79,6 +79,9 @@ const UpdateModal: React.FC<UpdateModalProps> = ({
     try{
        await onSubmit(courseId, updatedData);
         setUpdateStatus("success")
+        setTimeout(() => {
+            onClose();
+        }, 5000); 
        
     } catch(err){
         setUpdateStatus(`An error occurred.Error: ${err}`)
@@ -93,7 +96,7 @@ const UpdateModal: React.FC<UpdateModalProps> = ({
     return(
      
        <div>
-        {updateComponent==="course" ? (
+        {updateComponent==="course" && 
          <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
          <div className="bg-white p-8 rounded-lg shadow-lg max-w-3xl w-full">
            <button onClick={onClose} className="text-tertiary-200 float-right">
@@ -201,7 +204,7 @@ const UpdateModal: React.FC<UpdateModalProps> = ({
           </form>
           </div> 
          </div> 
-      ):(<div>Loading...</div>)} 
+      } 
        </div>
     )
 }
