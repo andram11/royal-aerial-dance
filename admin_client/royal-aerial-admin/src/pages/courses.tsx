@@ -10,7 +10,8 @@ import { deleteCourse, getCourseById, updateCourse } from "../api/api";
 import Modal from "../components/modal";
 import UpdateModal from "../components/updateModal";
 import { FaPlus } from "react-icons/fa";
-import DeleteModal from "../components/deleteModal";
+import DeleteModal from "../components/deleteModal";import CreateModal from "../components/createModal";
+
 
 //Test data
 
@@ -65,6 +66,8 @@ const Courses: React.FC = () => {
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState<boolean>(false);
   //Delete modal
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
+  //Create modal
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState<boolean>(false);
 
   //Get first page of courses
   const { courses, loading, error, fetchCourses } = useCourses();
@@ -221,6 +224,9 @@ const Courses: React.FC = () => {
     }
   };
 
+  //On add new course
+  
+
   //Submit course update
   //Function which handles what happens when a course has been edited
   const onUpdateSubmit = async (courseId: string, updateData: any) => {
@@ -315,6 +321,12 @@ const Courses: React.FC = () => {
               details={modalDetails}
               deleteComponent="course"
               onSubmit={onDeleteSubmit}
+            />
+            <CreateModal
+              isOpen={isCreateModalOpen}
+              onClose={() => setIsCreateModalOpen(false)}
+              createComponent="course"
+              onSubmit={onUpdateSubmit}
             />
           </div>
         </div>
