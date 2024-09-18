@@ -6,7 +6,7 @@ import Filter from "../components/filter";
 import { useCourses } from "../hooks/coursesContext";
 import { formatDateToBelgium } from "../utils";
 import { capitalizeFirstLetter } from "../utils";
-import { deleteCourse, getCourseById, updateCourse } from "../api/api";
+import { deleteCourse, getCourseById, updateCourse, createNewCourse } from "../api/api";
 import Modal from "../components/modal";
 import UpdateModal from "../components/updateModal";
 import { FaPlus } from "react-icons/fa";
@@ -225,6 +225,20 @@ const Courses: React.FC = () => {
   };
 
   //On add new course
+  const onAddNewCourse = ()=> {
+    setIsCreateModalOpen(true)
+  }
+
+  //Submit course creation
+  //Function which handles what happens when a new course is created
+  const onCreateSubmit = async (createData: any) => {
+    try {
+      const response = await createNewCourse(createData);
+      return response;
+    } catch (err) {
+      throw err;
+    }
+  };
   
 
   //Submit course update
@@ -277,7 +291,7 @@ const Courses: React.FC = () => {
     <div className="mx-12">
       <h1 className="font-bold text-primary text-2xl my-6">Courses</h1>
       <div className="flex space-x-4">
-        <FaPlus className="text-secondary-200 text-xl cursor-pointer" />
+        <FaPlus onClick={onAddNewCourse} className="text-secondary-200 text-xl cursor-pointer" />
         <p className="text-lg"> Add new course</p>
       </div>
 
@@ -326,7 +340,7 @@ const Courses: React.FC = () => {
               isOpen={isCreateModalOpen}
               onClose={() => setIsCreateModalOpen(false)}
               createComponent="course"
-              onSubmit={onUpdateSubmit}
+              onSubmit={onCreateSubmit}
             />
           </div>
         </div>

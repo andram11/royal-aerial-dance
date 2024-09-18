@@ -105,7 +105,7 @@ const UpdateModal: React.FC<UpdateModalProps> = ({
            <h2 className="text-2xl font-bold mb-4">Update Course Details</h2>
            {updateStatus==="success"? (
             <p className="text-green-600 font-bold my-2">The course has been successfully updated.</p>
-           ): (<p className="text-green-600 font-bold my-2">{updateStatus}</p>)}
+           ): (<p className="text-red-600 font-bold my-2">{updateStatus}</p>)}
          
           <form onSubmit={handleSubmit} className="grid grid-cols-2 text-left gap-x-8 gap-6 py-4 text-md">
             <div>
