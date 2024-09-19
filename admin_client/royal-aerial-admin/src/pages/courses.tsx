@@ -26,25 +26,7 @@ const headers = [
   "Actions",
 ];
 
-//test download data
-// const downloadData = [
-//   { name: 'John Doe', age: 28, occupation: 'Engineer' },
-//   { name: 'Jane Doe', age: 25, occupation: 'Designer' }
-// ];
 
-//Test data
-// const courseData = [
-//   ["Aerial Fluidity", "10-12", "Brussels", "Andra", "Aerial Hoop", "10"],
-//   ["Aerial Fluidity", "10-12", "Brussels", "Andra", "Aerial Hoop", "10"],
-//   ["Aerial Fluidity", "10-12", "Brussels", "Andra", "Aerial Hoop", "10"],
-//   ["Aerial Fluidity", "10-12", "Brussels", "Andra", "Aerial Hoop", "10"],
-//   ["Aerial Fluidity", "10-12", "Brussels", "Andra", "Aerial Hoop", "10"],
-//   ["Aerial Fluidity", "10-12", "Brussels", "Andra", "Aerial Hoop", "10"],
-//   ["Aerial Fluidity", "10-12", "Brussels", "Andra", "Aerial Hoop", "10"],
-//   ["Aerial Fluidity", "10-12", "Brussels", "Andra", "Aerial Hoop", "10"],
-//   ["Aerial Fluidity", "10-12", "Brussels", "Andra", "Aerial Hoop", "10"],
-//   ["Aerial Fluidity", "10-12", "Brussels", "Andra", "Aerial Hoop", "10"],
-// ];
 //Fixed row icons for Courses Page
 const rowIcons = ["view", "edit", "delete", "download"];
 

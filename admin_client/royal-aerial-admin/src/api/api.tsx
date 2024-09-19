@@ -1,5 +1,5 @@
 const baseUrl = import.meta.env.VITE_BASE_URL as string;
-import {Course, GetCoursesResponse, GetParticipantsByCourseIdResponse } from "../types/types";
+import {Course, GetCoursesResponse, GetParticipantsByCourseIdResponse, GetTransactionsResponse } from "../types/types";
 
 //GET all courses
 export async function getAllCourses(limit?:number, skip?: number ): Promise<GetCoursesResponse> {
@@ -144,7 +144,6 @@ export async function deleteCourse(courseId: string): Promise<any>{
 }
 }
 //Create new course function
-
 export async function createNewCourse(courseDetails: Course): Promise<Course> {
   try {
     const response = await fetch(
@@ -165,5 +164,50 @@ export async function createNewCourse(courseDetails: Course): Promise<Course> {
 
 } catch(err){
     throw err
+}
+}
+
+//Get all transactions
+export async function getAllTransactions(limit?:number, skip?: number): Promise<GetTransactionsResponse> {
+  try {
+    //Check if any input parameters
+    if (limit || skip){
+        const response = await fetch(
+            //Fetch the next parameters
+            `${baseUrl}/transactions/search?limit=${limit}&skip=${skip}`,
+            {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+              },
+      
+              credentials: "include",
+            }
+          );
+          const items: GetTransactionsResponse = await response.json();
+          return items;
+    }
+    else {
+        const response = await fetch(
+            //We fetch only the first 10 items since this is the page limit for the components
+            `${baseUrl}/transactions/search?limit=10`,
+            {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+              },
+      
+              credentials: "include",
+            }
+          );
+          const items: GetTransactionsResponse = await response.json();
+          return items;
+    }
+  
+ 
+
+  
+} catch (err) {
+  throw err;
 }
 }

@@ -17,24 +17,27 @@ import {
 
 
 export async function httpSearchTransactions(req: Request, res: Response) {
-  //Calculate proper pagination parameters
-  const { skip, limit } = getPagination(
-    Number(req.query.skip),
-    Number(req.query.limit)
-  );
+  //Get pagination parameters
+  const skip= Number(req.query.skip)
+  const limit= Number(req.query.limit)
   
+
   //Check if search query is cached
   const query = qs.stringify(req.query);
-  const checkCache = await getFromCache(query);
-  if (checkCache) {
-    res.status(200).json(checkCache);
-  } else {
+  // const checkCache = await getFromCache(query);
+  // if (checkCache) {
+  //   res.status(200).json(checkCache);
+  // } else {
     //If query not cached, get from DB and cache results
+
+    //Get total number of items 
+    const totalItems=await searchTransactions(0,0,{})
     const response = await searchTransactions(skip, limit, req.query);
+
     setValueToCache(query, response);
     if (!response.errors) {
       res.status(200).json({
-        totalItems: response.length,
+        totalItems: totalItems.length,
         skippedItems: skip,
         pageLimit: limit,
         items: response,
@@ -45,7 +48,7 @@ export async function httpSearchTransactions(req: Request, res: Response) {
       });
     }
   }
-}
+
 
 export async function httpCreateNewTransaction(req: Request, res: Response) {
     //Create transaction
