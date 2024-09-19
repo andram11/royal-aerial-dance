@@ -10,6 +10,11 @@ export const formatDateToBelgium = (dateString: string | Date): string => {
     }).format(date);
   };
 
+export function formatDateTimestamp(timestamp: Date) {
+    const date = new Date(timestamp);
+    return `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear()} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
+  } 
+
   export function capitalizeFirstLetter(str:string, locale=navigator.language) {
     return str.replace(/^\p{CWU}/u, char => char.toLocaleUpperCase(locale));
   }

@@ -8,6 +8,7 @@ interface ModalProps{
     isOpen: boolean;
     onClose: ()=> void;
     tabs?: string;
+    itemsFor?: string;
 
 }
 
@@ -70,6 +71,7 @@ const Modal: React.FC<ModalProps>= ({
                   <div key={index} className="mb-2 border-2 p-2 rounded-lg shadow-lg">
                     <strong className="text-secondary-200 mr-4">{capitalizeFirstLetter(key)}: </strong> {capitalizeFirstLetter(String(details[key]))}
                   </div>
+
                 ))}
               </div>
             ) : (

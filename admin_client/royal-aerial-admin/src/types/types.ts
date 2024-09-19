@@ -32,11 +32,24 @@ export interface GetParticipantsByCourseIdResponse {
     items: Array<Transaction>
 }
 
+export interface GetTransactionsResponse {
+    totalItems: number,
+    skippedItems: number, 
+    pageLimit:number,
+    items: Array<Transaction>
+}
+
+
 export interface Transaction {
     participantDetails: ParticipantDetails,
     _id: string;
     paymentId: string;
     status: string;
+    courseDetails: [{
+        courseId: string;
+        quantity: number;
+        _id: string
+    }];
     paymentMethod: string;
     historyEndDate: Date ;
     historyStartDate: Date;
@@ -47,6 +60,7 @@ export interface Transaction {
 export interface ParticipantDetails{
     lastName: string;
   firstName: string;
+  birthDate: Date;
   phoneNumber: string;
   email: string;
 }
