@@ -6,7 +6,8 @@ import Table from "../components/table";
 import Pagination from "../components/pagination";
 import Modal from "../components/modal";
 import CreateModal from "../components/createModal";
-import { createNewTransaction } from "../api/api";
+import { createNewTransaction, deleteTransaction } from "../api/api";
+import DeleteModal from "../components/deleteModal";
 
 //Fixed Headers for Transactions page
 const headers = ["Date", "Status", "Payment Method", "Payment Id", "Actions"];
@@ -26,6 +27,8 @@ const Transactions: React.FC = () => {
    const [modalDetails, setModalDetails] = useState<any>(null);
  //Create modal
  const [isCreateModalOpen, setIsCreateModalOpen] = useState<boolean>(false);
+ //Delete modal
+ const [isDeleteModalOpen, setIsDeleteModalOpen]= useState<boolean>(false)
 
 
  
@@ -95,7 +98,7 @@ const Transactions: React.FC = () => {
 
 
      //View transaction details 
-    const onView = async (id: string) => {
+    const onView = (id: string) => {
     // Check if the transaction id exists in the transactions context
     const existingTransaction = transactions?.items.find((transaction) => transaction._id === id);
     
@@ -141,9 +144,41 @@ const Transactions: React.FC = () => {
         }
       };
 
+    const onDelete =  (id: string) => {
+        const findTransaction = transactions?.items.find((transaction) => transaction._id === id);
+        if (findTransaction) {
+
+          const deleteCourseDetails = {
+            id: findTransaction._id
+          };
+          setModalDetails(deleteCourseDetails);
+          setIsDeleteModalOpen(true);
+        } else {
+          const deleteCourseDetails = {
+            error: "There was an error"
+          };
+          setModalDetails(deleteCourseDetails);
+          setIsDeleteModalOpen(true)
+         
+      };}
+
+      const handleDelete =  async (id: string) => {
+        try {
+          const response = await deleteTransaction(id);
+          setModalDetails(response);
+          //close modal after 5 seconds
+          setTimeout(() => {
+            fetchTransactions(10, 0);
+          }, 5000);
+          return response;
+        } catch (err) {
+          throw err;
+        }
+      };
+
        //Row actions
        const rowActions = [
-        { view: onView },
+        { view: onView, delete: onDelete },
       ];
 
     return(
@@ -189,6 +224,14 @@ const Transactions: React.FC = () => {
             createComponent= "transactions"
             onTransactionSubmit={onCreateSubmit}
            />
+           <DeleteModal
+           isOpen={isDeleteModalOpen}
+           onClose= {()=> setIsDeleteModalOpen(false)}
+           details={modalDetails}
+           deleteComponent="transactions"
+           onTransactionSubmit= {handleDelete}
+  
+           />
            
             </div>
           </div>
@@ -196,6 +239,7 @@ const Transactions: React.FC = () => {
       </div>
     
     )
-};
+  }
+
 
 export default Transactions;

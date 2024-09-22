@@ -4,7 +4,8 @@ interface DeleteModalProps {
   deleteComponent: string;
   details: any;
   isOpen: boolean;
-  onSubmit: (courseId: string) => Promise<any>;
+  onSubmit?: (courseId: string) => Promise<any>;
+  onTransactionSubmit?: (id: string)=> Promise<any>
   onClose: () => void;
 }
 
@@ -14,6 +15,7 @@ const DeleteModal: React.FC<DeleteModalProps> = ({
   isOpen,
   onSubmit,
   onClose,
+  onTransactionSubmit
 }) => {
   const [deleteStatus, setDeleteStatus] = useState<string | null>(null);
 
@@ -21,7 +23,12 @@ const DeleteModal: React.FC<DeleteModalProps> = ({
     e.preventDefault();
 
     try {
-      await onSubmit(details.courseId);
+      if (deleteComponent==="courses" && onSubmit) {
+        await onSubmit(details.courseId)
+      } 
+      if (deleteComponent==="transactions" && onTransactionSubmit){
+        await onTransactionSubmit(details.id)
+      }
       setDeleteStatus("success");
       // Delay the closing of the modal by 5 seconds
       setTimeout(() => {
@@ -40,14 +47,15 @@ const DeleteModal: React.FC<DeleteModalProps> = ({
           Close
         </button>
 
-        {deleteComponent === "course" && (
+        
           <>
             <h1 className="text-2xl font-bold mb-4 text-red-600">
-              Deleting course {details?.courseId} <br></br>
-              {details?.title}
+              Deleting {deleteComponent==="course"? "course id: ": "transaction id: "} 
+              {deleteComponent==="course"? details.courseId: details.id} <br></br>
+              {deleteComponent==="course"&& details?.title}
             </h1>
           </>
-        )}
+       
 
         <p className="text-lg">
           Are you sure you want to delete this item? This operation is
@@ -57,7 +65,7 @@ const DeleteModal: React.FC<DeleteModalProps> = ({
         {/* Display success or error message */}
         {deleteStatus === "success" && (
           <p className="text-green-600 font-bold my-2">
-            The course has been successfully deleted.
+            The {deleteComponent==="courses"? "course": "transaction"} has been successfully deleted.
           </p>
         )}
         {deleteStatus && deleteStatus !== "success" && (

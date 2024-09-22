@@ -135,3 +135,16 @@ export async function getTransactionsForCourseId(skip: number, limit:number, cou
     return err
   }
 }
+
+
+//Delete transaction by id
+export async function deleteTransaction(transactionId: mongoose.Types.ObjectId){
+
+  try {
+    return await Transactions.findOneAndDelete({
+      _id: transactionId,
+    });
+  } catch (err) {
+    return err;
+  }
+}

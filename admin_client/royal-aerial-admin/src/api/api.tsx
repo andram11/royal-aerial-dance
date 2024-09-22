@@ -235,3 +235,27 @@ export async function createNewTransaction(transactionDetails: CreateTransaction
     throw err
 }
 }
+
+//Delete transaction
+export async function deleteTransaction(transactionId: string): Promise<any>{
+  try {
+    const response = await fetch(
+        //Fetch the next parameters
+        `${baseUrl}/transactions/${transactionId}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+         
+          credentials: "include",
+        },
+
+      );
+      const result = await response.json();
+      return result;
+
+} catch(err){
+    throw err
+}
+}
