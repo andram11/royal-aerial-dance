@@ -3,17 +3,13 @@ import { Link } from "react-router-dom";
 import PieChart from "../components/pieChart";
 import { useCourses } from "../hooks/coursesContext";
 import { capitalizeFirstLetter, formatDateToBelgium } from "../utils";
+import { useTransactions } from "../hooks/transactionsContext";
 
 //Test data COURSES
 const courseHeaders = ["Title", "Location", "Stock"];
 
 //Test data TRANSACTIONS
 const transactionHeaders = ["Date", "Status", "Payment method"];
-const transactionData = [
-  { data: ["26-07-2023 10:23", "Initiated", "Stripe"] },
-  { data: ["26-07-2023 10:23", "Initiated", "Stripe"] },
-  { data: ["26-07-2023 10:23", "Initiated", "Stripe"] },
-];
 
 //Test data USERS
 const userHeaders = ["Username", "Type"];
@@ -28,6 +24,30 @@ const userData = [
 const HomePage: React.FC = () => {
   //TO DO No on page change here since the table is just a preview table with a set page size of 7 elements
   const { courses, loading, error } = useCourses();
+  const {
+    transactions,
+    loadingTransactions,
+    errorTransactions,
+  } = useTransactions();
+
+  const transactionData = transactions
+  ? transactions.items
+      .slice(0,7)
+      .sort((a, b) => {
+          return (
+            new Date(b.historyStartDate).getTime() - new Date(a.historyStartDate).getTime()
+          );
+        })
+      .map((transaction) => ({
+        id: transaction._id, 
+        data: [
+          formatDateToBelgium(transaction.historyStartDate),
+          transaction.status,
+         transaction.paymentMethod,
+
+        ],
+      }))
+  : [];
 
   const courseData = courses
     ? courses.items
@@ -46,6 +66,8 @@ const HomePage: React.FC = () => {
         }))
     : [];
 
+
+
   return (
     <>
       <div className="md:grid md:grid-cols-2 lg:gap-16 my-6 mx-12">
@@ -59,7 +81,7 @@ const HomePage: React.FC = () => {
 
           <p className="mb-8 italic text-primary-200">Latest additions</p>
 
-          <div className="">
+          <div>
             {loading && <p>Loading...</p>}
             {error && <p style={{ color: "red" }}>{error}</p>}
             {!loading && !error && (
@@ -102,8 +124,11 @@ const HomePage: React.FC = () => {
        
 
           <p className="mb-8 italic text-primary-200">Latest additions</p>
-          <div className="">
-            <Table headers={userHeaders} data={userData} />
+          <div >
+          {loadingTransactions && <p>Loading...</p>}
+            {errorTransactions && <p style={{ color: "red" }}>{error}</p>}
+            {!loadingTransactions && !errorTransactions && (
+            <Table headers={userHeaders} data={userData} />)}
           </div>
         </div>
       </div>

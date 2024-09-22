@@ -47,8 +47,7 @@ export async function searchTransactions(skip: number, limit:number, query: Pars
 
       }
     }
-    return await Transactions.find(query)
-    .sort("historyStartDate")
+    return await Transactions.find(query).sort({historyStartDate: -1})
     .skip(skip)
     .limit(limit);
   } catch(err){
