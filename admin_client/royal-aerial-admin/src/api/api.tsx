@@ -1,5 +1,5 @@
 const baseUrl = import.meta.env.VITE_BASE_URL as string;
-import {Course, GetCoursesResponse, GetParticipantsByCourseIdResponse, GetTransactionsResponse } from "../types/types";
+import {Course, CreateTransaction, GetCoursesResponse, GetParticipantsByCourseIdResponse, GetTransactionsResponse, Transaction } from "../types/types";
 
 //GET all courses
 export async function getAllCourses(limit?:number, skip?: number ): Promise<GetCoursesResponse> {
@@ -209,5 +209,29 @@ export async function getAllTransactions(limit?:number, skip?: number): Promise<
   
 } catch (err) {
   throw err;
+}
+}
+
+//Create new transaction
+export async function createNewTransaction(transactionDetails: CreateTransaction): Promise<Transaction> {
+  try {
+    const response = await fetch(
+        //Fetch the next parameters
+        `${baseUrl}/transactions`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(transactionDetails),
+          credentials: "include",
+        },
+
+      );
+      const result = await response.json();
+      return result;
+
+} catch(err){
+    throw err
 }
 }

@@ -57,6 +57,20 @@ export interface Transaction {
 
 }
 
+export interface CreateTransaction {
+    participantDetails: ParticipantDetails,
+  
+    paymentId: string;
+    status: string;
+    courseDetails: [{
+        courseId: string;
+        quantity: number;
+       
+    }];
+    paymentMethod: string;
+  
+}
+
 export interface ParticipantDetails{
     lastName: string;
   firstName: string;

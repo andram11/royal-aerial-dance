@@ -5,6 +5,8 @@ import { FaPlus } from "react-icons/fa";
 import Table from "../components/table";
 import Pagination from "../components/pagination";
 import Modal from "../components/modal";
+import CreateModal from "../components/createModal";
+import { createNewTransaction } from "../api/api";
 
 //Fixed Headers for Transactions page
 const headers = ["Date", "Status", "Payment Method", "Payment Id", "Actions"];
@@ -22,6 +24,8 @@ const Transactions: React.FC = () => {
   //View modal 
    const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
    const [modalDetails, setModalDetails] = useState<any>(null);
+ //Create modal
+ const [isCreateModalOpen, setIsCreateModalOpen] = useState<boolean>(false);
 
 
  
@@ -73,10 +77,10 @@ const Transactions: React.FC = () => {
     ? transactions.items
         .slice()
         .sort((a, b) => {
-          return (
-            new Date(b.historyStartDate).getTime() - new Date(a.historyStartDate).getTime()
-          );
-        })
+            return (
+              new Date(b.historyStartDate).getTime() - new Date(a.historyStartDate).getTime()
+            );
+          })
         .map((transaction) => ({
           id: transaction._id, 
           data: [
@@ -121,6 +125,22 @@ const Transactions: React.FC = () => {
     }
   };
 
+    //Add new transaction modal
+    const onAdd= ()=> {
+        setIsCreateModalOpen(true)
+    }
+
+    //Create new transaction
+    const onCreateSubmit = async (createData: any) => {
+        try {
+
+          const response = await createNewTransaction(createData);
+          return response;
+        } catch (err) {
+          throw err;
+        }
+      };
+
        //Row actions
        const rowActions = [
         { view: onView },
@@ -130,7 +150,7 @@ const Transactions: React.FC = () => {
         <div className="mx-12">
         <h1 className="font-bold text-primary text-2xl my-6">Transactions</h1>
         <div className="flex space-x-4 mb-2">
-          <FaPlus className="text-secondary-200 text-xl cursor-pointer" />
+          <FaPlus className="text-secondary-200 text-xl cursor-pointer" onClick={onAdd}/>
           <p className="text-lg"> Add new transaction</p>
         </div>
   
@@ -163,6 +183,12 @@ const Transactions: React.FC = () => {
               itemsFor="transactions"
            
             />
+            <CreateModal
+            isOpen={isCreateModalOpen}
+            onClose={()=> setIsCreateModalOpen(false)}
+            createComponent= "transactions"
+            onTransactionSubmit={onCreateSubmit}
+           />
            
             </div>
           </div>
