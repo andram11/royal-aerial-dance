@@ -6,11 +6,13 @@ import {
   searchTransactions,
   createTransaction,
   findTransactionById,
-  getTransactionsForCourseId
+  getTransactionsForCourseId,
+  deleteTransaction
 } from "../../models/transactions/transactions.model";
 
 import getPagination from "../../services/query";
 import {
+  deleteKeyFromCache,
   getFromCache,
   setValueToCache,
 } from "../../services/utils/caching";
@@ -115,3 +117,19 @@ export async function httpSearchTransactionByCourseId(req: Request, res: Respons
       }
     }
 
+export async function httpDeleteTransactionById(req: Request, res: Response) {
+      const transactionId = new mongoose.Types.ObjectId(req.params.id) as Types.ObjectId;
+      const response = await deleteTransaction(transactionId);
+      if (!response.errors) {
+        //Remove key from cache
+        deleteKeyFromCache(req.params.id);
+        res.status(200).json({
+          message:
+            "Transaction with id " + response._id + " has been successfully deleted.",
+        });
+      } else {
+        res.status(400).json({
+          error: response.message,
+        });
+      }
+    }
