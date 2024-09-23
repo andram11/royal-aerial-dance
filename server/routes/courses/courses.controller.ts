@@ -9,7 +9,7 @@ import {
   updateCourse,
   checkCourseStock,
 } from "../../models/courses/courses.model";
-import getPagination from "../../services/query";
+
 import {
   getFromCache,
   setValueToCache,
@@ -79,7 +79,6 @@ export async function httpCreateCourse(req: Request, res: Response) {
 export async function httpUpdateCourse(req: Request, res: Response) {
   const courseId = new mongoose.Types.ObjectId(req.params.id) as Types.ObjectId;
   const course = req.body;
-  console.log(course)
   //Check business rules for course update
   const checkCourse = await checkCourseUpdate(course);
   //Update course
