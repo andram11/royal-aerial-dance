@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import { getRevenueByDimension } from "../../models/analytics/analytics.model";
-import mongoose from "mongoose";
-import qs from "qs";
+
 
 export async function httpGetAnalytics(req: Request, res: Response) {
     const dimension = req.query.dimension as string || '';
