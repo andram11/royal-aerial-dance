@@ -45,4 +45,8 @@ api.use(signUpRouter)
 import analyticsRouter from './routes/analytics/analytics.router'
 api.use(analyticsRouter)
 
+//Users
+import usersRouter from './routes/users/users.router'
+api.use(usersRouter)
+
 export default api
