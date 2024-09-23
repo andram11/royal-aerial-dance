@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useTransactions } from "../hooks/transactionsContext";
-import { capitalizeFirstLetter, formatDateToBelgium, formatDateTimestamp } from "../utils";
+import { formatDateToBelgium, formatDateTimestamp } from "../utils";
 import { FaPlus } from "react-icons/fa";
 import Table from "../components/table";
 import Pagination from "../components/pagination";

@@ -49,9 +49,9 @@ ChartJS.register(ArcElement, Tooltip, Legend)
                   label: function (context) {
                     const label = context.label || '';
                     const value = context.raw as number;  // Assume it's always a number
-                    const formattedValue = new Intl.NumberFormat('en-US', {
+                    const formattedValue = new Intl.NumberFormat('fr-BE', {
                       style: 'currency',
-                      currency: 'USD',
+                      currency: 'EUR',
                     }).format(value);
           
                     return `${label}: ${formattedValue}`;
