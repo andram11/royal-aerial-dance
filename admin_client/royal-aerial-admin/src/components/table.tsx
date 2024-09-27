@@ -1,7 +1,7 @@
 import RowComponent from "./row";
 
 interface TableRow {
-    id?: string; // Course ID or unique identifier
+    id?: string;
     data: (string | number)[]; // Array of cell data (can be string, number, or other types as needed)
   } 
 

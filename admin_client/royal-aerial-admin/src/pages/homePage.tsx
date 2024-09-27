@@ -4,6 +4,9 @@ import PieChart from "../components/pieChart";
 import { useCourses } from "../hooks/coursesContext";
 import { capitalizeFirstLetter, formatDateToBelgium } from "../utils";
 import { useTransactions } from "../hooks/transactionsContext";
+import { useEffect, useState } from "react";
+import { GetUsersResponse, User } from "../types/types";
+import { getAllUsers } from "../api/api";
 
 //Test data COURSES
 const courseHeaders = ["Title", "Location", "Stock"];
@@ -13,41 +16,55 @@ const transactionHeaders = ["Date", "Status", "Payment method"];
 
 //Test data USERS
 const userHeaders = ["Username", "Type"];
-const userData = [
-  { id: "1", data: ["andram@email.com", "Local"] },
-  { id: "2", data: ["someverylongusernamewithemailaddress@test.com", "Local"] },
-  { id: "3", data: ["shortUser@gmail.com", "Google"] },
-  { id: "4", data: ["username@gmail.com", "Google"] },
-  { id: "5", data: ["anotherOne@test.be", "Local"] },
-];
 
 const HomePage: React.FC = () => {
-  //TO DO No on page change here since the table is just a preview table with a set page size of 7 elements
   const { courses, loading, error } = useCourses();
-  const {
-    transactions,
-    loadingTransactions,
-    errorTransactions,
-  } = useTransactions();
+  const [userData, setUserData] = useState<{ id: string; data: string[] }[]>(
+    []
+  );
+  const [userLoading, setUserLoading] = useState<boolean>(true);
+
+  //Get user data
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const fetchUserData: GetUsersResponse = await getAllUsers();
+        const userData = fetchUserData.items.slice(0, 7).map((user) => ({
+          id: user._id,
+          data: [user.username, user.type],
+        }));
+        setUserData(userData);
+        setUserLoading(false);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+        setUserLoading(false);
+      }
+    };
+
+    fetchUsers();
+  }, []);
+
+  const { transactions, loadingTransactions, errorTransactions } =
+    useTransactions();
 
   const transactionData = transactions
-  ? transactions.items
-      .slice(0,7)
-      .sort((a, b) => {
+    ? transactions.items
+        .slice(0, 7)
+        .sort((a, b) => {
           return (
-            new Date(b.historyStartDate).getTime() - new Date(a.historyStartDate).getTime()
+            new Date(b.historyStartDate).getTime() -
+            new Date(a.historyStartDate).getTime()
           );
         })
-      .map((transaction) => ({
-        id: transaction._id, 
-        data: [
-          formatDateToBelgium(transaction.historyStartDate),
-          transaction.status,
-         transaction.paymentMethod,
-
-        ],
-      }))
-  : [];
+        .map((transaction) => ({
+          id: transaction._id,
+          data: [
+            formatDateToBelgium(transaction.historyStartDate),
+            transaction.status,
+            transaction.paymentMethod,
+          ],
+        }))
+    : [];
 
   const courseData = courses
     ? courses.items
@@ -65,8 +82,6 @@ const HomePage: React.FC = () => {
           ],
         }))
     : [];
-
-
 
   return (
     <>
@@ -95,7 +110,9 @@ const HomePage: React.FC = () => {
           <h1 className="font-bold text-primary mb-2 hover:text-secondary">
             REVENUE PER CATEGORY
           </h1>
-          <p className="mb-8 italic text-primary-200">Based on latest transactions</p>
+          <p className="mb-8 italic text-primary-200">
+            Based on latest transactions
+          </p>
           <div className="w-full max-w-md h-84">
             <PieChart />
           </div>
@@ -117,18 +134,13 @@ const HomePage: React.FC = () => {
 
         {/*Users section*/}
         <div className="mt-14">
-          
-            <h1 className="font-bold text-primary mb-2">
-              USERS
-            </h1>
-       
+          <h1 className="font-bold text-primary mb-2">USERS</h1>
 
           <p className="mb-8 italic text-primary-200">Latest additions</p>
-          <div >
-          {loadingTransactions && <p>Loading...</p>}
-            {errorTransactions && <p style={{ color: "red" }}>{error}</p>}
-            {!loadingTransactions && !errorTransactions && (
-            <Table headers={userHeaders} data={userData} />)}
+          <div>
+            {userLoading && <p>Loading...</p>}
+
+            <Table headers={userHeaders} data={userData} />
           </div>
         </div>
       </div>

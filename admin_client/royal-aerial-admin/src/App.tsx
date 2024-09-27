@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 
 import HomePage from "./pages/homePage";
 import Navigation from "./pages/navigation";
@@ -12,12 +12,16 @@ function App() {
     <>
       <CoursesProvider>
         <TransactionsProvider>
-        <Navigation />
-        <Routes>
-          <Route path="/admin" element={<HomePage />}></Route>
-          <Route path="/admin/courses" element={<Courses />}></Route>
-          <Route path="/admin/transactions" element={<Transactions />}></Route>
-        </Routes>
+          <Navigation />
+          <Routes>
+            <Route path="/" element={<Navigate to="/admin" />} />
+            <Route path="/admin" element={<HomePage />}></Route>
+            <Route path="/admin/courses" element={<Courses />}></Route>
+            <Route
+              path="/admin/transactions"
+              element={<Transactions />}
+            ></Route>
+          </Routes>
         </TransactionsProvider>
       </CoursesProvider>
     </>
