@@ -78,3 +78,25 @@ export interface ParticipantDetails{
   phoneNumber: string;
   email: string;
 }
+
+//export type GetAnalyticsResult= AnalyticsRevenue[]
+//OR
+export interface GetAnalyticsResult extends Array<AnalyticsRevenue> {}
+
+export interface AnalyticsRevenue {
+    _id: string;
+    totalRevenue: number;
+}
+
+export interface User {
+    _id: string;
+    username: string;
+    type: string
+}
+
+export interface GetUsersResponse {
+    totalItems: number,
+    skippedItems: number, 
+    pageLimit:number,
+    items: Array<User>
+}
