@@ -71,8 +71,7 @@ const Transactions: React.FC = () => {
     setCurrentPage(newPage);
     setSkippedItems(newSkippedItems);
 
-    // Fetch courses with the updated skip value
-    fetchTransactions(ITEMS_PER_PAGE, newSkippedItems); // Use the new skip value directly
+    fetchTransactions(ITEMS_PER_PAGE, newSkippedItems); 
   };
 
   //Prepare course data for display
@@ -168,7 +167,7 @@ const Transactions: React.FC = () => {
           setModalDetails(response);
           //close modal after 5 seconds
           setTimeout(() => {
-            fetchTransactions(10, 0);
+            fetchTransactions(10, skippedItems);
           }, 5000);
           return response;
         } catch (err) {

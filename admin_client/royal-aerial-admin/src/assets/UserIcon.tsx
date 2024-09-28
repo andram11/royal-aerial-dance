@@ -4,7 +4,7 @@ import React from 'react';
 
 const UserIcon: React.FC<{ onClick?: () => void }> = ({ onClick })  => {
   return (
-    <div onClick={onClick}>
+    <div className= "cursor-pointer mb-2" onClick={onClick}>
     <svg
       width="30px"
       height="30px"
