@@ -40,7 +40,7 @@ export function formatDateTimestamp(timestamp: Date) {
 export async function viewDetailsByid(id: string, getDetailsByIdFunction: (id: string)=> Promise<any>){
     try {
         const details= await getDetailsByIdFunction(id);
-        console.log(details)
+     
         return details
     } catch(err){
         throw err

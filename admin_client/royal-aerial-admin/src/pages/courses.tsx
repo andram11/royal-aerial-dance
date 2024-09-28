@@ -11,7 +11,7 @@ import Modal from "../components/modal";
 import UpdateModal from "../components/updateModal";
 import { FaPlus } from "react-icons/fa";
 import DeleteModal from "../components/deleteModal";import CreateModal from "../components/createModal";
-import Footer from "../components/footer";
+
 
 
 
@@ -254,7 +254,7 @@ const Courses: React.FC = () => {
       const response = await updateCourse(courseId, updateData);
       setModalDetails(response);
       setTimeout(() => {
-        fetchCourses(10, 0);
+        fetchCourses(10, skippedItems);
       }, 5000);
       return response;
     } catch (err) {
@@ -269,7 +269,7 @@ const Courses: React.FC = () => {
       setModalDetails(response);
       //close modal after 5 seconds
       setTimeout(() => {
-        fetchCourses(10, 0);
+        fetchCourses(10, skippedItems);
       }, 5000);
       return response;
     } catch (err) {

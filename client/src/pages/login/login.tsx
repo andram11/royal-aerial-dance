@@ -59,7 +59,7 @@ const Login = () => {
     e.preventDefault();
       const response=await forgotPassword(resetEmail);
       if (response.success) {
-        console.log(response)
+ 
         alert(`Password reset email sent. View a preview of this email and get your reset link using this link (fake SMTP): ${response.data.response.testPreviewLink}`);
         setPasswordReset(false);
       } else {

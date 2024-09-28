@@ -15,7 +15,7 @@ const Pagination: React.FC<PaginationProps> = ({
 
   const totalPages = totalItems ? Math.ceil(totalItems / 10) : 10;
   //Generate array of pages to map over
-  const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
+  //const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
 
   return (
     <>
