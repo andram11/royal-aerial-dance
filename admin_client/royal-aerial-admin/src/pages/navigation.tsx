@@ -2,8 +2,11 @@ import React from 'react';
 import LogoIcon from "../assets/LogoIcon";
 import UserIcon from "../assets/UserIcon";
 import { Link } from "react-router-dom";
+import { useAuth } from '../hooks/authContext';
 
 const Navigation: React.FC = () => {
+  const {user, logout}= useAuth()
+
   return (
     <div className="w-full bg-tertiary px-4">
       <div className="flex items-center justify-between">
@@ -24,8 +27,14 @@ const Navigation: React.FC = () => {
           <div className="text-secondary font-bold">
             <Link to="/admin/transactions">TRANSACTIONS</Link>
           </div>
-          <div className="mb-2">
-            <UserIcon />
+          <div className="">
+  
+                    {user ? ( 
+                <UserIcon onClick={logout}/>
+              ): (<Link className="text-secondary font-bold" to="/">
+                  LOGIN
+                </Link>)}
+                
           </div>
         </div>
       </div>

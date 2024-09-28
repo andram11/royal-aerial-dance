@@ -6,15 +6,18 @@ import Courses from "./pages/courses";
 import { CoursesProvider } from "./hooks/coursesContext";
 import Transactions from "./pages/transactions";
 import { TransactionsProvider } from "./hooks/transactionsContext";
+import Login from "./pages/login";
+import { AuthProvider } from "./hooks/authContext";
 
 function App() {
   return (
     <>
+    <AuthProvider>
       <CoursesProvider>
         <TransactionsProvider>
           <Navigation />
           <Routes>
-            <Route path="/" element={<Navigate to="/admin" />} />
+            <Route path="/" element={<Login/>} />
             <Route path="/admin" element={<HomePage />}></Route>
             <Route path="/admin/courses" element={<Courses />}></Route>
             <Route
@@ -24,6 +27,7 @@ function App() {
           </Routes>
         </TransactionsProvider>
       </CoursesProvider>
+      </AuthProvider>
     </>
   );
 }

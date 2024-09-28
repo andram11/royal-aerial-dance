@@ -1,4 +1,5 @@
 const baseUrl = import.meta.env.VITE_BASE_URL as string;
+const adminUser=import.meta.env.VITE_ADMIN_USERNAME as string;
 import {
   Course,
   CreateTransaction,
@@ -7,7 +8,9 @@ import {
   GetTransactionsResponse,
   Transaction,
   GetAnalyticsResult,
-  GetUsersResponse
+  GetUsersResponse,
+  LoginResponse,
+  UserLogin
 } from "../types/types";
 
 //GET all courses
@@ -320,4 +323,29 @@ export async function getAllUsers(skip?: number, limit?:number): Promise<GetUser
  catch (err) {
   throw err;
 }
+}
+
+//Login admin user
+
+export async function loginUser(user: UserLogin): Promise<LoginResponse> {
+  if (user.username===adminUser) {
+    try {
+   
+      const response = await fetch(`${baseUrl}/auth/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(user),
+        credentials: "include",
+      });
+  
+      const data: LoginResponse = await response.json();
+      return data;
+    } catch (err) {
+      throw err;
+    }
+  }
+  throw new Error("You are not allowed to access this page.")
+ 
 }

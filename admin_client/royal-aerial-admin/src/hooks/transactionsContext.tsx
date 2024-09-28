@@ -1,6 +1,6 @@
 import React, { createContext, useState, useEffect, useContext } from "react";
-import { getAllCourses, getAllTransactions } from "../api/api";
-import { Course, GetCoursesResponse, GetTransactionsResponse } from "../types/types";
+import { getAllTransactions } from "../api/api";
+import { GetTransactionsResponse } from "../types/types";
 
 
 interface TransactionsContextType {

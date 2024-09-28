@@ -100,3 +100,17 @@ export interface GetUsersResponse {
     pageLimit:number,
     items: Array<User>
 }
+
+export interface LoginResponse {
+    data: {
+      userId: string;
+      username: string;
+    };
+    message: string;
+  }
+
+  
+export interface UserLogin {
+    username: string;
+    password: string 
+}

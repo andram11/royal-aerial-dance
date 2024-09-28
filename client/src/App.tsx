@@ -14,7 +14,6 @@ import Login from "./pages/login/login.tsx";
 import ProtectedRoute from "./components/protectedRoute/protectedRoute.component.tsx";
 import Callback from "./pages/authCallback/authCallback.tsx";
 import ResetPassword from "./pages/resetPassword/resetPassword.tsx";
-import Layout from "./components/layout.component.tsx";
 import Footer from "./components/footer/footer.component.tsx";
 
 function App() {
