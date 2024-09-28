@@ -4,9 +4,6 @@ import PieChart from "../components/pieChart";
 import { useCourses } from "../hooks/coursesContext";
 import { capitalizeFirstLetter, formatDateToBelgium } from "../utils";
 import { useTransactions } from "../hooks/transactionsContext";
-import { useEffect, useState } from "react";
-import { GetUsersResponse, User } from "../types/types";
-import { getAllUsers } from "../api/api";
 import { useUsers } from "../hooks/userContext";
 import Footer from "../components/footer";
 

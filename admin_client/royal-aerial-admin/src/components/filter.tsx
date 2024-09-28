@@ -1,11 +1,11 @@
 type SearchCriteriaKey = 'category' | 'location' | 'teacher' | 'dayOfWeek' | 'level';
-interface SearchCriteria {
-    category: string;
-    location: string;
-    teacher: string;
-    dayOfWeek: string;
-    level: string;
-  }
+// interface SearchCriteria {
+//     category: string;
+//     location: string;
+//     teacher: string;
+//     dayOfWeek: string;
+//     level: string;
+//   }
   
 
   const Filter: React.FC = () => {

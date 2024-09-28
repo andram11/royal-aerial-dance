@@ -13,7 +13,7 @@ import { checkLoggedIn } from "../../services/utils/checkLoggedIn";
 
 
 transactionsRouter.get("/transactions/search", checkLoggedIn, httpSearchTransactions);
-transactionsRouter.post("/transactions", checkLoggedIn, httpCreateNewTransaction);
+transactionsRouter.post("/transactions", httpCreateNewTransaction);
 //returns the transactions list for a courseId 
 transactionsRouter.get("/transactions/:id/search", checkLoggedIn, httpSearchTransactionByCourseId)
 transactionsRouter.delete("/transactions/:id", checkLoggedIn, httpDeleteTransactionById)

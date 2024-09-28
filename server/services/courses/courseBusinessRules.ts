@@ -80,7 +80,7 @@ export async function checkCourseUpdate(courseDetails: Course) {
         courseDetails.timeslot,
         courseDetails.dayOfWeek
       );
-      console.log(existsCourse)
+
       if (existsCourse.length >1) {
         return {
           error:
