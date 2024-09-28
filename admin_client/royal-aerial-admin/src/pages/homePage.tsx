@@ -7,6 +7,8 @@ import { useTransactions } from "../hooks/transactionsContext";
 import { useEffect, useState } from "react";
 import { GetUsersResponse, User } from "../types/types";
 import { getAllUsers } from "../api/api";
+import { useUsers } from "../hooks/userContext";
+import Footer from "../components/footer";
 
 //Test data COURSES
 const courseHeaders = ["Title", "Location", "Stock"];
@@ -18,34 +20,23 @@ const transactionHeaders = ["Date", "Status", "Payment method"];
 const userHeaders = ["Username", "Type"];
 
 const HomePage: React.FC = () => {
+  //Courses data
   const { courses, loading, error } = useCourses();
-  const [userData, setUserData] = useState<{ id: string; data: string[] }[]>(
-    []
-  );
-  const [userLoading, setUserLoading] = useState<boolean>(true);
-
-  //Get user data
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const fetchUserData: GetUsersResponse = await getAllUsers();
-        const userData = fetchUserData.items.slice(0, 7).map((user) => ({
-          id: user._id,
-          data: [user.username, user.type],
-        }));
-        setUserData(userData);
-        setUserLoading(false);
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-        setUserLoading(false);
-      }
-    };
-
-    fetchUsers();
-  }, []);
+  //Users data
+  const { users, loadingUsers, errorUsers } = useUsers();
+  //Transactions data
 
   const { transactions, loadingTransactions, errorTransactions } =
     useTransactions();
+
+  //Get user data
+
+  const userData = users
+    ? users.items.slice(0, 7).map((user) => ({
+        id: user._id,
+        data: [user.username, user.type],
+      }))
+    : [];
 
   const transactionData = transactions
     ? transactions.items
@@ -105,7 +96,6 @@ const HomePage: React.FC = () => {
           </div>
         </div>
 
-        {/*Placeholder charts*/}
         <div className="mt-14 md:mt-0 ">
           <h1 className="font-bold text-primary mb-2 hover:text-secondary">
             REVENUE PER CATEGORY
@@ -127,8 +117,12 @@ const HomePage: React.FC = () => {
           </Link>
 
           <p className="mb-8 italic text-primary-200">Latest additions</p>
-          <div className="">
+          <div >
+          {loadingTransactions && <p>Loading...</p>}
+            {errorTransactions && <p style={{ color: "red" }}>{error}</p>}
+            {!loadingTransactions && !errorTransactions && (
             <Table headers={transactionHeaders} data={transactionData} />
+            )}
           </div>
         </div>
 
@@ -138,12 +132,14 @@ const HomePage: React.FC = () => {
 
           <p className="mb-8 italic text-primary-200">Latest additions</p>
           <div>
-            {userLoading && <p>Loading...</p>}
-
-            <Table headers={userHeaders} data={userData} />
+            {loadingUsers && <p>Loading...</p>}
+            {errorUsers && <p style={{ color: "red" }}>{error}</p>}
+            {!loadingUsers && !errorUsers && (
+            <Table headers={userHeaders} data={userData} />)}
           </div>
         </div>
       </div>
+      <Footer/>
     </>
   );
 };

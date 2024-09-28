@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Pie } from "react-chartjs-2";
 import {
   ChartData,
@@ -8,39 +8,13 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import { getAnalytics } from "../api/api";
-import { AnalyticsRevenue } from "../types/types";
-import { capitalizeFirstLetter } from "../utils";
+
+import { useAnalytics } from "../hooks/analyticsContext";
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const PieChart: React.FC = () => {
   //State
-  const [labels, setLabels] = useState<string[]>([]);
-  const [dataPoints, setDataPoints] = useState<number[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-
-  //Get pie chart data
-  useEffect(() => {
-    const fetchAnalytics = async () => {
-      try {
-        const analyticsData: AnalyticsRevenue[] = await getAnalytics(
-          "category"
-        ); // Assuming it returns an array of AnalyticsRevenue
-        const fetchedLabels = analyticsData.map((item) => item._id);
-        const fetchedData = analyticsData.map((item) => item.totalRevenue);
-
-        setLabels(fetchedLabels);
-
-        setDataPoints(fetchedData);
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching analytics data:", error);
-        setLoading(false);
-      }
-    };
-
-    fetchAnalytics();
-  }, []);
+  const { labels, dataPoints, loading } = useAnalytics();
 
   const rootStyle = getComputedStyle(document.documentElement);
   //Chart data

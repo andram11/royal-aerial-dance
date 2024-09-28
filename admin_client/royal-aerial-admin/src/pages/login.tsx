@@ -3,13 +3,14 @@ import { useNavigate } from "react-router-dom";
 import { loginUser } from "../api/api";
 import { useAuth } from "../hooks/authContext";
 import Button from "../components/button";
+const adminUser=import.meta.env.VITE_ADMIN_USERNAME as string;
 
 const Login = () => {
   const [formData, setFormData] = useState({
     username: "",
     password: "",
   });
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<any>();
   const [loading, setLoading] = useState<boolean>(false);
   const { login } = useAuth(); 
   const navigate = useNavigate();
@@ -27,19 +28,26 @@ const Login = () => {
     setError(null);
     setLoading(true);
 
-    try {
-      const user = await loginUser(formData);
-      if (user.data) {
-        login(user); 
-        navigate("/admin");
-      } else {
-        setError("Login failed. Please check your credentials.");
+    if (formData.username===adminUser){
+      try {
+        const user = await loginUser(formData);
+        if (user.data.username) {
+          login(user); 
+          navigate("/admin");
+        } else {
+          setError("Login failed. Please check your login credentials.");
+        }
+      } catch (err) {
+        setError(err);
+      } finally {
+        setLoading(false);
       }
-    } catch (err) {
-      setError("An error occurred during login. Please try again.");
-    } finally {
-      setLoading(false);
+    } 
+    else {
+      setError("You are not allowed to access this page.")
     }
+
+    
   };
 
   return (
@@ -55,7 +63,7 @@ const Login = () => {
               Username
             </label>
             <input
-              type="text"
+              type="email"
               name="username"
               value={formData.username}
               onChange={handleChange}

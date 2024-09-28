@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { useAuth } from '../hooks/authContext';
 
 const Navigation: React.FC = () => {
-  const {user, logout}= useAuth()
+  const {user, logout, loggedIn}= useAuth()
 
   return (
     <div className="w-full bg-tertiary px-4">
@@ -22,10 +22,12 @@ const Navigation: React.FC = () => {
             </a>
           </div>
           <div className="text-secondary font-bold">
-            <Link to="/admin/courses">COURSES</Link>
+           { loggedIn&&
+            <Link to="/admin/courses">COURSES</Link>}
           </div>
           <div className="text-secondary font-bold">
-            <Link to="/admin/transactions">TRANSACTIONS</Link>
+            {loggedIn&&
+            <Link to="/admin/transactions">TRANSACTIONS</Link>}
           </div>
           <div className="">
   

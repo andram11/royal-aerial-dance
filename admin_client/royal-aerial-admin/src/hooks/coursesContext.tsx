@@ -1,6 +1,7 @@
 import React, { createContext, useState, useEffect, useContext } from "react";
 import { getAllCourses } from "../api/api";
-import { Course, GetCoursesResponse } from "../types/types";
+import { GetCoursesResponse } from "../types/types";
+import { useAuth } from "./authContext";
 
 
 interface CoursesContextType {
@@ -27,23 +28,27 @@ export const CoursesProvider: React.FC<{children: React.ReactNode}>= ({children}
     const [courses, setCourses]= useState<GetCoursesResponse | null>(null)
     const [loading, setLoading]= useState<boolean>(true)
     const [error, setError]= useState<string |null>(null)
+    const {loggedIn}= useAuth()
 
 
     const fetchCourses = async (limit: number, skip: number) => {
-        setLoading(true);
-        try {
-          const response = await getAllCourses(limit, skip);
-          setCourses(response);
-          setLoading(false);
-        } catch (err) {
-          setError("Failed to fetch courses");
-          setLoading(false);
+        if (loggedIn) {
+          setLoading(true);
+          try {
+            const response = await getAllCourses(limit, skip);
+            setCourses(response);
+            setLoading(false);
+          } catch (err) {
+            setError("Failed to fetch courses");
+            setLoading(false);
+          }
         }
+       
       };
     
       useEffect(() => {
         fetchCourses(10,0);
-      }, []);
+      }, [loggedIn]);
 
       return (
         <CoursesContext.Provider value={{courses, loading, error, fetchCourses}}>

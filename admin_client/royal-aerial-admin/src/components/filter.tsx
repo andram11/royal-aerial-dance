@@ -16,6 +16,7 @@ interface SearchCriteria {
         name === 'dayOfWeek' ? 'Day Of Week' : name.charAt(0).toUpperCase() + name.slice(1);
   
       return (
+        <>
         <div className="flex flex-col py-4">
           <select className="text-secondary-200 border-2 p-2 border-secondary hover:outline-tertiary focus:outline-tertiary active:outline-tertiary" name={name} value="">
             <option value="">{displayName}</option>
@@ -27,6 +28,8 @@ interface SearchCriteria {
           </select>
          
         </div>
+      
+        </>
       );
     };
   
