@@ -99,7 +99,7 @@ const CreateModal: React.FC<CreateModalProps> = ({
         birthDate: participantBirthDate,
       },
     };
-    console.log(transactionData)
+
     try {
       const response = onTransactionSubmit
         ? await onTransactionSubmit(transactionData)
@@ -344,12 +344,11 @@ const CreateModal: React.FC<CreateModalProps> = ({
                 ></input>
               </div>
               <div>
-                <label >Status </label>
+                <label>Status </label>
                 <select
                   required
                   onChange={(e) => setTransactionStatus(e.target.value)}
                   className="mb-2 w-full border-2 p-3 rounded-lg shadow-lg"
-         
                 >
                   <option defaultValue="">Select a status</option>
                   <option value="initiated">initiated</option>

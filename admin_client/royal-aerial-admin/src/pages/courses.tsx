@@ -11,6 +11,7 @@ import Modal from "../components/modal";
 import UpdateModal from "../components/updateModal";
 import { FaPlus } from "react-icons/fa";
 import DeleteModal from "../components/deleteModal";import CreateModal from "../components/createModal";
+import Footer from "../components/footer";
 
 
 
@@ -124,7 +125,7 @@ const Courses: React.FC = () => {
            
           })
 
-      exportToExcel(exportData, "test")
+      exportToExcel(exportData, "course")
     }
     catch (error) {
       console.error("Error downloading participants data:", error);
@@ -294,6 +295,8 @@ const Courses: React.FC = () => {
   }
 
   return (
+    <>
+   
     <div className="mx-12">
       <h1 className="font-bold text-primary text-2xl my-6">Courses</h1>
       <div className="flex space-x-4">
@@ -308,7 +311,11 @@ const Courses: React.FC = () => {
         />
       </div>
       <div className="flex space-x-10">
-        {isFilterVisible && <Filter />}
+        {isFilterVisible && 
+        <div>
+        <Filter />
+          <p>Filtering not supported yet.</p>
+          </div>}
         <div className="grow h-14">
           <Table
             headers={headers}
@@ -351,7 +358,13 @@ const Courses: React.FC = () => {
           </div>
         </div>
       </div>
+
+    
+   
+      
     </div>
+   
+    </>
   );
 };
 

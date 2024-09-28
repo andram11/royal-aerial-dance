@@ -284,7 +284,7 @@ export async function getAnalytics(dimension: string): Promise<GetAnalyticsResul
 };
 
 //Get all users
-export async function getAllUsers(skip?: number, limit?:number): Promise<GetUsersResponse>{
+export async function getAllUsers(limit?: number, skip?:number): Promise<GetUsersResponse>{
   try{
     if (limit || skip) {
       const response = await fetch(
@@ -345,7 +345,29 @@ export async function loginUser(user: UserLogin): Promise<LoginResponse> {
     } catch (err) {
       throw err;
     }
-  }
-  throw new Error("You are not allowed to access this page.")
+  } else
+  {throw new Error("You are not allowed to access this page.")}
  
+}
+
+//Logout user
+export async function logoutUser(): Promise<Response> {
+  try {
+    const response = await fetch(`${baseUrl}/auth/logout`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    });
+
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data.message || "Failed to logout");
+    }
+
+    return data;
+  } catch (err) {
+    throw err;
+  }
 }

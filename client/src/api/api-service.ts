@@ -192,7 +192,6 @@ export async function logoutUser(): Promise<Response> {
     if (!response.ok) {
       throw new Error(data.message || "Failed to logout");
     }
-    console.log(data);
     return data;
   } catch (err) {
     throw err;

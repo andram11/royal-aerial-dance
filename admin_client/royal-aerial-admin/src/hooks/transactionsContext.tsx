@@ -1,6 +1,7 @@
 import React, { createContext, useState, useEffect, useContext } from "react";
 import { getAllTransactions } from "../api/api";
 import { GetTransactionsResponse } from "../types/types";
+import { useAuth } from "./authContext";
 
 
 interface TransactionsContextType {
@@ -27,9 +28,10 @@ export const TransactionsProvider: React.FC<{children: React.ReactNode}>= ({chil
     const [transactions, setTransactions]= useState<GetTransactionsResponse | null>(null)
     const [loadingTransactions, setLoadingTransactions]= useState<boolean>(true)
     const [errorTransactions, setErrorTransactions]= useState<string |null>(null)
-
+    const {loggedIn}= useAuth()
 
     const fetchTransactions = async (limit: number, skip: number) => {
+      if (loggedIn) {
         setLoadingTransactions(true);
         try {
           const response = await getAllTransactions(limit, skip);
@@ -39,11 +41,16 @@ export const TransactionsProvider: React.FC<{children: React.ReactNode}>= ({chil
           setErrorTransactions("Failed to fetch transactions");
           setLoadingTransactions(false);
         }
+      }
+       
       };
     
       useEffect(() => {
-        fetchTransactions(10,0);
-      }, []);
+        if(loggedIn){
+          fetchTransactions(10,0);
+        }
+       
+      }, [loggedIn]);
 
       return (
         <TransactionsContext.Provider value={{transactions, loadingTransactions, errorTransactions, fetchTransactions}}>
