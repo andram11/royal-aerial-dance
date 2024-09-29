@@ -9,7 +9,7 @@ import {
   updateCourse,
   checkCourseStock,
 } from "../../models/courses/courses.model";
-import getPagination from "../../services/query";
+
 import {
   getFromCache,
   setValueToCache,
@@ -22,29 +22,29 @@ import {
 } from "../../services/courses/courseBusinessRules";
 
 export async function httpSearchCourses(req: Request, res: Response) {
-  //Calculate proper pagination parameters
-  const { skip, limit } = getPagination(
-    Number(req.query.skip),
-    Number(req.query.limit)
-  );
-
-  //Check if search query is cached
+  //Get pagination parameters
+  const skip= Number(req.query.skip)
+  const limit= Number(req.query.limit)
+  // //Check if search query is cached
   const query = qs.stringify(req.query);
-  const checkCache = await getFromCache(query);
-  if (checkCache) {
-    res.status(200).json(checkCache);
-  } else {
+  // const checkCache = await getFromCache(query);
+  // if (checkCache) {
+  //   res.status(200).json(checkCache);
+  // } else {
     //If query not cached, get from DB and cache results
-    const response = await searchCourses(skip, limit, req.query);
+    //Get total number of items 
+    const totalItems=await searchCourses(0,0,{})
+    //Get courses based on course criteria
+    const response = await searchCourses( skip, limit, req.query);
     setValueToCache(query, {
-      totalItems: response.length,
+      totalItems: totalItems.length,
       skippedItems: skip,
       pageLimit: limit,
       items: response,
     });
     if (!response.errors) {
       res.status(200).json({
-        totalItems: response.length,
+        totalItems: totalItems.length,
         skippedItems: skip,
         pageLimit: limit,
         items: response,
@@ -55,7 +55,7 @@ export async function httpSearchCourses(req: Request, res: Response) {
       });
     }
   }
-}
+
 
 export async function httpCreateCourse(req: Request, res: Response) {
   const course = req.body;

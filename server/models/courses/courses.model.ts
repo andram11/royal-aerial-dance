@@ -22,7 +22,7 @@ export async function searchCourses(skip: number, limit: number, query: ParsedQs
       }
     }
     //Use query object directly in the db
-    return await Courses.find(query).sort("startDate").skip(skip).limit(limit);
+    return await Courses.find(query).sort({startDate: -1}).skip(skip).limit(limit);
   } catch (err) {
     return err;
   }
@@ -127,19 +127,22 @@ export async function deleteCourseById(courseId: mongoose.Types.ObjectId) {
 
 export async function updateCourseStock(courseId: mongoose.Types.ObjectId, stockToSubstract: number){
   try {
-    return await Courses.findOneAndUpdate(
-      {
-        _id: courseId,
-      },
-      {
+   
+      return await Courses.findOneAndUpdate(
+        {
+          _id: courseId,
+        },
+        {
+          
+          $inc: {stock: -stockToSubstract},
         
-        $inc: {stock: -stockToSubstract},
-      
-      },
-      {
-        returnDocument: "after",
-      }
-    );
+        },
+        {
+          returnDocument: "after",
+        }
+      );
+   
+   
   } catch (err) {
     return err;
   }

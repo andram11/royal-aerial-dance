@@ -48,11 +48,25 @@ app.use(passport.initialize())
 app.use(express.json())
 
 //Cors middleware
-app.use(cors({
-    origin: process.env.CLIENT_URL_1 as string,
+const allowedOrigins = [
+  process.env.CLIENT_URL_1 as string,
+  process.env.CLIENT_URL_2 as string
+];
+
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      // Check if the origin is in the allowedOrigins array or if there is no origin (for same-origin requests)
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
-}))
+  })
+);
 
 //Logging
 app.use(morgan('combined'))

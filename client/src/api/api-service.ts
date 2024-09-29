@@ -148,7 +148,7 @@ export async function registerUser(user: User): Promise<SignUpResponse> {
     if (!response.ok) {
       throw new Error(data.error.errors || "Failed to register.");
     }
-    console.log(data)
+
     return data;
 
   } catch (err) {
@@ -192,7 +192,6 @@ export async function logoutUser(): Promise<Response> {
     if (!response.ok) {
       throw new Error(data.message || "Failed to logout");
     }
-    console.log(data);
     return data;
   } catch (err) {
     throw err;

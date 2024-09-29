@@ -2,6 +2,13 @@
 import { ParsedQs } from "qs";
 import Users from "./user.mongo";
 
+interface PasswordResetRequest {
+  username: any,
+  passwordResetToken: string|null,
+  tokenCreationTimestamp: Date|null
+}
+
+
 export async function existsUser(username: string) {
   try {
 
@@ -29,7 +36,6 @@ export async function saveUser(username: string, type: string) {
 
 export async function findPasswordResetToken(username: ParsedQs){
   try {
-    console.log(username)
     return await Users.findOne({username: username,
     passwordResetToken: {$ne: null} })}
     catch(err){
@@ -37,11 +43,6 @@ export async function findPasswordResetToken(username: ParsedQs){
     }
 }
 
-interface PasswordResetRequest {
-  username: any,
-  passwordResetToken: string|null,
-  tokenCreationTimestamp: Date|null
-}
 
 export async function updatePasswordResetToken(updateBody: PasswordResetRequest){
 
@@ -79,3 +80,11 @@ export async function createUser(username: ParsedQs, password: string, type: str
            
   }
 }
+
+export async function getAllUsers(skip: number, limit: number){
+  try{
+    return await Users.find().skip(skip).limit(limit).select("username type _id")
+  } catch(err)
+{
+  return err
+}}

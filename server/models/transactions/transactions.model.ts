@@ -47,8 +47,7 @@ export async function searchTransactions(skip: number, limit:number, query: Pars
 
       }
     }
-    return await Transactions.find(query)
-    .sort("historyStartDate")
+    return await Transactions.find(query).sort({historyStartDate: -1})
     .skip(skip)
     .limit(limit);
   } catch(err){
@@ -134,5 +133,18 @@ export async function getTransactionsForCourseId(skip: number, limit:number, cou
     .limit(limit);;
   } catch(err) {
     return err
+  }
+}
+
+
+//Delete transaction by id
+export async function deleteTransaction(transactionId: mongoose.Types.ObjectId){
+
+  try {
+    return await Transactions.findOneAndDelete({
+      _id: transactionId,
+    });
+  } catch (err) {
+    return err;
   }
 }
