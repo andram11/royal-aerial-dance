@@ -5,8 +5,8 @@
 }
 
 .body {
-  height: 90px;
-  padding: 0 25px;
+  height: auto;
+  padding: 1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -19,10 +19,12 @@
 
 h2 {
   font-weight: bold;
+  padding-top: 1rem;
   margin: 0 6px 0;
   font-size: 22px;
   color: #5d576b;
   text-transform: uppercase;
+
 }
 
 .container {
@@ -35,6 +37,7 @@ h2 {
   border: 1px solid #5d576b;
   margin: 0 7.5px 15px;
   overflow: hidden;
+  position: relative;
 }
 
 .container:hover {
